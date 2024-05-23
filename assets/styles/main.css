@@ -1,0 +1,40 @@
+body {
+  background-color: #e9eaed;
+  font-family: 'Averta CY','Helvetica Neue','Helvetica','Arial','Lucida Grande','sans-serif';
+  margin: 0px 0px 0px 0px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0px 0px 0px 0px;
+  padding: 10px 24px;
+  background-color: #285393;
+  /* height: 56px; */
+}
+
+nav ul {
+  display: flex;
+  /* padding: 0px 4px; */
+  margin: 0;
+}
+
+nav ul li {
+  text-align: center;
+  /* border: 1px solid gray; */
+  border-radius: 20px;
+  padding: 5px 14px 5px 14px;
+  color: white;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+nav ul li:hover {
+  background-color: #e0e0e04b;
+}
