@@ -26,7 +26,11 @@
           <form class="search-form">
             <input type="text" placeholder="Buscar..." />
           </form>
-          <button class="btn btn-rounded" id="btn-login">Registrarse / Iniciar sesión</button>
+          <?php if (isset($_SESSION['user'])): ?>
+            <button class="user-avatar"><img src="assets/images/user.png"/></button>
+          <?php else: ?>
+            <button class="btn btn-rounded" id="btn-login">Registrarse / Iniciar sesión</button>
+          <?php endif; ?>
           <button class="btn btn-rounded" id="btn-share">Compartir</button>
         </div>
       </nav>
