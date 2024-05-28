@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($title) ? $title: 'Titulo'; ?></title>
     <link rel="stylesheet" href="assets/styles/main.css">
+    <script src="https://kit.fontawesome.com/6b47139783.js" crossorigin="anonymous"></script>
+
     <?php 
     if (isset($extra_styles) && count($extra_styles) > 0) {
       for ($i = 0; $i < count($extra_styles); $i++) {
@@ -31,7 +33,7 @@
           <?php else: ?>
             <button class="btn btn-rounded" id="btn-login">Registrarse / Iniciar sesión</button>
           <?php endif; ?>
-          <button class="btn btn-rounded" id="btn-share">Compartir</button>
+          <button class="btn btn-rounded" id="btn-share"><i class="fa-solid fa-plus"></i>Compartir</button>
         </div>
       </nav>
     </header>
