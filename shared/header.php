@@ -16,10 +16,18 @@
   </head>
   <body>
     <header>
-      <nav>
-        <ul>
-          <li><a>Hola</a></li>
-          <li><a>Hola</a></li>
-        </ul>
+      <nav class="navbar">
+        <div class="navbar-left">
+          <div class="navbar-brand">
+            <a href="#">CUPONERA</a>
+          </div>
+        </div>
+        <div class="navbar-right">
+          <form class="search-form">
+            <input type="text" placeholder="Buscar..." />
+          </form>
+          <button class="btn btn-rounded" id="btn-login">Registrarse / Iniciar sesión</button>
+          <button class="btn btn-rounded" id="btn-share">Compartir</button>
+        </div>
       </nav>
     </header>
