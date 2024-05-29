@@ -29,11 +29,17 @@
             <input type="text" placeholder="Buscar..." />
           </form>
           <?php if (isset($_SESSION['user'])): ?>
-            <button class="user-avatar"><img src="assets/images/user.png"/></button>
+            <a href="#" >
+              <button class="user-avatar"><img src="assets/images/user.png"/></button>
+            </a>
           <?php else: ?>
-            <button class="btn btn-rounded" id="btn-login">Registrarse / Iniciar sesión</button>
+            <a href="login.php">
+              <button class="btn btn-rounded" id="btn-login">Registrarse / Iniciar sesión</button>
+            </a>
           <?php endif; ?>
-          <button class="btn btn-rounded" id="btn-share"><i class="fa-solid fa-plus"></i>Compartir</button>
+          <a href="#">
+            <button class="btn btn-rounded" id="btn-share"><i class="fa-solid fa-plus"></i>Compartir</button>
+          </a>
         </div>
       </nav>
     </header>
