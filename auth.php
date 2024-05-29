@@ -1,6 +1,11 @@
 <?php
   session_start();
-  if (!(isset($_SESSION['user']) && isset($_SESSION['password']))) {
+  if (isset($_SESSION['user'])) {
+    header('Location: welcome.php');
+    exit;
+  }
+
+  if (isset($_POST['user']) && isset($_POST['password'])) {
     if (
       (strlen($_POST['user']) >= 4 && strlen($_POST['user']) <= 20) &&
       (strlen($_POST['password']) >= 8 && strlen($_POST['password']) <= 18)
@@ -20,12 +25,10 @@
         }
     } else {
       header('Location: login.php');
+      exit;
     } 
   } else {
-    if (isset($_SESSION['user'])) {
-      header('Location: welcome.php');
-    } else {
-      header('Location: login.php');
-    }
+    header('Location: login.php');
+    exit;
   }
 ?>
