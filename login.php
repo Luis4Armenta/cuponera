@@ -28,6 +28,7 @@ include 'shared/header.php';
           <label for="recordarme">Recordarme</label>
           <input type="checkbox" id="recordarme" name="recordarme" value="NO"/>
           <br />
+          <p>No tengo una cuenta, quiero <a href="signin.php">registrarme</a></p>
           <input type="submit" value="Ingresar" class="btn" />
         </form>
       </div>
