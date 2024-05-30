@@ -21,7 +21,7 @@
       <nav class="navbar">
         <div class="navbar-left">
           <div class="navbar-brand">
-            <a href="#">CUPONERA</a>
+            <a href="#">¡BIENVENIDO!</a>
           </div>
         </div>
         <div class="navbar-right">
