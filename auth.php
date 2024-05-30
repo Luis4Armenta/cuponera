@@ -13,16 +13,28 @@
         $user = $_POST['user'];
         $password = $_POST['password'];
         $recordarme = isset($_POST['recordarme']);
-      
-        if ($user == 'user' && $password == 'password') {
-          $_SESSION['user'] = $user;
-          $_SESSION['isLogged'] = TRUE;
-          $_SESSION['recordarme'] = $recordarme;
-      
-          header('Location: welcome.php');
-        } else {
+
+        $cnx = mysqli_connect('localhost', 'root', 'password', 'demo')
+          or die('Error en la conexión a MySQL');
+
+        if (mysqli_connect_error()) {
           header('Location: login_error.php');
+          exit();
         }
+        $res = mysqli_query($cnx, "SELECT * FROM USUARIO WHERE usuario = '" . $user . "' limit 1;");
+        
+        while($registro = mysqli_fetch_row($res)) {
+          if ($password == $registro[3]){
+            $_SESSION['user'] = $user;
+
+            header('Location: welcome.php');
+            exit;
+          }
+        }
+
+
+        header('Location: login_error.php');
+        exit;
     } else {
       header('Location: login.php');
       exit;

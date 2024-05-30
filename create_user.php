@@ -16,6 +16,26 @@
         $name = $_POST['name'];
 
         // crear nuevo usuario
+        $cnx = mysqli_connect('localhost', 'root', 'password', 'demo')
+          or die('Error en la conexión a MySQL');
+
+        if (mysqli_connect_error()) {
+          header('Location: login_error.php');
+          exit();
+        }
+        $res = mysqli_query($cnx, "INSERT INTO USUARIO (nombre, usuario, contrasenia) VALUES ('{$name}', '{$user}', '{$password}')");
+
+        
+        while($registro = mysqli_fetch_row($res)) {
+          if ($password == $registro[3]){
+            $_SESSION['user'] = $user;
+            $_SESSION['isLogged'] = TRUE;
+            $_SESSION['recordarme'] = $recordarme;
+        
+            header('Location: welcome.php');
+            exit;
+          }
+        }
         
         
         header('Location: login.php');
