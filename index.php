@@ -42,7 +42,9 @@ $promo1 = array(
   'description' => 'Potencia 550w',
   'num_comments' => 40,
   'url' => 'https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Tarjetas-de-Video/Tarjeta-de-Video-XFX-Speedster-SWFT-210-AMD-Radeon-RX-6650-XT-8GB-128-bit-GDDR6-PCI-Express-4-0.html',
-  'publication_date' => $date2
+  'publication_date' => $date2,
+  'expiration_datetime' => $date1,
+
 );
 $promo2 = array(
   'id_post' => '2',
@@ -56,7 +58,9 @@ $promo2 = array(
   'description' => 'Escritorio minimalista con almacenamiento y nivel para PC.  ',
   'num_comments' => 13,
   'url' => 'https://www.amazon.com.mx/dp/B0CR1F46M7',
-  'publication_date' => $date2
+  'publication_date' => $date2,
+  'expiration_datetime' => $date1,
+
 );
 
 $promos = [$promo1, $promo2];
@@ -99,7 +103,9 @@ $promos = [$promo1, $promo2];
           <tr>
             <td colspan="4">
               <div class="oferta-title">
-                <h4><?php echo $promo['title'] ?></h4>
+                <a href="offer.php?id=<?php echo $promo['id_post']; ?>">
+                  <h4><?php echo $promo['title'] ?></h4>
+                </a>
               </div>
             </td>
           </tr>
@@ -149,5 +155,9 @@ $promos = [$promo1, $promo2];
     <?php endforeach; ?>
   </div>
 </div>
+
+<script>
+  document.
+</script>
 
 <?php include 'shared/footer.php' ?>
