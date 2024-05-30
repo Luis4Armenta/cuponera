@@ -1,16 +1,15 @@
 body {
-  background-color: #e9eaed;
-  font-family: 'Averta CY','Helvetica Neue','Helvetica','Arial','Lucida Grande','sans-serif';
-  margin: 0px 0px 0px 0px;
+  background-color: #f0f2f5;
+  font-family: 'Averta CY', 'Helvetica Neue', 'Helvetica', 'Arial', 'Lucida Grande', 'sans-serif';
+  margin: 0;
+  color: #333;
 }
-
-/* Navbar */
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #285393;
+  background-color: #5a64e7;
   padding: 10px 40px;
   color: #fff;
 }
@@ -18,7 +17,8 @@ body {
 .navbar-brand a {
   color: #fff;
   text-decoration: none;
-  font-size: 1.5em;
+  font-size: 1.8em;
+  font-weight: bold;
 }
 
 .navbar-right {
@@ -32,27 +32,23 @@ body {
   border: none;
   border-radius: 20px;
   margin-right: 10px;
-  height: 25px;
+  height: 35px;
   width: 310px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-#btn-login {
-  background-color: #416EA4;
+#btn-login, #btn-share {
+  background-color: #4caf50;
   color: #fff;
-}
-
-#btn-share {
-  background-color: #69BE28;
-  color: #fff;
-}
-
-.btn-rounded {
-  border-radius: 20px !important;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 #btn-login:hover, #btn-share:hover {
-  /* opacity: 0.8; */
-  filter: brightness(110%);
+  background-color: #45a049;
 }
 
 .user-avatar {
@@ -70,9 +66,14 @@ body {
   width: 100%;
   height: 100%;
   display: block;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
 }
 
-/* Components */
+.user-avatar img:hover {
+  transform: scale(1.1);
+}
+
 .btn {
   padding: 10px 15px;
   border: none;
@@ -80,15 +81,21 @@ body {
   cursor: pointer;
   margin-left: 10px;
   font-size: 1em;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .login-form {
-  margin: 20px auto;
+  margin: 40px auto;
   background-color: white;
   border-radius: 10px;
-  padding: 20px 30px 40px;
+  padding: 30px 40px 50px;
   width: 40%;
-  border: 1px solid gray;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   text-align: left;
 }
 
@@ -99,6 +106,11 @@ body {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.login-form input:focus {
+  border-color: #1a73e8;
 }
 
 #recordarme {
@@ -106,35 +118,28 @@ body {
 }
 
 .login-form input[type="submit"] {
-  background-color: #69BE28;
+  background-color: #1a73e8;
   color: #fff;
   border: none;
   border-radius: 8px;
   padding: 10px 15px;
   cursor: pointer;
   width: 100%;
-  font-size: 1em;
-  margin: auto;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .login-form input[type="submit"]:hover {
-  filter: brightness(110%);
+  background-color: #185abc;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-
-
-
-
-
-
-/* Layout */
 .wrapper {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-gap: 10px;
   grid-auto-rows: minmax(100px, auto);
 }
-
 
 .container {
   width: 100%;
@@ -146,34 +151,43 @@ body {
 
 @media (min-width: 576px) {
   .container {
-      max-width: 540px;
+    max-width: 540px;
   }
 }
 
 @media (min-width: 768px) {
   .container {
-      max-width: 720px;
+    max-width: 720px;
   }
 }
 
 @media (min-width: 992px) {
   .container {
-      max-width: 960px;
+    max-width: 960px;
   }
 }
 
 @media (min-width: 1200px) {
   .container {
-      max-width: 1140px;
+    max-width: 1140px;
   }
 }
 
 h1 {
   text-align: center;
   color: #333;
+  font-size: 2em;
+  margin-bottom: 20px;
 }
 
 p {
   text-align: center;
   color: #555;
 }
+
+
+
+
+
+
+
