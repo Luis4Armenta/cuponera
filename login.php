@@ -14,9 +14,9 @@ include 'shared/header.php';
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card shadow-lg p-4">
-                <div class="card-header text-black text-center">
-                    <h1>Login</h1>
+            <div class="card shadow p-4">
+                <div class="card-header text-center">
+                    <h1 class="fs-1">Login</h1>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="auth.php">
