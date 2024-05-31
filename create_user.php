@@ -1,51 +1,61 @@
 <?php
-  session_start();
-  if (isset($_SESSION['user'])) {
-    header('Location: welcome.php');
-    exit;
-  }
+ini_set('display_errors', E_ALL);
+include_once 'config.php';
+include_once 'Database.php';
+include_once 'utils.php';
 
-  if (isset($_POST['user']) && isset($_POST['name']) && isset($_POST['password'])) {
+session_start();
+
+$data = sanitize_post_data($_POST);
+
+if (isset($_SESSION['user'])) {
+  header('Location: welcome.php');
+  exit;
+}
+
+if (isset($data['user']) && isset($data['name']) && isset($data['password'])) {
+  if (
+    (strlen($data['user']) >= 4 && strlen($data['user']) <= 20) &&
+    (strlen($data['password']) >= 8 && strlen($data['password']) <= 16) &&
+    (strlen($data['name']) >= 4 && strlen($data['name']) <= 40)
+  ) {
+    $user_pattern = '/^[a-zA-Z0-9_-]+$/';
+    $name_pattern = '/^[a-zA-Z\s]+$/';
     if (
-      (strlen($_POST['user']) >= 4 && strlen($_POST['user']) <= 20) &&
-      (strlen($_POST['password']) >= 8 && strlen($_POST['password']) <= 18) &&
-      (strlen($_POST['name']) >= 4 && strlen($_POST['password']) <= 50)
-      ) {
-        $user = $_POST['user'];
-        $password = $_POST['password'];
-        $name = $_POST['name'];
-
-        // crear nuevo usuario
-        $cnx = mysqli_connect('localhost', 'root', 'password', 'demo')
-          or die('Error en la conexión a MySQL');
-
-        if (mysqli_connect_error()) {
-          header('Location: login_error.php');
-          exit();
-        }
-        $res = mysqli_query($cnx, "INSERT INTO USUARIO (nombre, usuario, contrasenia) VALUES ('{$name}', '{$user}', '{$password}')");
-
-        
-        while($registro = mysqli_fetch_row($res)) {
-          if ($password == $registro[3]){
-            $_SESSION['user'] = $user;
-            $_SESSION['isLogged'] = TRUE;
-            $_SESSION['recordarme'] = $recordarme;
-        
-            header('Location: welcome.php');
-            exit;
-          }
-        }
-        
-        
-        header('Location: login.php');
-        exit;
-    } else {
+      !(preg_match($user_pattern, $data['user']) &&
+      preg_match($name_pattern, $data['name']))
+    ) {
       header('Location: signin.php');
       exit;
-    } 
-  } else {
-    header('Location: signin.php');
-    exit;
+    }
+    $user = $data['user'];
+    $password = $data['password'];
+    $name = $data['name'];
+
+    try {
+      $database = new Database();
+      $db = $database->getConnection();
+      $res = $db->query("INSERT INTO USUARIO (nombre, usuario, contrasenia) VALUES ('{$name}', '{$user}', '{$password}')");
+  
+      if ($res === TRUE) {
+        $_SESSION['user'] = $user;
+        $_SESSION['isLogged'] = TRUE;
+  
+        header('Location: welcome.php');
+        exit;
+      } else {
+        header ('Location: shared/errors/500.php');
+        exit;
+      }
+    } catch (mysqli_sql_exception $e) {
+      header('Location: shared/errors/500.php');
+      exit;
+    }
   }
+  header('Location: signin.php');
+  exit;
+} else {
+  header('Location: signin.php');
+  exit;
+}
 ?>

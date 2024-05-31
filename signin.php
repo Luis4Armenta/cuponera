@@ -24,16 +24,17 @@ include 'shared/header.php';
           <form method="POST" action="create_user.php">
             <div class="form-group">
               <label for="user">Usuario</label>
-              <input type="text" id="user" name="user" class="form-control" required>
+              <input type="text" id="user" name="user" class="form-control" required minlength="4" maxlength="20" >
             </div>
             <div class="form-group">
               <label for="name">Nombre completo</label>
-              <input type="text" id="name" name="name" class="form-control" required>
+              <input type="text" id="name" name="name" class="form-control" required minlength="3" maxlength="40">
             </div>
             <div class="form-group">
               <label for="password">Contraseña</label>
-              <input type="password" id="password" name="password" class="form-control" required>
+              <input type="password" id="password" name="password" class="form-control" required minlength="8" maxlength="16">
             </div>
+            <p>Si ya tienes una cuenta puede ingresar <a href="login.php">aquí</a></p>
             <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
           </form>
         </div>
