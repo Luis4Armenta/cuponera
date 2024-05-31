@@ -36,6 +36,9 @@
             exit;
           }
         }
+        
+        mysqli_free_result($res);
+        mysqli_close($cnx);
 
 
         header('Location: login_error.php');
