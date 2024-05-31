@@ -42,11 +42,14 @@ if (isset($data['user']) && isset($data['name']) && isset($data['password'])) {
         $_SESSION['isLogged'] = TRUE;
   
         header('Location: welcome.php');
-        exit;
       } else {
-        header ('Location: shared/errors/500.php');
-        exit;
+        header('Location: shared/errors/500.php');
       }
+
+      // $res->free_result();
+      $database->closeConnection();
+      exit;
+
     } catch (mysqli_sql_exception $e) {
       header('Location: shared/errors/500.php');
       exit;
