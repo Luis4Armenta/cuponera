@@ -6,7 +6,7 @@ ini_set('display_errors', E_ALL);
 <?php include 'shared/header.php' ?>
 
 <?php
-$categorias = [
+$categorias = array(
   'Tecnología',
   'Videojuegos',
   'Abarrotes y alimentos',
@@ -23,8 +23,7 @@ $categorias = [
   'Finanzas y seguros',
   'Servicios y suscripciones',
   'Gratis'
-];
-
+);
 $date1 = new DateTime();
 $interval = new DateInterval('PT2H15M');
 $date2 = clone $date1;
