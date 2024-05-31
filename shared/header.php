@@ -74,7 +74,7 @@
                 </li>
               <?php endif; ?>
               <li class="nav-item mx-4">
-                <a class="btn btn-success" href="share.php"><i class="bi bi-plus p-0 m-0 fw-bold"></i>  Compartir</a>
+                <a class="btn btn-success" href="<?php echo isset($_SESSION['user']) ? 'share.php' : 'login.php'; ?>"><i class="bi bi-plus p-0 m-0 fw-bold"></i>  Compartir</a>
               </li>
             </ul>
           </div>
