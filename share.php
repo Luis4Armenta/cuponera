@@ -85,8 +85,8 @@ Si no ves la tuya, puedes ser por una de estas razones: duplicado, promoción pe
     </div>
     <div>
       <label for="category">Categoria</label>
-      <select id="category">
-        <option disabled default>
+      <select id="category" name="category">
+        <option disabled selected>
           Selecciona una categoria...
         </option>
         <?php foreach ($categories as &$category): ?>
