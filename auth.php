@@ -1,18 +1,23 @@
 <?php
   session_start();
+
+  include 'utils.php';
+  
+  $data = sanitize_post_data($_POST);
+
   if (isset($_SESSION['user'])) {
     header('Location: welcome.php');
     exit;
   }
 
-  if (isset($_POST['user']) && isset($_POST['password'])) {
+  if (isset($data['user']) && isset($data['password'])) {
     if (
-      (strlen($_POST['user']) >= 4 && strlen($_POST['user']) <= 20) &&
-      (strlen($_POST['password']) >= 8 && strlen($_POST['password']) <= 18)
+      (strlen($data['user']) >= 4 && strlen($data['user']) <= 20) &&
+      (strlen($data['password']) >= 8 && strlen($data['password']) <= 18)
       ) {
-        $user = $_POST['user'];
-        $password = $_POST['password'];
-        $recordarme = isset($_POST['recordarme']);
+        $user = $data['user'];
+        $password = $data['password'];
+        $recordarme = isset($data['recordarme']);
 
         $cnx = mysqli_connect('localhost', 'root', 'password', 'demo')
           or die('Error en la conexión a MySQL');
