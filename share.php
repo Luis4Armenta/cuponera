@@ -27,6 +27,8 @@ $categories = array(
   'Gratis'
 );
 ?>
+
+<?php include 'shared/header.php'; ?>
 <div>
   <h2>Comparte una oferta con millones de personas</h2>
   <form method="POST" action="create_offer.php">
@@ -97,3 +99,4 @@ Si no ves la tuya, puedes ser por una de estas razones: duplicado, promoción pe
     <input type="submit" value="Enviar" />
   </form>
 </div>
+<?php include 'shared/footer.php'; ?>
