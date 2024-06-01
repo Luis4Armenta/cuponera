@@ -1,5 +1,3 @@
-DROP database promodescuentos;
-
 CREATE DATABASE IF NOT EXISTS promodescuentos;
 USE promodescuentos;
 
