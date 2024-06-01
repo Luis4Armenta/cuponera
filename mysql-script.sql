@@ -41,6 +41,7 @@ CREATE TABLE Deals (
     coupon_code VARCHAR(50),
     availability ENUM('ONLINE', 'OFFLINE') NOT NULL,
     shipping_cost DECIMAL(10, 2),
+    shipping_address VARCHAR(50),
     image_link VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     start_date DATE,
