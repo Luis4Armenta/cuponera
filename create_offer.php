@@ -41,7 +41,7 @@ $regex = array(
 );
 
 $data = sanitize_input($_POST, $expected_fields, $regex);
-// var_dump($data);
+
 if (
   isset($data['url']) &&
   isset($data['title']) &&
@@ -122,13 +122,11 @@ if (
     exit;
 
   } catch (mysqli_sql_exception $e) {
-    // header('Location: shared/errors/500.php');
-    // exit;
-    echo $e;
+    header('Location: shared/errors/500.php');
+    exit;
   }
 } else {
-  var_dump($data);
-  // Header('Location: share.php');
-  // exit;
+  Header('Location: share.php');
+  exit;
 }
 ?>
