@@ -6,23 +6,27 @@ include_once 'utils.php';
 
 session_start();
 
-$data = sanitize_input($_POST, array(
-  'user' => 'string',
-  'name' => 'string',
-  'password' => 'string',
-), array(
-  'user' => '/^[a-zA-Z0-9_-]{4,20}$/',
-  'name' => '/^[a-zA-Z\s]{4,40}$/',
-  'password' => '/^.{8,40}$/'
-)
-);
-
 if (isset($_SESSION['user'])) {
   header('Location: welcome.php');
   exit;
 }
 
-if (isset($data['user']) && isset($data['name']) && isset($data['password'])) {
+$expected_fields = array(
+  'user' => 'string',
+  'name' => 'string',
+  'password' => 'string',
+);
+
+$regex = array(
+  'user' => '/^[a-zA-Z0-9_-]{4,20}$/',
+  'name' => '/^[a-zA-Z\s]{4,40}$/',
+  'password' => '/^.{8,40}$/'
+);
+
+$data = sanitize_input($_POST, $expected_fields, $regex);
+
+
+if (all_fields_exist($data, $expected_fields)) {
   $user = $data['user'];
   $password = $data['password'];
   $name = $data['name'];

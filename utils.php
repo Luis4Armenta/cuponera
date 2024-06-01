@@ -53,10 +53,20 @@ function sanitize_input(array $input, array $expected, array $regex = []): array
             }
         }
     }
-    var_dump($input);
-
-
     return $sanitized;
+}
+
+
+function all_fields_exist($input, $fields) {
+  $ok = TRUE;
+  foreach ($fields as $key => $value) {
+    if(!isset($input[$key])){
+      $ok = FALSE;
+      break;
+    }
+  }
+
+  return $ok;
 }
 ?>
 

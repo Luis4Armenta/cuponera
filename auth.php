@@ -11,16 +11,19 @@ if (isset($_SESSION['user'])) {
   exit;
 }
 
-$data = sanitize_input($_POST, array(
+$expected_fields = array(
   'user' => 'string',
   'password' => 'string'
-), array(
-  'user' => '/^[a-zA-Z0-9_-]{4,20}$/',
-  'password' => '/^.{8,16}$/'
-)
 );
 
-if (isset($data['user']) && isset($data['password'])) {
+$regex = array(
+  'user' => '/^[a-zA-Z0-9_-]{4,20}$/',
+  'password' => '/^.{8,16}$/'
+);
+
+$data = sanitize_input($_POST, $expected_fields, $regex);
+
+if (all_fields_exist($data, $expected_fields)) {
   $user = $data['user'];
   $password = $data['password'];
   $recordarme = isset($data['recordarme']);
