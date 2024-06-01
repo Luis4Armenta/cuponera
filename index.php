@@ -8,22 +8,22 @@ session_start();
 
 <?php
 $categorias = array(
-  'Tecnología',
-  'Videojuegos',
-  'Abarrotes y alimentos',
-  'Ropa y accesorios',
-  'Salud y belleza',
-  'Familía, bebés y niños',
-  'Hogar',
-  'Jardín y hazlo tú mismo',
-  'Autos y motos',
-  'Entrenamiento y tiempo libre',
-  'Deportes y ejercicio',
-  'Internet y telefonía celular',
-  'Viajes',
-  'Finanzas y seguros',
-  'Servicios y suscripciones',
-  'Gratis'
+  'Tecnología' => 'tecnologia',
+  'Videojuegos' => 'videojuegos',
+  'Abarrotes y alimentos' => 'abarrotes_y_alimentos',
+  'Ropa y accesorios' => 'ropa_y_accesorios',
+  'Salud y belleza' => 'salud_y_belleza',
+  'Familía, bebés y niños' => 'familia',
+  'Hogar' => 'hogar',
+  'Jardín y hazlo tú mismo' => 'jardin_y_hazlo_tu_mismo',
+  'Autos y motos' => 'autos_y_motos',
+  'Entrenamiento y tiempo libre' => 'entrenamiento',
+  'Deportes y ejercicio' => 'deportes',
+  'Internet y telefonía celular' => 'internet_y_telefonia',
+  'Viajes' => 'viajes',
+  'Finanzas y seguros' => 'finanzas_y_seguros',
+  'Servicios y suscripciones' => 'servicios',
+  'Gratis' => 'gratis'
 );
 $date1 = new DateTime();
 $interval = new DateInterval('PT2H15M');
@@ -69,17 +69,23 @@ $promos = [$promo1, $promo2];
 
 <div>
   <div style="display: flex;" class="categorias-bar">
-    <?php foreach ($categorias as &$categoria): ?>
+    <?php foreach ($categorias as $categoria => $value): ?>
       <div style="categoria">
-        <?php echo $categoria; ?>
+        <a href="<?php echo "category.php?id={$value}" ?>"><?php echo $categoria; ?></a>
       </div>
     <?php endforeach; ?>
   </div>
   <div class="filter-bar">
     <div class="right-bar">
-      <div>Para ti</div>
-      <div>Hot</div>
-      <div>Nuevas</div>
+      <div>
+        <a href="index.php" class="<?php echo isset($_GET['mode']) ? 'active' : ''; ?>">Para ti</a>
+      </div>
+      <div>
+        <a href="index.php?mode=hot" class="<?php echo isset($_GET['mode']) && strtolower($_GET['mode']) == 'hot' ? 'active' : ''; ?>">Hot</a>
+      </div>
+      <div>
+        <a href="index.php?mode=news" class="<?php echo isset($_GET['mode']) && strtolower($_GET['mode']) == 'news' ? 'active' : ''; ?>">Nuevas</a>
+      </div>
     </div>
   </div>
   <div class="ofertas">
