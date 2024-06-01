@@ -36,6 +36,7 @@ if (all_fields_exist($data, $expected_fields)) {
     while ($registro = $res->fetch_row()) {
       if ($password == $registro[3]) {
         $_SESSION['user'] = $user;
+        $_SESSION['user_id'] = $registro[0];
 
         header('Location: welcome.php');
       }
