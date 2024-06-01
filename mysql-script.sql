@@ -15,40 +15,45 @@ CREATE TABLE Users (
     username VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    terms_accepted BOOLEAN NOT NULL DEFAULT 0,
     role_id INT,
     FOREIGN KEY (role_id) REFERENCES Roles (role_id)
 );
+CREATE INDEX idx_username ON Users (username);
+CREATE INDEX idx_email ON Users (email);
 
 -- Crear tabla de categorías
 CREATE TABLE Categories (
     category_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
+CREATE INDEX idx_category ON Categories (name);
+
 
 
 -- Crear tabla de ofertas
 CREATE TABLE Deals (
     deal_id INT AUTO_INCREMENT PRIMARY KEY,
     link VARCHAR(255) NOT NULL,
+    store VARCHAR(50) NOT NULL,
     title VARCHAR(140) NOT NULL,
     regular_price DECIMAL(10, 2),
     offer_price DECIMAL(10, 2),
     coupon_code VARCHAR(50),
     availability ENUM('ONLINE', 'OFFLINE') NOT NULL,
     shipping_cost DECIMAL(10, 2),
-    image_link VARCHAR(255),
+    image_link VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
-    start_time TIME, -- Hora de inicio de la oferta
-    end_time TIME,   -- Hora de término de la oferta
+    start_date DATE,
+    end_date DATE,
+    start_time TIME,
+    end_time TIME,
     category_id INT,
     user_id INT,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES Categories (category_id),
     FOREIGN KEY (user_id) REFERENCES Users (user_id)
 );
+CREATE INDEX idx_title ON Deals (title);
 
 
 CREATE TABLE Comments (
@@ -60,9 +65,6 @@ CREATE TABLE Comments (
     FOREIGN KEY (deal_id) REFERENCES Deals (deal_id),
     FOREIGN KEY (user_id) REFERENCES Users (user_id)
 );
-
-CREATE INDEX idx_username ON Users (username);
-CREATE INDEX idx_title ON Deals (title);
 
 -- Insertar roles predeterminados
 INSERT INTO Roles (role_name) VALUES ('Super Administrador'), ('Administrador'), ('Usuario Común');
