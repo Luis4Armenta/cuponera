@@ -31,7 +31,7 @@ $categories = array(
 <?php include 'shared/header.php'; ?>
 <div>
   <h2>Comparte una oferta con millones de personas</h2>
-  <form method="POST" action="create_offer.php">
+  <form method="POST" action="create_offer.php" enctype="multipart/form-data">
     <div>
       <label for="url">Enlace de la oferta</label>
       <input type="url" id="url" name="url" required/>
