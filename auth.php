@@ -31,7 +31,7 @@ if (all_fields_exist($data, $expected_fields)) {
   try {
     $database = new Database();
     $db = $database->getConnection();
-    $res = $db->query("SELECT * FROM USUARIO WHERE usuario = '" . $user . "' limit 1;");
+    $res = $db->query("SELECT * FROM Users WHERE username = '" . $user . "' limit 1;");
 
     while ($registro = $res->fetch_row()) {
       if ($password == $registro[3]) {

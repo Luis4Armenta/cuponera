@@ -23,12 +23,12 @@ include 'shared/header.php';
           <h1 class="card-title text-center mb-4  lead-with-shadow">Nuevo Usuario</h1>
           <form method="POST" action="create_user.php">
             <div class="form-group">
-              <label for="user">Usuario</label>
-              <input type="text" id="user" name="user" class="form-control" required minlength="4" maxlength="20" >
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" class="form-control" required>
             </div>
             <div class="form-group">
-              <label for="name">Nombre completo</label>
-              <input type="text" id="name" name="name" class="form-control" required minlength="3" maxlength="40">
+              <label for="user">Usuario</label>
+              <input type="text" id="user" name="user" class="form-control" required minlength="4" maxlength="20" >
             </div>
             <div class="form-group">
               <label for="password">Contraseña</label>
