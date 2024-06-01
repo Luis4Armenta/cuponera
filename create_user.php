@@ -33,7 +33,7 @@ if (all_fields_exist($data, $expected_fields)) {
   try {
     $database = new Database();
     $db = $database->getConnection();
-    $res = $db->query("INSERT INTO Users (username, email, password, terms_accepted, role_id) VALUES ( '{$user}', '{$email}', '{$password}', 1, 3)");
+    $res = $db->query("INSERT INTO Users (username, email, password, role_id) VALUES ( '{$user}', '{$email}', '{$password}', 3)");
 
     if ($res === TRUE) {
       $_SESSION['user'] = $user;
