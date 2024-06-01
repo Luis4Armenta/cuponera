@@ -78,7 +78,7 @@ INSERT INTO Categories (name) VALUES
 
 CREATE VIEW DealInformation AS
 SELECT d.deal_id, d.title, d.coupon_code, d.link, d.start_date, d.end_date, d.start_time, d.end_time, 
-       d.description, d.regular_price, d.offer_price, d.availability, d.shipping_cost, 
+       d.description, d.regular_price, d.offer_price, d.availability, d.shipping_cost, d.shipping_address, d.store, 
        c.name AS category_name,
        u.username AS creator_username, d.image_link
 FROM Deals d
@@ -94,7 +94,7 @@ JOIN Roles ON Users.role_id = Roles.role_id;
 
 CREATE VIEW PromotionsEndingSoon AS
 SELECT d.deal_id, d.title, d.coupon_code, d.link, d.start_date, d.end_date, d.start_time, d.end_time, 
-       d.description, d.regular_price, d.offer_price, d.availability, d.shipping_cost, 
+       d.description, d.regular_price, d.offer_price, d.availability, d.shipping_cost, d.shipping_address, d.store,
        c.name AS category_name,
        u.username AS creator_username, d.image_link
 FROM Deals d
@@ -106,7 +106,7 @@ WHERE (d.end_date = DATE(NOW()) AND d.end_time > TIME(NOW()))
 
 CREATE VIEW NewestPromotions AS
 SELECT d.deal_id, d.title, d.coupon_code, d.link, d.start_date, d.end_date, d.start_time, d.end_time, 
-       d.description, d.regular_price, d.offer_price, d.availability, d.shipping_cost, 
+       d.description, d.regular_price, d.offer_price, d.availability, d.shipping_cost, d.shipping_address, d.store,
        c.name AS category_name,
        u.username AS creator_username, d.image_link
 FROM Deals d
