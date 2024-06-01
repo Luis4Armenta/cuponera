@@ -55,59 +55,62 @@ if (
   // TODO: obtener url de la imagen cargada
 
   // insertar a la base de datos
+  
 
-  $normalPrice = isset($data['normalPrice']) ? "'{$data['normalPrice']}'" : 'NULL';
-  $offerPrice = isset($data['offerPrice']) ? "'{$data['offerPrice']}'" : 'NULL';
-  $coupon = isset($data['cupon']) ? "'{$data['cupon']}'" : 'NULL';
-  $shippingCost = isset($data['shippingCost']) ? "'{$data['shippingCost']}'" : 'NULL';
-  $shippingAddress = isset($data['shippingAddress']) ? "'{$data['shippingAddress']}'" : 'NULL';
-  $startDate = isset($data['startDate']) ? "'{$data['startDate']}'" : 'NULL';
-  $endDate = isset($data['endDate']) ? "'{$data['endDate']}'" : 'NULL';
-  $startTime = isset($data['startTime']) ? "'{$data['startTime']}'" : 'NULL';
-  $endTime = isset($data['endTime']) ? "'{$data['endTime']}'" : 'NULL';
+  $normalPrice = isset($data['normalPrice']) && $data['normalPrice'] != '' ? "{$data['normalPrice']}" : 'NULL';
+  $offerPrice = isset($data['offerPrice']) && $data['offerPrice'] != '' ? "{$data['offerPrice']}" : 'NULL';
+  $coupon = isset($data['cupon']) && $data['cupon'] != '' ? "'{$data['cupon']}'" : 'NULL';
+  $shippingCost = isset($data['shippingCost']) && $data['shippingCost'] != '' ? "{$data['shippingCost']}" : 'NULL';
+  $shippingAddress = isset($data['shippingAddress']) && $data['shippingAddress'] != '' ? "'{$data['shippingAddress']}'" : 'NULL';
+  $startDate = isset($data['startDate']) && $data['startDate'] != '' ? "'{$data['startDate']}'" : 'NULL';
+  $endDate = isset($data['endDate']) && $data['endDate'] != '' ? "'{$data['endDate']}'" : 'NULL';
+  $startTime = isset($data['startTime']) && $data['startTime'] != '' ? "'{$data['startTime']}'" : 'NULL';
+  $endTime = isset($data['endTime']) && $data['endTime'] != '' ? "'{$data['endTime']}'" : 'NULL';
 
   try {
+    $query = "
+    INSERT INTO deals (
+      link,
+      store,
+      title,
+      regular_price,
+      offer_price,
+      coupon_code,
+      availability,
+      shipping_cost,
+      shipping_address,
+      image_link,
+      description,
+      start_date,
+      end_date,
+      start_time,
+      end_time,
+      category_id,
+      user_id
+    ) VALUES (
+      '{$data['url']}',
+      '{$data['store']}',
+      '{$data['title']}',
+      $normalPrice,
+      $offerPrice,
+      $coupon,
+      '{$data['availability']}',
+      $shippingCost,
+      $shippingAddress,
+      'https://static.promodescuentos.com/threads/raw/I9pf5/959962_1/re/1024x1024/qt/60/959962_1.jpg',
+      '{$data['description']}',
+      $startDate,
+      $endDate,
+      $startTime,
+      $endTime,
+      {$data['category']},
+      {$_SESSION['user_id']}
+    );
+  ";
+
     $database = new Database();
     $db = $database->getConnection();
-    $res = $db->query("
-      INSERT INTO deals (
-        link,
-        store,
-        title,
-        regular_price,
-        offer_price,
-        coupon_code,
-        availability,
-        shipping_cost,
-        shipping_address,
-        image_link,
-        description,
-        start_date,
-        end_date,
-        start_time,
-        end_time,
-        category_id,
-        user_id
-      ) VALUES (
-        '{$data['url']}',
-        '{$data['store']}',
-        '{$data['title']}',
-        $normalPrice,
-        $offerPrice,
-        $coupon,
-        '{$data['availability']}',
-        $shippingCost,
-        $shippingAddress,
-        'https://static.promodescuentos.com/threads/raw/I9pf5/959962_1/re/1024x1024/qt/60/959962_1.jpg',
-        '{$data['description']}',
-        $startDate,
-        $endDate,
-        $startTime,
-        $endTime,
-        {$data['category']},
-        {$_SESSION['user_id']}
-      );
-    ");
+    $res = $db->query($query);
 
     if ($res === TRUE) {
       $id = mysqli_insert_id($db); 

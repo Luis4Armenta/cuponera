@@ -49,11 +49,11 @@ $categories = array(
     </div>
     <div>
       <label for="offer-price">Precio en oferta</label>
-      <input type="number" id="offer-price" name="offerPrice" min="0" required/>
+      <input type="number" id="offer-price" name="offerPrice" min="0"/>
     </div>
     <div>
       <label for="normal-price">Precio regular</label>
-      <input type="number" id="normal-price" name="normalPrice" min="0" required/>
+      <input type="number" id="normal-price" name="normalPrice" min="0"/>
     </div>
     <div>
       <label for="cupon">Cupon</label>
