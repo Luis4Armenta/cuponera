@@ -1,6 +1,5 @@
 <?php
 ini_set('display_errors', E_ALL);
-
 ?>
 
 <?php include 'shared/header.php' ?>
@@ -43,7 +42,6 @@ $promo1 = array(
   'url' => 'https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Tarjetas-de-Video/Tarjeta-de-Video-XFX-Speedster-SWFT-210-AMD-Radeon-RX-6650-XT-8GB-128-bit-GDDR6-PCI-Express-4-0.html',
   'publication_date' => $date2,
   'expiration_datetime' => $date1,
-
 );
 $promo2 = array(
   'id_post' => '2',
@@ -54,109 +52,71 @@ $promo2 = array(
   'shop' => 'Amazon',
   'publisher' => 'MICHRO99',
   'img' => 'https://static.promodescuentos.com/threads/raw/tCdbE/959041_1/re/1024x1024/qt/60/959041_1.jpg',
-  'description' => 'Escritorio minimalista con almacenamiento y nivel para PC.  ',
+  'description' => 'Escritorio minimalista con almacenamiento y nivel para PC.',
   'num_comments' => 13,
   'url' => 'https://www.amazon.com.mx/dp/B0CR1F46M7',
   'publication_date' => $date2,
   'expiration_datetime' => $date1,
-
 );
 
-$promos = [$promo1, $promo2];
-
+$promos = array($promo1, $promo2);
 ?>
 
-<div>
-  <div style="display: flex;" class="categorias-bar">
-    <?php foreach ($categorias as &$categoria): ?>
-      <div style="categoria">
+<div class="container">
+  <div class="d-flex flex-wrap my-3">
+    <?php foreach ($categorias as $categoria): ?>
+      <div class="badge bg-primary m-1">
         <?php echo $categoria; ?>
       </div>
     <?php endforeach; ?>
   </div>
-  <div class="filter-bar">
-    <div class="right-bar">
-      <div>Para ti</div>
-      <div>Hot</div>
-      <div>Nuevas</div>
+
+  <div class="d-flex justify-content-end mb-3">
+    <div class="btn-group">
+      <button class="btn btn-outline-secondary">Para ti</button>
+      <button class="btn btn-outline-secondary">Hot</button>
+      <button class="btn btn-outline-secondary">Nuevas</button>
     </div>
   </div>
-  <div class="ofertas">
-    <?php foreach ($promos as &$promo): ?>
-      <table class="oferta" width="100%">
-        <tbody>
-          <tr>
-            <td rowspan="5">
-              <img width="200px" src="<?php echo $promo['img'] ?>">
-            </td>
-            <td colspan="4">
-              <div class="oferta-top">
-                <p style="text-align: right;">
-                  <?php $difference = $date1->diff($date2); ?>
-                  hace <?php echo $difference->h; ?>h, <?php echo $difference->i; ?>m
-                </p>
-              </div>
-            </td>
 
-          </tr>
-          <tr>
-            <td colspan="4">
-              <div class="oferta-title">
-                <a href="offer.php?id=<?php echo $promo['id_post']; ?>">
-                  <h4><?php echo $promo['title'] ?></h4>
-                </a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-
-            <td>
-              <div class="oferta-info" style="display: flex;">
-                <span class="actual-price"><?php echo $promo['actual_price']; ?></span>
+  <div class="row">
+    <?php foreach ($promos as $promo): ?>
+      <div class="col-md-6 mb-4">
+        <div class="card">
+          <img src="<?php echo $promo['img'] ?>" class="card-img-top" alt="<?php echo $promo['title'] ?>">
+          <div class="card-body">
+            <h5 class="card-title"><a href="offer.php?id=<?php echo $promo['id_post']; ?>"><?php echo $promo['title'] ?></a></h5>
+            <p class="card-text"><?php echo $promo['description']; ?></p>
+            <div class="d-flex justify-content-between">
+              <div>
+                <span class="fw-bold"><?php echo $promo['actual_price']; ?></span>
                 <?php if ($promo['previous_price'] != null && $promo['previous_price'] != 0): ?>
-                  <span class="older-price" style="text-decoration: dashed;"><?php echo $promo['previous_price']; ?></span>
-                  <span
-                    class="descuento-price"><?php echo $promo['actual_price'] / $promo['previous_price'] * 100; ?></span>
+                  <span class="text-muted text-decoration-line-through"><?php echo $promo['previous_price']; ?></span>
+                  <span class="text-success"><?php echo round(100 - ($promo['actual_price'] / $promo['previous_price'] * 100)); ?>%</span>
                 <?php endif; ?>
-                <span
-                  class="delivery-cost"><?php echo $promo['delivery_price'] == 0 ? 'Envio gratis' : $promo['delivery_price']; ?></span>
-                <span class="shop"><?php echo $promo['shop']; ?></span>
+                <span><?php echo $promo['delivery_price'] == 0 ? 'Envio gratis' : $promo['delivery_price']; ?></span>
+                <span><?php echo $promo['shop']; ?></span>
               </div>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="4">
-              <div class="oferta-desc">
-                <?php echo $promo['description']; ?>
+              <p class="text-end mb-0"><small><?php echo $date1->diff($date2)->format('hace %h h, %i m'); ?></small></p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex align-items-center">
+                <img src="https://via.placeholder.com/30" alt="Publisher" class="rounded-circle me-2">
+                <span><?php echo $promo['publisher']; ?></span>
               </div>
-
-            </td>
-          </tr>
-          <tr>
-            <td colspan="4">
-              <div class="promo-actions">
-                <div class="publisher-img">
-                  <img>
-                  <span><?php echo $promo['publisher']; ?></span>
-                </div>
-                <button>Guardar</button>
-                <button>comentarios</button>
-                <a href="<?php echo $promo['url']; ?>">
-                  <button>Ir a la oferta</button>
-
-                </a>
+              <div>
+                <button class="btn btn-outline-primary btn-sm">Guardar</button>
+                <button class="btn btn-outline-secondary btn-sm">Comentarios</button>
+                <a href="<?php echo $promo['url']; ?>" class="btn btn-primary btn-sm">Ir a la oferta</a>
               </div>
-
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </div>
+        </div>
+      </div>
     <?php endforeach; ?>
   </div>
 </div>
-
-<script>
-  document.
-</script>
 
 <?php include 'shared/footer.php' ?>
