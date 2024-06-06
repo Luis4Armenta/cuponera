@@ -54,14 +54,14 @@ CREATE TABLE Deals (
 );
 CREATE INDEX idx_title ON Deals (title);
 
-
+-- Crear tabla de comentarios con ON DELETE CASCADE
 CREATE TABLE Comments (
     comment_id INT AUTO_INCREMENT PRIMARY KEY,
     comment_text TEXT NOT NULL,
     deal_id INT,
     user_id INT,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (deal_id) REFERENCES Deals (deal_id),
+    FOREIGN KEY (deal_id) REFERENCES Deals (deal_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES Users (user_id)
 );
 
@@ -75,7 +75,7 @@ INSERT INTO Categories (name) VALUES
 ('Entretenimientos y Tiempo Libre'), ('Deportes y Ejercicio'), ('Internet y Telefonía Celular'),
 ('Viajes'), ('Finanzas y Seguros'), ('Servicios y Suscripciones'), ('Tecnología');
 
-
+-- Crear vista DealInformation
 CREATE VIEW DealInformation AS
 SELECT d.deal_id, d.title, d.coupon_code, d.link, d.start_date, d.end_date, d.start_time, d.end_time, 
        d.description, d.regular_price, d.offer_price, d.availability, d.shipping_cost, d.shipping_address, d.store, 
@@ -85,13 +85,13 @@ FROM Deals d
 JOIN Categories c ON d.category_id = c.category_id
 JOIN Users u ON d.user_id = u.user_id;
 
-
+-- Crear vista UserInformation
 CREATE VIEW UserInformation AS
 SELECT user_id, username, email, role_name
 FROM Users
 JOIN Roles ON Users.role_id = Roles.role_id;
 
-
+-- Crear vista PromotionsEndingSoon
 CREATE VIEW PromotionsEndingSoon AS
 SELECT d.deal_id, d.title, d.coupon_code, d.link, d.start_date, d.end_date, d.start_time, d.end_time, 
        d.description, d.regular_price, d.offer_price, d.availability, d.shipping_cost, d.shipping_address, d.store,
@@ -103,7 +103,7 @@ JOIN Users u ON d.user_id = u.user_id
 WHERE (d.end_date = DATE(NOW()) AND d.end_time > TIME(NOW())) 
    OR (d.end_date = DATE(NOW() + INTERVAL 1 DAY) AND d.end_time <= TIME(NOW()));
 
-
+-- Crear vista NewestPromotions
 CREATE VIEW NewestPromotions AS
 SELECT d.deal_id, d.title, d.coupon_code, d.link, d.start_date, d.end_date, d.start_time, d.end_time, 
        d.description, d.regular_price, d.offer_price, d.availability, d.shipping_cost, d.shipping_address, d.store,
