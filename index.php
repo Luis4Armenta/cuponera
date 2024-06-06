@@ -4,6 +4,7 @@ session_start();
 
 ?>
 
+<?php $extra_styles = ['index.css']; ?>
 <?php include 'shared/header.php' ?>
 
 <?php
@@ -68,29 +69,77 @@ $promos = [$promo1, $promo2];
 ?>
 
 <div>
-  <div style="display: flex;" class="categorias-bar">
-    <?php foreach ($categorias as $categoria => $value): ?>
-      <div style="categoria">
-        <a href="<?php echo "category.php?id={$value}" ?>"><?php echo $categoria; ?></a>
-      </div>
-    <?php endforeach; ?>
-  </div>
-  <div class="filter-bar">
-    <div class="right-bar">
-      <div>
-        <a href="index.php" class="<?php echo isset($_GET['mode']) ? 'active' : ''; ?>">Para ti</a>
-      </div>
-      <div>
-        <a href="index.php?mode=hot" class="<?php echo isset($_GET['mode']) && strtolower($_GET['mode']) == 'hot' ? 'active' : ''; ?>">Hot</a>
-      </div>
-      <div>
-        <a href="index.php?mode=news" class="<?php echo isset($_GET['mode']) && strtolower($_GET['mode']) == 'news' ? 'active' : ''; ?>">Nuevas</a>
-      </div>
+  <div class="categorias-bar-container border bg-body">
+    <button class="scroll-button left fs-4" onclick="scrollLeft()">‹</button>
+    <div class="categorias-bar" id="categoriasBar">
+      <?php foreach ($categorias as $categoria => $value): ?>
+        <div class="p-2">
+          <a href="<?php echo "category.php?id={$value}" ?>" class="btn btn-primary btn-category"><?php echo $categoria; ?></a>
+        </div>
+      <?php endforeach; ?>
     </div>
+    <button class="scroll-button right fs-4" onclick="scrollRight()">›</button>
   </div>
-  <div class="ofertas">
+  <nav class="navbar navbar-expand-lg bg-white border py-0">
+    <div class="container">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a href="index.php" class="nav-link <?php echo !isset($_GET['mode']) || (isset($_GET['mode']) && $_GET['mode'] != 'hot' && $_GET['mode'] != 'news')  ? 'active' : ''; ?>">Para ti</a>
+        </li>
+        <li class="nav-item">
+        <a href="index.php?mode=hot" class="nav-link <?php echo isset($_GET['mode']) && strtolower($_GET['mode']) == 'hot' ? 'active' : ''; ?>">Hot</a>
+        </li>
+        <li class="nav-item">
+        <a href="index.php?mode=news" class="nav-link <?php echo isset($_GET['mode']) && strtolower($_GET['mode']) == 'news' ? 'active' : ''; ?>">Nuevas</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
     <?php foreach ($promos as &$promo): ?>
-      <table class="oferta" width="100%">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-2">
+            <img class="img-fluid rounded-start" width="250px"  src="<?php echo $promo['img']; ?>">
+          </div>
+          <div class="col-md-10">
+            <div class="row">
+              <div class="col-md-8"></div>
+              <div class="col-md-2"><?php echo $promo['expiration_datetime']->format('d/M/Y'); ?></div>
+              <?php $difference = $date1->diff($date2); ?>
+              <div class="col-md-2">hace <?php echo $difference->h; ?>h, <?php echo $difference->i; ?>m</div>
+            </div>
+            <div class="row">
+              <h5 class="text-start"><?php echo $promo['title'] ?></h5>
+            </div>
+            <div class="row row-cols-auto">
+              <div class="col-md-1">
+                <span class="text-success fw-bolder fs-5">$<?php echo $promo['actual_price']; ?></span>
+              </div>
+              <?php if ($promo['previous_price'] != null && $promo['previous_price'] != 0): ?>
+                <div class="col-md-1">
+                  <span class="text-secondary fs-5 text-decoration-line-through">
+                    $<?php echo $promo['previous_price']; ?>
+                  </span>
+                </div>
+                <div class="col-md-1">
+                  <span class="text-secondary fs-5 text-decoration-line-through">
+                    -<?php echo floor($promo['actual_price'] / $promo['previous_price'] * 100); ?>%
+                  </span>
+                </div>
+              <?php endif; ?>
+            </div>
+            <div class="row">
+
+            </div>
+            <div class="row">
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <table class="oferta" width="100%">
         <tbody>
           <tr>
             <td rowspan="5">
@@ -157,13 +206,24 @@ $promos = [$promo1, $promo2];
             </td>
           </tr>
         </tbody>
-      </table>
+      </table> -->
     <?php endforeach; ?>
   </div>
 </div>
 
 <script>
-  document.
-</script>
+        function scrollLeft() {
+            document.getElementById('categoriasBar').scrollBy({
+                left: -200, // Adjust the value to scroll more or less
+                behavior: 'smooth'
+            });
+        }
+        function scrollRight() {
+            document.getElementById('categoriasBar').scrollBy({
+                left: 200, // Adjust the value to scroll more or less
+                behavior: 'smooth'
+            });
+        }
+    </script>
 
 <?php include 'shared/footer.php' ?>

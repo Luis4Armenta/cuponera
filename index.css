@@ -1,0 +1,43 @@
+.categorias-bar-container {
+    position: relative;
+}
+.categorias-bar {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for touch devices */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+.categorias-bar::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+}
+.btn-category {
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Ensures content does not overflow */
+    text-overflow: ellipsis; /* Adds ellipsis (...) for overflowed text */
+    margin-right: 10px; /* Adds space between buttons */
+}
+.scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 1);
+    font-weight: 900;
+    border: none;
+    color: black;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+}
+.scroll-button.left {
+    left: 0;
+}
+.scroll-button.right {
+    right: 0;
+}
+
+.nav-link.active {
+  border-bottom: 4px solid #007bff; /* Color azul Bootstrap */
+  
+}
