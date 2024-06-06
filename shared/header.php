@@ -17,11 +17,11 @@
     }
     ?>
 </head>
-<body>
+<body class="bg-body-secondary">
     <header>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white border">
         <div class="container-fluid">
-          <a class="navbar-brand" href="index.php">Cuponera</a>
+          <a class="navbar-brand mx-3" href="index.php">Cuponera</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -69,12 +69,12 @@
                   </ul>
                 </li>
               <?php else: ?>
-                <li class="nav-item mx-4">
+                <li class="nav-item ms-4">
                   <a class="btn btn-primary" href="login.php">Registrarse / Iniciar sesión</a>
                 </li>
               <?php endif; ?>
-              <li class="nav-item mx-4">
-                <a class="btn btn-success" href="<?php echo isset($_SESSION['user']) ? 'share.php' : 'login.php'; ?>"><i class="bi bi-plus p-0 m-0 fw-bold"></i>  Compartir</a>
+              <li class="nav-item me-4 d-flex align-items-center">
+                <a class="btn btn-success btn-lg py-1" href="<?php echo isset($_SESSION['user']) ? 'share.php' : 'login.php'; ?>"><i class="bi bi-plus p-0 m-0 fw-bold"></i>  Compartir</a>
               </li>
             </ul>
           </div>
