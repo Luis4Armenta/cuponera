@@ -45,6 +45,8 @@ $promo1 = array(
   'url' => 'https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Tarjetas-de-Video/Tarjeta-de-Video-XFX-Speedster-SWFT-210-AMD-Radeon-RX-6650-XT-8GB-128-bit-GDDR6-PCI-Express-4-0.html',
   'publication_date' => $date2,
   'expiration_datetime' => $date1,
+  'shipping_cost' => 87,
+  'comments_num'=> 42,
 
 );
 $promo2 = array(
@@ -61,7 +63,8 @@ $promo2 = array(
   'url' => 'https://www.amazon.com.mx/dp/B0CR1F46M7',
   'publication_date' => $date2,
   'expiration_datetime' => $date1,
-
+  'shipping_cost' => 0,
+  'comments_num'=> 0,
 );
 
 $promos = [$promo1, $promo2];
@@ -97,116 +100,78 @@ $promos = [$promo1, $promo2];
   </nav>
   <div class="container">
     <?php foreach ($promos as &$promo): ?>
-      <div class="card">
-        <div class="row">
-          <div class="col-md-2">
-            <img class="img-fluid rounded-start" width="250px"  src="<?php echo $promo['img']; ?>">
+      <div class="card my-2">
+        <div class="row mx-0">
+          <div class="col-md-2 p-4">
+            <div class="bg-body-tertiary w-100 h-100 d-flex justify-content-center align-items-center">
+              <img class="img-fluid rounded-start" width="250px"  src="<?php echo $promo['img']; ?>">
+            </div>
           </div>
           <div class="col-md-10">
-            <div class="row">
-              <div class="col-md-8"></div>
-              <div class="col-md-2"><?php echo $promo['expiration_datetime']->format('d/M/Y'); ?></div>
+            <div class="row mt-2 row-cols-auto">
+              <div class=" ms-auto"></div>
+              <span class="text-secondary fs-6"><i class="bi bi-hourglass-bottom me-1"></i> <?php echo $promo['expiration_datetime']->format('d/M/Y'); ?></span>
               <?php $difference = $date1->diff($date2); ?>
-              <div class="col-md-2">hace <?php echo $difference->h; ?>h, <?php echo $difference->i; ?>m</div>
+              <span class="text-secondary fs-6"><i class="bi bi-clock me-1"></i>hace <?php echo $difference->h; ?>h, <?php echo $difference->i; ?>m</span>
+
+              <!-- <div class="col-md-1"><?php echo $promo['expiration_datetime']->format('d/M/Y'); ?></div>
+              <?php $difference = $date1->diff($date2); ?>
+              <div class="col-md-1">hace <?php echo $difference->h; ?>h, <?php echo $difference->i; ?>m</div> -->
             </div>
             <div class="row">
               <h5 class="text-start"><?php echo $promo['title'] ?></h5>
             </div>
             <div class="row row-cols-auto">
-              <div class="col-md-1">
+              <div class="col-md-12">
                 <span class="text-success fw-bolder fs-5">$<?php echo $promo['actual_price']; ?></span>
-              </div>
-              <?php if ($promo['previous_price'] != null && $promo['previous_price'] != 0): ?>
-                <div class="col-md-1">
+                <?php if ($promo['previous_price'] != null && $promo['previous_price'] != 0): ?>
                   <span class="text-secondary fs-5 text-decoration-line-through">
                     $<?php echo $promo['previous_price']; ?>
                   </span>
-                </div>
-                <div class="col-md-1">
                   <span class="text-secondary fs-5 text-decoration-line-through">
                     -<?php echo floor($promo['actual_price'] / $promo['previous_price'] * 100); ?>%
+                  </span> 
+                <?php endif; ?>
+                <?php if (isset($promo['shipping_cost'])): ?>
+                  <span class="text-secondary fs-4 ms-1">
+                    <i class="bi bi-truck"></i>
                   </span>
+                  <span class="text-secondary fs-6 me-1">
+                    <?php if ($promo['shipping_cost'] == 0): ?>
+                      Envío gratis
+                    <?php else: ?>
+                      $<?php echo $promo['shipping_cost']; ?>
+                    <?php endif; ?>
+                  </span>
+                  
+                <?php endif; ?>
+                <span class="text-secondary fs-5">|</span>
+                <a class="fs-6 text-decoration-none" href="#"><?php echo $promo['shop']; ?></a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <p class="lh-sm text-break align-bottom"><?php echo $promo['description']; ?></p>
+              </div>
+            </div>
+            <div class="row pb-2 align-items-center">
+              <div class="col-md-12 d-flex justify-content-between">
+                <div >
+                  <a class="fw-semibold align-middle text-decoration-none text-dark" href="#">
+                    <img src="assets/images/user.png" class="rounded-circle border" height="22" alt="Avatar" loading="lazy"/>
+                    <?php echo $promo['publisher'];?>
+                  </a>
                 </div>
-              <?php endif; ?>
-            </div>
-            <div class="row">
-
-            </div>
-            <div class="row">
-
+                <div>
+                  <button class="btn text-secondary border border-secondary rounded-5 btn-outline-light"><i class="bi bi-bookmark"></i></button>
+                  <button class="btn text-secondary border border-secondary rounded-5 btn-outline-light"><i class="bi bi-chat-square-text"></i> <?php echo $promo['comments_num']; ?></button>
+                  <button class="btn btn-success rounded-5">Ir a la oferta <i class="bi bi-box-arrow-up-right"></i></button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- <table class="oferta" width="100%">
-        <tbody>
-          <tr>
-            <td rowspan="5">
-              <img width="200px" src="<?php echo $promo['img'] ?>">
-            </td>
-            <td colspan="4">
-              <div class="oferta-top">
-                <p style="text-align: right;">
-                  <?php $difference = $date1->diff($date2); ?>
-                  hace <?php echo $difference->h; ?>h, <?php echo $difference->i; ?>m
-                </p>
-              </div>
-            </td>
-
-          </tr>
-          <tr>
-            <td colspan="4">
-              <div class="oferta-title">
-                <a href="offer.php?id=<?php echo $promo['id_post']; ?>">
-                  <h4><?php echo $promo['title'] ?></h4>
-                </a>
-              </div>
-            </td>
-          </tr>
-          <tr>
-
-            <td>
-              <div class="oferta-info" style="display: flex;">
-                <span class="actual-price"><?php echo $promo['actual_price']; ?></span>
-                <?php if ($promo['previous_price'] != null && $promo['previous_price'] != 0): ?>
-                  <span class="older-price" style="text-decoration: dashed;"><?php echo $promo['previous_price']; ?></span>
-                  <span
-                    class="descuento-price"><?php echo $promo['actual_price'] / $promo['previous_price'] * 100; ?></span>
-                <?php endif; ?>
-                <span
-                  class="delivery-cost"><?php echo $promo['delivery_price'] == 0 ? 'Envio gratis' : $promo['delivery_price']; ?></span>
-                <span class="shop"><?php echo $promo['shop']; ?></span>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="4">
-              <div class="oferta-desc">
-                <?php echo $promo['description']; ?>
-              </div>
-
-            </td>
-          </tr>
-          <tr>
-            <td colspan="4">
-              <div class="promo-actions">
-                <div class="publisher-img">
-                  <img>
-                  <span><?php echo $promo['publisher']; ?></span>
-                </div>
-                <button>Guardar</button>
-                <button>comentarios</button>
-                <a href="<?php echo $promo['url']; ?>">
-                  <button>Ir a la oferta</button>
-
-                </a>
-              </div>
-
-            </td>
-          </tr>
-        </tbody>
-      </table> -->
     <?php endforeach; ?>
   </div>
 </div>
