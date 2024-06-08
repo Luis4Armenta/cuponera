@@ -1,3 +1,5 @@
+Drop database promodescuentos;
+
 CREATE DATABASE IF NOT EXISTS promodescuentos;
 USE promodescuentos;
 
@@ -13,6 +15,7 @@ CREATE TABLE Users (
     username VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    avatar_link VARCHAR(255),
     role_id INT,
     FOREIGN KEY (role_id) REFERENCES Roles (role_id)
 );
@@ -92,24 +95,37 @@ FROM Users
 JOIN Roles ON Users.role_id = Roles.role_id;
 
 -- Crear vista PromotionsEndingSoon
-CREATE VIEW PromotionsEndingSoon AS
-SELECT d.deal_id, d.title, d.coupon_code, d.link, d.start_date, d.end_date, d.start_time, d.end_time, 
-       d.description, d.regular_price, d.offer_price, d.availability, d.shipping_cost, d.shipping_address, d.store,
-       c.name AS category_name,
-       u.username AS creator_username, d.image_link
+CREATE VIEW HOT AS
+SELECT d.deal_id, d.title, d.image_link, d.end_date, d.end_time, 
+       d.offer_price, d.regular_price, d.availability, d.shipping_cost, d.store, 
+       d.coupon_code, d.description, u.username AS creator_username, u.avatar_link,
+       (SELECT COUNT(*) FROM Comments c WHERE c.deal_id = d.deal_id) AS comment_count, d.link
 FROM Deals d
-JOIN Categories c ON d.category_id = c.category_id
 JOIN Users u ON d.user_id = u.user_id
 WHERE (d.end_date = DATE(NOW()) AND d.end_time > TIME(NOW())) 
-   OR (d.end_date = DATE(NOW() + INTERVAL 1 DAY) AND d.end_time <= TIME(NOW()));
+   OR (d.end_date = DATE(NOW() + INTERVAL 1 DAY) AND d.end_time <= TIME(NOW()))
+ORDER BY d.end_date ASC, d.end_time ASC;
 
 -- Crear vista NewestPromotions
-CREATE VIEW NewestPromotions AS
-SELECT d.deal_id, d.title, d.coupon_code, d.link, d.start_date, d.end_date, d.start_time, d.end_time, 
-       d.description, d.regular_price, d.offer_price, d.availability, d.shipping_cost, d.shipping_address, d.store,
-       c.name AS category_name,
-       u.username AS creator_username, d.image_link
+CREATE VIEW Nuevos AS
+SELECT d.deal_id, d.title, d.image_link, d.end_date, d.end_time, 
+       d.offer_price, d.regular_price, d.availability, d.shipping_cost, d.store, 
+       d.coupon_code, d.description, u.username AS creator_username, u.avatar_link,
+       (SELECT COUNT(*) FROM Comments c WHERE c.deal_id = d.deal_id) AS comment_count, d.link
 FROM Deals d
-JOIN Categories c ON d.category_id = c.category_id
 JOIN Users u ON d.user_id = u.user_id
 ORDER BY d.timestamp DESC;
+
+
+-- creacion de los privilegios--
+
+-- Crear el usuario
+CREATE USER 'app_user'@'localhost' IDENTIFIED BY '2468101214';
+
+-- Asignar privilegios al usuario
+GRANT SELECT, INSERT, UPDATE ON promodescuentos.* TO 'app_user'@'localhost';
+
+-- Aplicar los cambios
+FLUSH PRIVILEGES;
+
+
