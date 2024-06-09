@@ -113,10 +113,6 @@ $promos = [$promo1, $promo2];
               <span class="text-secondary fs-6"><i class="bi bi-hourglass-bottom me-1"></i> <?php echo $promo['expiration_datetime']->format('d/M/Y'); ?></span>
               <?php $difference = $date1->diff($date2); ?>
               <span class="text-secondary fs-6"><i class="bi bi-clock me-1"></i>hace <?php echo $difference->h; ?>h, <?php echo $difference->i; ?>m</span>
-
-              <!-- <div class="col-md-1"><?php echo $promo['expiration_datetime']->format('d/M/Y'); ?></div>
-              <?php $difference = $date1->diff($date2); ?>
-              <div class="col-md-1">hace <?php echo $difference->h; ?>h, <?php echo $difference->i; ?>m</div> -->
             </div>
             <div class="row">
               <h5 class="text-start"><?php echo $promo['title'] ?></h5>
@@ -165,7 +161,7 @@ $promos = [$promo1, $promo2];
                 <div>
                   <button class="btn text-secondary border border-secondary rounded-5 btn-outline-light"><i class="bi bi-bookmark"></i></button>
                   <button class="btn text-secondary border border-secondary rounded-5 btn-outline-light"><i class="bi bi-chat-square-text"></i> <?php echo $promo['comments_num']; ?></button>
-                  <button class="btn btn-success rounded-5">Ir a la oferta <i class="bi bi-box-arrow-up-right"></i></button>
+                  <a class="btn btn-success rounded-5" href="<?php echo 'offer.php?id=' . $promo['id_post'] ?>">Ir a la oferta <i class="bi bi-box-arrow-up-right"></i></a>
                 </div>
               </div>
             </div>
