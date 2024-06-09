@@ -171,7 +171,12 @@ $datetime_now = new DateTime();
             </div>
             <div class="row">
               <div class="col-md-12">
-                <p class="lh-sm text-break align-bottom"><?php echo $offer['description']; ?></p>
+                <p class="lh-sm text-break align-bottom"><?php
+                  echo substr($offer['description'], 0, 300); 
+                  if (strlen($offer['description']) > 300) {
+                    echo '...';   
+                  }
+                ?></p>
               </div>
             </div>
             <div class="row pb-2 align-items-center">
