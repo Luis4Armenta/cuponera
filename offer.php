@@ -81,7 +81,7 @@ include 'shared/header.php';
             <div class="alert alert-primary text-center" role="alert">
               <i class="bi bi-clock me-1 fw-bolder"></i> La oferta termina el <span class="fw-bolder"><?php echo "{$fechaDada->format('d M Y')}"; ?></span> <?php echo isset($offer['end_time']) ? "a las {$fechaDada->format('H:i')}" : ""; ?>
             </div>
-          <?php elseif ($fechaDada > $fechaActual && $horasDiferencia > 24): ?>
+          <?php elseif ($fechaDada > $fechaActual && $horasDiferencia > 0): ?>
             <div class="alert alert-warning text-center" role="alert">
               <i class="bi bi-clock me-1 fw-bolder"></i> La oferta termina el <span class="fw-bolder"><?php echo "{$fechaDada->format('d M Y')}"; ?></span> <?php echo isset($offer['end_time']) ? "a las {$fechaDada->format('H:i')}": ""; ?>
             </div>
