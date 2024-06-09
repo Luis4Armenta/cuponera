@@ -37,6 +37,7 @@ try {
       'category_name' => $registro[15],
       'creator_username' => $registro[16],
       'image_link' => $registro[17],
+      'timestamp' => $registro[18],
     );
   }
 
@@ -101,38 +102,57 @@ include 'shared/header.php';
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
-                publicado hace 2 días
+                <span class="text-secondary fs-6">
+                  <?php
+                    $publish_date = new DateTime($timestamp);
+                    $actual_date = new DateTime();
+
+                    $difference = $publish_date->diff($actual_date); 
+                  ?>
+                  Publicado el <?php echo $publish_date->format('d M Y'); ?> a las <?php echo $publish_date->format('H:i'); ?>
+                </span>
               </div>
             </div>
             <div class="row">
               <div class="col-md-12">
-                <h3 class="fw-bolder">Seat Leon version Style - 2024</h3>
+                <h3 class="fw-bolder"><?php echo $title; ?></h3>
               </div>
             </div>
+            <?php if (isset($offer['offer_price'])): ?>
             <div class="row row-cols-auto">
               <div class="col-md-12">
-                <span class="fs-3 fw-bolder text-success">$400,900</span>
-                <span class="fs-4 text-secondary text-decoration-line-through">$505,900</span>
-                <span class="fs-4">
-                  -7%
-                </span> 
+                <span class="fs-3 fw-bolder text-success">$<?php echo $offer['offer_price']; ?></span>
+                <?php if (isset($offer['regular_price'])): ?>
+                  <span class="fs-4 text-secondary text-decoration-line-through">$<?php echo $offer['regular_price']?></span>
+                  <span class="fs-4">
+                    -<?php echo floor($offer['offer_price'] / $offer['regular_price'] * 100); ?>%
+                  </span>
+                <?php endif; ?>
+              </div>
+            </div>
+            <?php endif; ?>
+            <div class="row row-cols-auto my-3">
+              <div class="col-md-12">
+              <span class="text-secondary fs-5"><i class="bi bi-truck me-1"></i><?php echo $offer['shipping_cost'] != 0 ? "\${$offer['shipping_cost']}" : "Gratis"; ?> </span>
+              |
+                <span class="text-success fs-5"><?php echo $offer['store']; ?></span>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-12">
-                <span class="text-success fs-5">Seat</span>
+              <div class="col-md-6">
+                <a href="<?php echo $offer['link']; ?>" class="btn btn-success btn-lg fs-4 rounded-5 w-100">Ir a la oferta <i class="bi bi-box-arrow-up-right"></i></a>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <a href="#" class="btn btn-success btn-lg fs-4 rounded-5">Ir a la oferta <i class="bi bi-box-arrow-up-right"></i></a>
-              </div>
+              <?php if (isset($offer['coupon_code']) && $offer['coupon_code'] != ""): ?>
+                <div class="col-md-6">
+                  <button class="btn btn-outline-secondary btn-lg fs-4 rounded-5 w-100" style="border-style: dashed;"><span id="coupon" class="mx-3"><?php echo $offer['coupon_code']; ?></span><i class="bi bi-copy text-success"></i></button>
+                </div>
+              <?php endif;  ?>
             </div>
             <div class="row">
               <div class="col-md-12">
                 <a class="align-middle text-decoration-none text-dark" href="#">
                   <img src="assets/images/user.png" class="rounded-circle border" height="22" alt="Avatar" loading="lazy"/>
-                  Compartido por <span class="fw-semibold">juan.delaspitas</span>
+                  Compartido por <span class="fw-semibold"><?php echo $offer['creator_username']; ?></span>
                 </a>
               </div>
             </div>
@@ -151,14 +171,12 @@ include 'shared/header.php';
         </div>
         <div class="row">
           <div class="col-md-12">
-            Deacuento en la versión de Entrada de Seat León.
-
-            Para los que han querido tener un Leon... Ahora es cuando. Con este precio ya vale igual que los Omoda y los Chirey...
+            <?php echo $offer['description']; ?> 
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <span class="text-secondary">Vehiculos</span>
+            <span class="text-secondary"><?php echo $offer['category_name']; ?></span>
           </div>
         </div>
       </div>
