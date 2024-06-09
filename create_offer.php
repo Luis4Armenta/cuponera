@@ -52,6 +52,30 @@ if (
 ) {
   // TODO: cargar imagen
     $image = $_FILES['image'];
+
+    $maxFileSize = 10 * 1024 * 1024; // 10 MB
+
+    // Verifica si el archivo es una imagen
+    $check = getimagesize($image['tmp_name']);
+    if ($check === false) {
+        die("El archivo no es una imagen.");
+    }
+
+    // Verifica el tamaño del archivo
+    if ($image['size'] > $maxFileSize) {
+        die("El archivo es demasiado grande. Máximo 2MB.");
+    }
+
+    // Verifica si hay errores en la subida del archivo
+    if ($image['error'] !== UPLOAD_ERR_OK) {
+        die("Error al subir la imagen.");
+    }
+
+    // Verificar tipo MIME
+    $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!in_array($image['type'], $allowedMimeTypes)) {
+        die("Solo se permiten archivos JPG, PNG y GIF.");
+    }
   
     $api_key = getenv('cloudinary_api_key');
     $cloud_name = getenv('cloudinary_cloud_name');
