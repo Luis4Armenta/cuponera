@@ -1,11 +1,71 @@
 <?php
 ini_set('display_errors', E_ALL);
 session_start();
+include_once 'config.php';
+include_once 'Database.php';
+include_once 'utils.php';
+
+$data = sanitize_input($_GET, array('mode' => 'string'));
+$mode = $data['mode'];
+if ($mode == null || strtoupper(trim($mode)) != 'HOT' || strtoupper(trim($mode)) != 'NEWS') {
+  $mode = 'forYou';
+}
+
+$offers = array();
+try {
+  $database = new Database();
+  $db = $database->getConnection();
+  if (strtoupper(trim($mode)) == 'FORYOU') {
+      $res = $db->query("select * from Nuevos;");
+    } else if (strtoupper(trim($mode)) == 'HOT') {
+      $res = $db->query("select * from HOT;");
+    } else if (strtoupper(trim($mode)) == 'NEWS') {
+      $res = $db->query("select * from Nuevos;");
+  }
+  while ($registro = $res->fetch_row()) {
+    $start_datetime = new DateTime();
+    $end_datetime = new DateTime($registro[3] . ' ' . $registro[4]);
+    $creation_datetime = new DateTime($registro[16]);
+    
+    array_push($offers, array(
+      'deal_id' => $registro[0],
+      'title' => $registro[1],
+      'image_link' => $registro[2],
+      'end_date' => $registro[3],
+      'end_time' => $registro[4],  
+      'offer_price' => $registro[5],  
+      'regular_price' => $registro[6],  
+      'availability' => $registro[7],  
+      'shipping_cost' => $registro[8],  
+      'store' => $registro[9],
+      'coupon_code' => $registro[10],
+      'description' => $registro[11],  
+      'creator_username' => $registro[12],
+      'avatar_link' => $registro[13],
+      'comment_count' => $registro[14],
+      'link' => $registro[15],
+      'start_datetime' => $start_datetime,
+      'end_datetime' => $end_datetime,
+      'creation_datetime' =>$creation_datetime,
+      // 'shipping_address' => $registro[13],  
+      // 'category_name' => $registro[15],
+      
+    ));
+  }
+
+  $res->free_result();
+  $database->closeConnection();
+} catch (mysqli_sql_exception $e) {
+  echo $e;
+  header('Location: shared/errors/500.php');
+  exit;
+}
 
 ?>
 
 <?php $extra_styles = ['index.css']; ?>
 <?php include 'shared/header.php' ?>
+
 
 <?php
 $categorias = array(
@@ -26,48 +86,8 @@ $categorias = array(
   'Servicios y suscripciones' => 'servicios',
   'Gratis' => 'gratis'
 );
-$date1 = new DateTime();
-$interval = new DateInterval('PT2H15M');
-$date2 = clone $date1;
-$date2->add($interval);
+$datetime_now = new DateTime();
 
-$promo1 = array(
-  'id_post' => '1',
-  'title' => 'CyberPuerta - XFX Speedster SWFT 210 RX 6650 XT',
-  'actual_price' => 4369,
-  'previous_price' => null,
-  'delivery_price' => '$128',
-  'shop' => 'CyberPuerta',
-  'publisher' => 'Javier Sanchez',
-  'img' => 'https://static.promodescuentos.com/threads/raw/XMIag/959012_1/re/1024x1024/qt/60/959012_1.jpg',
-  'description' => 'Potencia 550w',
-  'num_comments' => 40,
-  'url' => 'https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Tarjetas-de-Video/Tarjeta-de-Video-XFX-Speedster-SWFT-210-AMD-Radeon-RX-6650-XT-8GB-128-bit-GDDR6-PCI-Express-4-0.html',
-  'publication_date' => $date2,
-  'expiration_datetime' => $date1,
-  'shipping_cost' => 87,
-  'comments_num'=> 42,
-
-);
-$promo2 = array(
-  'id_post' => '2',
-  'title' => 'Amazon: Escritorio minimalista $799 con Cupón del vendedor.',
-  'actual_price' => 799,
-  'previous_price' => 899,
-  'delivery_price' => 128,
-  'shop' => 'Amazon',
-  'publisher' => 'MICHRO99',
-  'img' => 'https://static.promodescuentos.com/threads/raw/tCdbE/959041_1/re/1024x1024/qt/60/959041_1.jpg',
-  'description' => 'Escritorio minimalista con almacenamiento y nivel para PC.  ',
-  'num_comments' => 13,
-  'url' => 'https://www.amazon.com.mx/dp/B0CR1F46M7',
-  'publication_date' => $date2,
-  'expiration_datetime' => $date1,
-  'shipping_cost' => 0,
-  'comments_num'=> 0,
-);
-
-$promos = [$promo1, $promo2];
 
 ?>
 
@@ -99,55 +119,59 @@ $promos = [$promo1, $promo2];
     </div>
   </nav>
   <div class="container">
-    <?php foreach ($promos as &$promo): ?>
+    <?php foreach ($offers as &$offer): ?>
       <div class="card my-2">
         <div class="row mx-0">
           <div class="col-md-2 p-4">
             <div class="bg-body-tertiary w-100 h-100 d-flex justify-content-center align-items-center">
-              <img class="img-fluid rounded-start" width="250px"  src="<?php echo $promo['img']; ?>">
+              <img class="img-fluid rounded-start" width="250px"  src="<?php echo $offer['image_link']; ?>">
             </div>
           </div>
           <div class="col-md-10">
             <div class="row mt-2 row-cols-auto">
               <div class=" ms-auto"></div>
-              <span class="text-secondary fs-6"><i class="bi bi-hourglass-bottom me-1"></i> <?php echo $promo['expiration_datetime']->format('d/M/Y'); ?></span>
-              <?php $difference = $date1->diff($date2); ?>
+              <span class="text-secondary fs-6"><i class="bi bi-hourglass-bottom me-1"></i> <?php echo $offer['end_datetime']->format('d/M/Y'); ?></span>
+              <?php
+              $difference = $offer['creation_datetime']->diff($datetime_now);
+              ?>
               <span class="text-secondary fs-6"><i class="bi bi-clock me-1"></i>hace <?php echo $difference->h; ?>h, <?php echo $difference->i; ?>m</span>
             </div>
             <div class="row">
-              <h5 class="text-start"><?php echo $promo['title'] ?></h5>
+              <h5 class="text-start"><?php echo $offer['title'] ?></h5>
             </div>
             <div class="row row-cols-auto">
               <div class="col-md-12">
-                <span class="text-success fw-bolder fs-5">$<?php echo $promo['actual_price']; ?></span>
-                <?php if ($promo['previous_price'] != null && $promo['previous_price'] != 0): ?>
+                <span class="text-success fw-bolder fs-5">$<?php echo $offer['offer_price']; ?></span>
+                <?php if ($offer['regular_price'] != null && $offer['regular_price'] != 0): ?>
                   <span class="text-secondary fs-5 text-decoration-line-through">
-                    $<?php echo $promo['previous_price']; ?>
+                    $<?php echo $offer['regular_price']; ?>
                   </span>
                   <span class="text-secondary fs-5 text-decoration-line-through">
-                    -<?php echo floor($promo['actual_price'] / $promo['previous_price'] * 100); ?>%
+                    -<?php echo floor($offer['offer_price'] / $offer['regular_price'] * 100); ?>%
                   </span> 
                 <?php endif; ?>
-                <?php if (isset($promo['shipping_cost'])): ?>
+                <?php if (isset($offer['shipping_cost']) && $offer['availability'] == 'ONLINE'): ?>
                   <span class="text-secondary fs-4 ms-1">
                     <i class="bi bi-truck"></i>
                   </span>
                   <span class="text-secondary fs-6 me-1">
-                    <?php if ($promo['shipping_cost'] == 0): ?>
+                    <?php if ($offer['shipping_cost'] == 0): ?>
                       Envío gratis
                     <?php else: ?>
-                      $<?php echo $promo['shipping_cost']; ?>
+                      $<?php echo $offer['shipping_cost']; ?>
                     <?php endif; ?>
                   </span>
-                  
-                <?php endif; ?>
+                  <?php endif; ?>
+                  <?php if ($offer['availability' ] == 'OFFLINE'): ?>
+                    <span class="text-secondary fs-5"><i class="bi bi-shop mx-1"></i>Local</span>
+                  <?php endif; ?>
                 <span class="text-secondary fs-5">|</span>
-                <a class="fs-6 text-decoration-none" href="#"><?php echo $promo['shop']; ?></a>
+                <a class="fs-6 text-decoration-none" href="#"><?php echo $offer['store']; ?></a>
               </div>
             </div>
             <div class="row">
               <div class="col-md-12">
-                <p class="lh-sm text-break align-bottom"><?php echo $promo['description']; ?></p>
+                <p class="lh-sm text-break align-bottom"><?php echo $offer['description']; ?></p>
               </div>
             </div>
             <div class="row pb-2 align-items-center">
@@ -155,13 +179,13 @@ $promos = [$promo1, $promo2];
                 <div >
                   <a class="fw-semibold align-middle text-decoration-none text-dark" href="#">
                     <img src="assets/images/user.png" class="rounded-circle border" height="22" alt="Avatar" loading="lazy"/>
-                    <?php echo $promo['publisher'];?>
+                    <?php echo $offer['creator_username'];?>
                   </a>
                 </div>
                 <div>
                   <button class="btn text-secondary border border-secondary rounded-5 btn-outline-light"><i class="bi bi-bookmark"></i></button>
-                  <button class="btn text-secondary border border-secondary rounded-5 btn-outline-light"><i class="bi bi-chat-square-text"></i> <?php echo $promo['comments_num']; ?></button>
-                  <a class="btn btn-success rounded-5" href="<?php echo 'offer.php?id=' . $promo['id_post'] ?>">Ir a la oferta <i class="bi bi-box-arrow-up-right"></i></a>
+                  <button class="btn text-secondary border border-secondary rounded-5 btn-outline-light"><i class="bi bi-chat-square-text"></i> <?php echo $offer['comment_count']; ?></button>
+                  <a class="btn btn-success rounded-5" href="<?php echo 'offer.php?id=' . $offer['deal_id'] ?>">Ir a la oferta <i class="bi bi-box-arrow-up-right"></i></a>
                 </div>
               </div>
             </div>
