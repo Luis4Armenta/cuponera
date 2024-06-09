@@ -133,7 +133,11 @@ include 'shared/header.php';
             <?php endif; ?>
             <div class="row row-cols-auto my-3">
               <div class="col-md-12">
-              <span class="text-secondary fs-5"><i class="bi bi-truck me-1"></i><?php echo $offer['shipping_cost'] != 0 ? "\${$offer['shipping_cost']}" : "Gratis"; ?> </span>
+                <?php if ($offer['availability' ] == 'OFFLINE'): ?>
+                  <span class="text-secondary fs-5"><i class="bi bi-shop mx-1"></i>Local</span>
+                <?php else: ?>
+                  <span class="text-secondary fs-5"><i class="bi bi-truck me-1"></i><?php echo $offer['shipping_cost'] != 0 ? "\${$offer['shipping_cost']}" : "Gratis"; ?> </span>
+                <?php endif; ?>
               |
                 <span class="text-success fs-5"><?php echo $offer['store']; ?></span>
               </div>
