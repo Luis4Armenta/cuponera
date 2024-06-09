@@ -69,7 +69,7 @@ $categories = array(
       <div>
         <div>
           <label for="shipping-cost">Costo de envio</label>
-          <input type="number" id="shipping-cost" name="shippingCost" value="0" min="0"/>
+          <input type="number" id="shipping-cost" name="shippingCost" min="0"/>
         </div>
         <div>
           <label for="shipping-address">Se envia desde</label>
