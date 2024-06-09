@@ -144,7 +144,7 @@ include 'shared/header.php';
               </div>
               <?php if (isset($offer['coupon_code']) && $offer['coupon_code'] != ""): ?>
                 <div class="col-md-6">
-                  <button class="btn btn-outline-secondary btn-lg fs-4 rounded-5 w-100" style="border-style: dashed;"><span id="coupon" class="mx-3"><?php echo $offer['coupon_code']; ?></span><i class="bi bi-copy text-success"></i></button>
+                  <button onclick="copy_coupon()" class="btn btn-outline-secondary btn-lg fs-4 rounded-5 w-100" style="border-style: dashed;"><span id="coupon" class="mx-3"><?php echo $offer['coupon_code']; ?></span><i class="bi bi-copy text-success"></i></button>
                 </div>
               <?php endif;  ?>
             </div>
@@ -184,5 +184,11 @@ include 'shared/header.php';
   </div>
 </div>
 
+<script>
+  function copy_coupon() {
+    var copyText = document.getElementById("coupon");
+    navigator.clipboard.writeText(copyText.textContent);
+  } 
+</script>
 
 <?php include 'shared/footer.php'; ?>
