@@ -96,7 +96,9 @@ include 'shared/header.php';
       <?php endif; ?>
       <div class="row g-0 mx-2">
         <div class="col-md-4">
-          <img src="<?php echo $offer['image_link']; ?>" class="img-fluid rounded-start" alt="Imagen del articulo/servicio">
+          <div class="bg-body-tertiary w-100 h-100 d-flex justify-content-center align-items-center">
+            <img src="<?php echo $offer['image_link']; ?>" class="img-fluid rounded-start" alt="Imagen del articulo/servicio">
+          </div>
         </div>
         <div class="col-md-8">
           <div class="card-body">

@@ -51,8 +51,56 @@ if (
   isset($data['category'])
 ) {
   // TODO: cargar imagen
+    $image = $_FILES['image'];
+  
+    $api_key = getenv('cloudinary_api_key');
+    $cloud_name = getenv('cloudinary_cloud_name');
+    $cloudinary_upload_preset = getenv('cloudinary_upload_preset');
 
+
+    $cloudinary_url = "https://api.cloudinary.com/v1_1/{$cloud_name}/demo/image/upload";
+    
+    // Cargar la imagen a Cloudinary
+    $image_path = $image['tmp_name'];
+
+    // Inicializa una solicitud cURL
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $cloudinary_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+
+    $post = array(
+        'api_key' => $api_key,
+        'file' => new CURLFile($image_path),
+        'upload_preset' => $cloudinary_upload_preset
+    );
+
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+
+    // $headers = array();
+    // $headers[] = 'Authorization: Basic ' . base64_encode($api_key . ':' . $api_secret);
+    // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        die('Error en cURL: ' . curl_error($ch));
+    }
+
+    curl_close($ch);
+
+    $res = json_decode($response, true);
   // TODO: obtener url de la imagen cargada
+
+  $image_url = "";
+  if (isset($res['secure_url'])) {
+    $image_url = $res['secure_url'];
+  }
 
   // insertar a la base de datos
   
@@ -97,7 +145,7 @@ if (
       '{$data['availability']}',
       $shippingCost,
       $shippingAddress,
-      'https://static.promodescuentos.com/threads/raw/I9pf5/959962_1/re/1024x1024/qt/60/959962_1.jpg',
+      '{$image_url}',
       '{$data['description']}',
       $startDate,
       $endDate,
