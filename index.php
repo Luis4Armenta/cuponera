@@ -135,6 +135,9 @@ $datetime_now = new DateTime();
               $difference = $offer['creation_datetime']->diff($datetime_now);
               ?>
               <span class="text-secondary fs-6"><i class="bi bi-clock me-1"></i>hace <?php echo $difference->h; ?>h, <?php echo $difference->i; ?>m</span>
+              <?php if ($offer['availability'] == 'OFFLINE') : ?>
+                <span class="text-secondary fs-6"><i class="bi bi-geo-alt"></i>Local</span>
+              <?php endif; ?>
             </div>
             <div class="row">
               <h5 class="text-start"><?php echo $offer['title'] ?></h5>

@@ -1,8 +1,8 @@
 <?php
 ini_set('display_errors', E_ALL);
 session_start();
-if(!isset($_SESSION['user'])) {
-  Header('Location: login.php');
+if (!isset($_SESSION['user'])) {
+  header('Location: login.php');
   exit;
 }
 
@@ -28,95 +28,157 @@ $categories = array(
 ?>
 
 <?php include 'shared/header.php'; ?>
-<div>
-  <h2>Comparte una oferta con millones de personas</h2>
-  <form method="POST" action="create_offer.php" enctype="multipart/form-data">
-    <div>
-      <label for="url">Enlace de la oferta</label>
-      <input type="url" id="url" name="url" required/>
-    </div>
-    <div>
-      <label for="title">Titulo</label>
-      <input type="text" id="title" name="title" required minlength="4" maxlength="140" placeholder="Incluye tienda y artículo o promoción"/>
-    </div>
-    <div>
-      <label for="store">Tienda</label>
-      <input type="text" id="store" name="store" required minlength="1" maxlength="50"/>
-    </div>
-    <div>
-      <label for="image">Imagen</label>
-      <input type="file" id="image" name="image" accept="image/png, image/jpeg" required/>
-    </div>
-    <div>
-      <label for="offer-price">Precio en oferta</label>
-      <input type="number" id="offer-price" name="offerPrice" min="0"/>
-    </div>
-    <div>
-      <label for="normal-price">Precio regular</label>
-      <input type="number" id="normal-price" name="normalPrice" min="0"/>
-    </div>
-    <div>
-      <label for="cupon">Cupon</label>
-      <input type="text" id="cupon" name="cupon" maxlength="50" placeholder="Código a utilizar para obtener el descuento"/>
-    </div>
-    <div>
-      <input type="radio" class="btn-check" name="availability" id="success-outlined" autocomplete="off" checked value="online">
-      <label class="btn btn-outline-success" for="success-outlined">Online</label>
+<div class="container mt-5">
+  <div class="card p-4">
+      <h2 class="mb-4">Comparte una oferta con millones de personas</h2>
+      <form method="POST" action="create_offer.php" enctype="multipart/form-data" class="card-body">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <div class="p-3">
+                    <label for="image" class="form-label">Imagen</label>
+                    <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpeg" required/>
+                    <div id="imagePreviewContainer" class="mt-3">
+                        <img id="imagePreview" src="#" alt="Previsualización de la imagen" style="display: none; max-width: 100%;">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label for="title" class="form-label">Titulo</label>
+                      <input type="text" id="title" name="title" class="form-control" required minlength="4" maxlength="140" placeholder="Incluye tienda y artículo o promoción"/>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-8">
+                        <label for="url" class="form-label">Enlace de la oferta</label>
+                        <input type="url" id="url" name="url" class="form-control" required/>
+                    </div>
+                    <div class="col-md-4">
+                            <label for="category" class="form-label">Categoria</label>
+                            <select id="category" name="category" class="form-select">
+                                <option disabled selected>Selecciona una categoria...</option>
+                                <?php foreach ($categories as $category => $id): ?>
+                                      <option value="<?php echo $id; ?>"><?php echo $category; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                        <label for="store" class="form-label">Tienda</label>
+                        <input type="text" id="store" name="store" class="form-control" required minlength="1" maxlength="50"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="cupon" class="form-label">Cupon</label>
+                        <input type="text" id="cupon" name="cupon" class="form-control" maxlength="50" placeholder="Código a utilizar para obtener el descuento"/>
+                    </div>
+                  </div>
+                        <div class="row">
+                          <div class="mb-3 col-md-6">
+                              <label for="offer-price" class="form-label">Precio en oferta</label>
+                              <input type="number" id="offer-price" name="offerPrice" class="form-control" min="0"/>
+                          </div>
+                          <div class="mb-3 col-md-6">
+                              <label for="normal-price" class="form-label">Precio regular</label>
+                              <input type="number" id="normal-price" name="normalPrice" class="form-control" min="0"/>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                  <div class="row">
+                          <div class="col-md-12">
+                              <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="availability" id="online" value="online" checked>
+                                  <label class="form-check-label" for="online">Online</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="availability" id="offline" value="offline">
+                                  <label class="form-check-label" for="offline">Tienda física</label>
+                              </div>
+                          </div>
+                        </div>
+                        <div id="shippingDetails" class="row">
+                            <div class="col-md-6">
+                                <label for="shipping-cost" class="form-label">Costo de envio</label>
+                                <input type="number" id="shipping-cost" name="shippingCost" class="form-control" min="0"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="shipping-address" class="form-label">Se envia desde</label>
+                                <input type="text" id="shipping-address" name="shippingAddress" class="form-control" minlength="2" maxlength="50"/>
+                            </div>
+                        </div>
+                        <div class="row">
 
-      <input type="radio" class="btn-check" name="availability" id="danger-outlined" autocomplete="off" value="offline">
-      <label class="btn btn-outline-danger" for="danger-outlined">Tienda física</label>
-      <!-- Si es online debe aparecer esto -->
-      <div>
-        <div>
-          <label for="shipping-cost">Costo de envio</label>
-          <input type="number" id="shipping-cost" name="shippingCost" min="0"/>
-        </div>
-        <div>
-          <label for="shipping-address">Se envia desde</label>
-          <input type="text" id="shipping-address" name="shippingAddress" minlength="2" maxlength="50" value=""/>
-        </div>
-      </div>
-    </div>
-    <div>
-      <label for="description">¿Por qué vale la pena compartir esta oferta?</label>
-      <textarea id="description" name="description" placeholder="Si es en tienda física menciona qué sucursal e incluye una foto
-Si es por internet, incluye el link
+                          <div class="col-md-12">
+                              <label for="description" class="form-label">¿Por qué vale la pena compartir esta oferta?</label>
+                              <textarea id="description" name="description" class="form-control" placeholder="Si es en tienda física menciona qué sucursal e incluye una foto
+  Si es por internet, incluye el link
+  
+  Por favor evita mayúsculas
+  
+  Describe la oferta con tus propias palabras y comparte con la comunidad por qué vale la pena esta promoción.
+  
+  Si no ves la tuya, puedes ser por una de estas razones: duplicado, promoción personal, links de referidos, no hay inventario, no es oferta, es un concurso (al menos que sea uno en el que todos ganan)" required minlength="1" maxlength="1000"></textarea>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3">
+                              <label for="start-date" class="form-label">¿Cuando comienza?</label>
+                              <input type="date" id="start-date" name="startDate" class="form-control"/>
+                          </div>
+                          <div class="col-md-3">
+                              <label for="start-time" class="form-label">Hora inicio</label>
+                              <input type="time" id="start-time" name="startTime" class="form-control"/>
+                          </div>
+                          <div class="col-md-3">
+                              <label for="end-date" class="form-label">¿Cuando termina?</label>
+                              <input type="date" id="end-date" name="endDate" class="form-control"/>
+                          </div>
+                          <div class="col-md-3">
+                              <label for="end-time" class="form-label">Hora fin</label>
+                              <input type="time" id="end-time" name="endTime" class="form-control"/>
+                          </div>
 
-
-Por favor evita mayúsculas
-
-Describe la oferta con tus propias palabras y comparte con la comunidad por qué vale la pena esta promoción.
-
-Si no ves la tuya, puedes ser por una de estas razones: duplicado, promoción personal, links de referidos, no hay inventario, no es oferta, es un concurso (al menos que sea uno en el que todos ganan)" required minlength="1" maxlength="1000"></textarea>
-    </div>
-    <div>
-      <label for="start-date">¿Cuando comienza?</label>
-      <input type="date" id="start-date" name="startDate"/>
-    </div>
-    <div>
-      <label for="start-date">Hora inicio</label>
-      <input type="time" id="start-time" name="startTime"/>
-    </div>
-    <div>
-      <label for="end-date">¿Cuando termina?</label>
-      <input type="date" id="end-date" name="endDate"/>
-    </div>
-    <div>
-      <label for="end-date">Hora fin</label>
-      <input type="time" id="end-time" name="endTime"/>
-    </div>
-    <div>
-      <label for="category">Categoria</label>
-      <select id="category" name="category">
-        <option disabled selected>
-          Selecciona una categoria...
-        </option>
-        <?php foreach ($categories as $category => $id): ?>
-          <option value="<?php echo $id; ?>"><?php echo $category; ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-    <input type="submit" value="Enviar" />
-  </form>
+                        </div>
+                        <div class="row">
+                          <button type="submit" class="btn btn-primary">Enviar</button>
+                        </div>
+                  </>
+                  </div>
+                </form>
+                </div>
 </div>
 <?php include 'shared/footer.php'; ?>
+
+<script>
+    document.getElementById('image').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('imagePreview').src = e.target.result;
+                document.getElementById('imagePreview').style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            document.getElementById('imagePreview').style.display = 'none';
+        }
+    });
+
+    document.getElementById('online').addEventListener('change', function() {
+        document.getElementById('shippingDetails').style.display = 'block';
+    });
+
+    document.getElementById('offline').addEventListener('change', function() {
+        document.getElementById('shippingDetails').style.display = 'none';
+    });
+
+    // Ocultar los detalles de envío por defecto si la opción "offline" está seleccionada al cargar la página
+    window.addEventListener('load', function() {
+        if (document.getElementById('offline').checked) {
+            document.getElementById('shippingDetails').style.display = 'none';
+        }
+    });
+</script>
