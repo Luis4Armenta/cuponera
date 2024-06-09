@@ -33,13 +33,13 @@ $categories = array(
       <h2 class="mb-4">Comparte una oferta con millones de personas</h2>
       <form method="POST" action="create_offer.php" enctype="multipart/form-data" class="card-body">
         <div class="row g-0">
-            <div class="col-md-4">
+            <div class="col-md-4" >
                 <div class="p-3">
                     <label for="image" class="form-label">Imagen</label>
-                    <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpeg" required/>
-                    <div id="imagePreviewContainer" class="mt-3">
-                        <img id="imagePreview" src="#" alt="Previsualización de la imagen" style="display: none; max-width: 100%;">
+                    <div  id="imagePreviewContainer" class="bg-body-tertiary d-flex justify-content-center align-items-center my-2">
+                        <img id="imagePreview" src="assets/images/no_img.jpg" alt="Previsualización de la imagen" class="img-fluid rounded-start">
                     </div>
+                    <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpeg" required/>
                 </div>
             </div>
             <div class="col-md-8">
@@ -84,10 +84,7 @@ $categories = array(
                               <input type="number" id="normal-price" name="normalPrice" class="form-control" min="0"/>
                           </div>
                         </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                  <div class="row">
+                        <div class="row">
                           <div class="col-md-12">
                               <div class="form-check form-check-inline">
                                   <input class="form-check-input" type="radio" name="availability" id="online" value="online" checked>
@@ -99,6 +96,10 @@ $categories = array(
                               </div>
                           </div>
                         </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                  
                         <div id="shippingDetails" class="row">
                             <div class="col-md-6">
                                 <label for="shipping-cost" class="form-label">Costo de envio</label>
@@ -145,7 +146,7 @@ $categories = array(
                         <div class="row">
                           <button type="submit" class="btn btn-primary">Enviar</button>
                         </div>
-                  </>
+                                </row>
                   </div>
                 </form>
                 </div>
