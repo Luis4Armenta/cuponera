@@ -37,6 +37,9 @@ if (all_fields_exist($data, $expected_fields)) {
 
     if ($res === TRUE) {
       $_SESSION['user'] = $user;
+      $user_id = mysqli_insert_id($db);
+      $_SESSION['user_id'] = $user_id;
+      
 
       header('Location: welcome.php');
     } else {
