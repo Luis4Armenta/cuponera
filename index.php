@@ -119,6 +119,15 @@ $datetime_now = new DateTime();
     </div>
   </nav>
   <div class="container">
+    <?php if (count($offers) == 0): ?>
+      <div class="card my-2 px-4 py-4">
+        <div class="p-3 border">
+          <h2 class="text-secondary text-center">
+            <i class="bi bi-archive mx-2"></i> No se ha encontrado ninguna oferta
+          </h2>
+        </div>
+      </div>
+    <?php endif; ?>
     <?php foreach ($offers as &$offer): ?>
       <div class="card my-2">
         <div class="row mx-0">
