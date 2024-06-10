@@ -2,6 +2,7 @@
 include_once 'utils.php';
 include_once 'config.php';
 include_once 'Database.php';
+session_start();
 
 if (!isset($_GET['id'])) {
   header('Location: index.html');
