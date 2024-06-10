@@ -106,7 +106,7 @@ include 'shared/header.php';
               <div class="col-md-12">
                 <span class="text-secondary fs-6">
                   <?php
-                    $publish_date = new DateTime($timestamp);
+                    $publish_date = new DateTime($offer['timestamp']);
                     $actual_date = new DateTime();
 
                     $difference = $publish_date->diff($actual_date); 
