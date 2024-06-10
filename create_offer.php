@@ -82,7 +82,7 @@ if (
     $cloudinary_upload_preset = getenv('cloudinary_upload_preset');
 
 
-    $cloudinary_url = "https://api.cloudinary.com/v1_1/{$cloud_name}/demo/image/upload";
+    $cloudinary_url = "https://api.cloudinary.com/v1_1/{$cloud_name}/image/upload";
     
     // Cargar la imagen a Cloudinary
     $image_path = $image['tmp_name'];
