@@ -62,7 +62,7 @@
                       </a>  
                     </li>
                     <li class="dropdown-item" >
-                      <a href="my_promotions.php" class="text-decoration-none text-black">
+                      <a href="my_offers.php" class="text-decoration-none text-black">
                         Ofertas publicadas
                       </a>  
                     </li>
