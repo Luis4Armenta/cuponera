@@ -57,7 +57,7 @@ include 'shared/header.php';
 ?>
 
 <div class="container">
-  <div class="row">
+  <div class="row mt-2">
     <div class="card pb-3 pt-3">
       <?php if (isset($offer['end_date'])): ?>
         <div class="row mx-2 mb-2">
