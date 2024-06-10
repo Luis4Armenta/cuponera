@@ -27,7 +27,9 @@ $categories = array(
 );
 ?>
 
+<?php $title = 'Compartir promoción' ?>
 <?php include 'shared/header.php'; ?>
+
 <div class="container mt-5">
   <div class="card p-4">
       <h2 class="mb-4">Comparte una oferta con millones de personas</h2>

@@ -63,6 +63,7 @@ try {
 
 ?>
 
+<?php $title = 'Cuponera';?>
 <?php $extra_styles = ['index.css']; ?>
 <?php include 'shared/header.php' ?>
 
