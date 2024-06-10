@@ -91,6 +91,9 @@ $categories = array(
   <div class="card p-4">
       <h2 class="mb-4">Comparte una oferta con millones de personas</h2>
       <form method="POST" <?php echo $mode == 'new' ? 'action="create_offer.php"' : 'action="edit_offer.php"'; ?> enctype="multipart/form-data" class="card-body">
+        <?php if ($mode != 'new'): ?>
+          <input type="number" name="id" value="<?php echo $offer['deal_id'] ?>" style="display: none;"/>
+        <?php endif; ?>
         <div class="row g-0">
             <div class="col-md-4" >
                 <div class="p-3">

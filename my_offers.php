@@ -55,7 +55,7 @@ try {
       </div>
       <div class="row">
 
-        <table class="table table-striped" id="my_offers_table">
+        <table class="table table-striped" id="my_offers_table" style="width:100%">
           <thead class="table-light">
             <tr>
               <th scope="col" class="text-center">Titulo</th>
@@ -69,7 +69,7 @@ try {
           </thead>
           <tbody>
             <?php foreach ($offers as &$offer): ?>
-              <tr>
+              <tr key="<?php echo $offer['offer_id']; ?>">
                 <td><?php echo $offer['title']; ?></td>
                 <td><?php echo $offer['store']; ?></td>
                 <td><?php echo $offer['availability']; ?></td>
@@ -111,11 +111,18 @@ try {
 
 <script>
   on_load = () => {
-    new DataTable('#my_offers_table');
+    new DataTable('#my_offers_table', {responsive: true});
+
+    function respuesta(ajax) {
+      // var html = ajax.responseText;
+      console.log('Se borro');
+    }
+    
 
     $('.btn-delete').on('click', function(event) {
           event.preventDefault();
           var row = $(this).closest('tr');
+          $id = row[0].getAttribute('key');
           Swal.fire({
               title: '¿Estás seguro?',
               text: "No podrás revertir esta acción!",
@@ -128,11 +135,21 @@ try {
           }).then((result) => {
               if (result.isConfirmed) {
                   row.remove();
-                  Swal.fire(
-                      'Eliminado!',
-                      'El registro ha sido eliminado.',
-                      'success'
-                  )
+                  
+                  var ajax = new XMLHttpRequest();
+                  ajax.onreadystatechange = () => {
+                    if (ajax.readyState == 4 && ajax.status == 200) {
+                      console.log('Se borro');
+                      Swal.fire(
+                        'Eliminado!',
+                        'El registro ha sido eliminado.',
+                        'success'
+                      );
+                    }
+                  }
+                  ajax.open('POST', 'delete_offer.php', true);
+                  ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                  ajax.send('id=' + encodeURIComponent($id));
               }
           });
       });
