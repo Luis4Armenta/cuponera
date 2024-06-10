@@ -17,7 +17,7 @@ $offers = array();
 try {
   $database = new Database();
   $db = $database->getConnection();
-  $res = $db->query("SELECT deal_id, title, store, availability, c.name, end_time, timestamp FROM deals AS d LEFT JOIN categories AS c ON c.category_id = d.category_id WHERE user_id = {$user_id};");
+  $res = $db->query("SELECT deal_id, title, store, availability, c.name, end_time, end_date, timestamp FROM deals AS d LEFT JOIN categories AS c ON c.category_id = d.category_id WHERE user_id = {$user_id};");
 
   while ($registro = $res->fetch_row()) {
     // $end_datetime = new DateTime($registro[4]);
@@ -30,7 +30,8 @@ try {
       'availability' => $registro[3],
       'category' => $registro[4],
       'end_time' => $registro[5],
-      'creation_datetime' => $registro[6],
+      'end_date' => $registro[6],
+      'creation_datetime' => $registro[7],
     ));
   }
 
@@ -73,12 +74,12 @@ try {
                 <td><?php echo $offer['store']; ?></td>
                 <td><?php echo $offer['availability']; ?></td>
                 <td><?php echo $offer['category']; ?></td>
-                <td><?php echo isset($offer['end_time']) ? $offer['end_time'] : 'Sin fecha'; ?></td>
+                <td><?php echo isset($offer['end_date']) ? $offer['end_date'] . ' ' . $offer['end_time'] : 'Sin fecha'; ?></td>
                 <td>
                 <?php
                 if (isset($offer['end_time']) && $offer['end_time'] != '') {
                   $now = new DateTime();
-                  $end = new DateTime($offer['end_time']);
+                  $end = new DateTime($offer['end_date'] . ' ' . $offer['end_time']);
 
                   if ($end < $now) {
                     echo '<span class="badge text-bg-danger rounded-pill">Inactivo</span>';
@@ -93,7 +94,7 @@ try {
                 <td>
                   <div class="d-flex flex-row">
                     <a href="offer.php?id=<?php echo $offer['offer_id'] ?>" class='btn btn-info btn-sm mx-1' data-toggle="tooltip" title="Ver"><i class="fas fa-eye"></i></a>
-                    <a href='#' class='btn btn-warning btn-sm mx-1' data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>
+                    <a href='share.php?id=<?php echo $offer['offer_id']; ?>' class='btn btn-warning btn-sm mx-1' data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>
                     <a href='#' class='btn btn-danger btn-sm btn-delete mx-1' data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash3"></i></a>
                     
                   </div>
