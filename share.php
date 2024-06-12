@@ -4,8 +4,9 @@ include_once 'utils.php';
 include_once 'config.php';
 include_once 'Database.php';
 
-session_start();
 
+
+session_start();
 if (!isset($_SESSION['user'])) {
   header('Location: login.php');
   exit;
@@ -83,12 +84,7 @@ $categories = array(
 <?php $title = 'Compartir promoción' ?>
 <?php include 'shared/header.php';?>
 
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- DataTables CSS -->
-<link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-<!-- SweetAlert CSS -->
-<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.0/dist/sweetalert2.min.css" rel="stylesheet">
+
 
 <div class="container mt-4">
   <div class="card p-4">
@@ -208,13 +204,6 @@ $categories = array(
 
 <?php include 'shared/footer.php'; ?>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- DataTables JS -->
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
     document.getElementById('image').addEventListener('change', function(event) {
