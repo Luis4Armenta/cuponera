@@ -36,12 +36,18 @@ if (all_fields_exist($data, $expected_fields)) {
     $res = $db->query("INSERT INTO Users (username, email, password, role_id) VALUES ( '{$user}', '{$email}', '{$password}', 3)");
 
     if ($res === TRUE) {
-      $_SESSION['user'] = $user;
       $user_id = mysqli_insert_id($db);
-      $_SESSION['user_id'] = $user_id;
-      
+      $res = $db->query("SELECT * FROM Users WHERE user_id = {$user_id} limit 1;");
 
-      header('Location: welcome.php');
+      while ($registro = $res->fetch_row()) {
+        if ($password == $registro[3]) {
+          $_SESSION['user'] = $registro[1];
+          $_SESSION['user_id'] = $registro[0];
+          $_SESSION['user_role'] = $registro[5];
+  
+          header('Location: welcome.php');
+        }
+      }
     } else {
       header('Location: shared/errors/500.php');
     }
