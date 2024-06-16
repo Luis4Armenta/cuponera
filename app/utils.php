@@ -68,5 +68,3 @@ function all_fields_exist($input, $fields) {
 
   return $ok;
 }
-?>
-

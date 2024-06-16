@@ -1,11 +1,11 @@
 <?php
-include_once 'utils.php';
-include_once 'config.php';
-include_once 'Database.php';
+include_once '../utils.php';
+include_once '../config.php';
+include_once '../Database.php';
 session_start();
 
 if (!isset($_GET['id'])) {
-  header('Location: index.html');
+  header('Location: ../index.html');
   exit;
 }
 
@@ -48,15 +48,15 @@ try {
   $res->free_result();
   $database->closeConnection();
   if (!isset($offer['deal_id'])) {
-    header('Location: shared/errors/404.php');
+    header('Location: ../shared/errors/404.php');
   }
 } catch (mysqli_sql_exception $e) {
-  header('Location: shared/errors/500.php');
+  header('Location: ../shared/errors/500.php');
   exit;
 }
 
 $title = $offer['title'];
-include 'shared/header.php';
+include '../shared/header.php';
 ?>
 
 <div class="container">
@@ -241,7 +241,7 @@ include 'shared/header.php';
                       }
                     }
                   }
-                  ajax.open('POST', 'delete_offer.php', true);
+                  ajax.open('POST', 'actions/delete_offer.php', true);
                   ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                   ajax.send('id=' + encodeURIComponent(<?php echo $offer['deal_id']; ?>));
               }
@@ -259,4 +259,4 @@ include 'shared/header.php';
   }
 </script>
 
-<?php include 'shared/footer.php'; ?>
+<?php include '../shared/footer.php'; ?>

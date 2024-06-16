@@ -1,12 +1,12 @@
 <?php
 ini_set('display_errors', E_ALL);
-include_once 'config.php';
-include_once 'Database.php';
-include_once 'utils.php';
+include_once '../../config.php';
+include_once '../../Database.php';
+include_once '../../utils.php';
 
 session_start();
 if (!isset($_SESSION['user'])) {
-  Header('Location: login.php');
+  Header('Location: ../../auth/login.php');
   exit;
 }
 
@@ -36,11 +36,11 @@ if (isset($data['id'])) {
     exit;
 
   } catch (mysqli_sql_exception $e) {
-    header('Location: shared/errors/500.php');
+    header('Location: ../../shared/errors/500.php');
     exit;
   }
 } else {
-  Header('Location: share.php');
+  Header('Location: ../share.php');
   exit;
 }
 ?>

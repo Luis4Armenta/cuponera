@@ -1,14 +1,14 @@
 <?php
 ini_set('display_errors', E_ALL);
-include_once 'utils.php';
-include_once 'config.php';
-include_once 'Database.php';
+include_once '../utils.php';
+include_once '../config.php';
+include_once '../Database.php';
 
 
 
 session_start();
 if (!isset($_SESSION['user'])) {
-  header('Location: login.php');
+  header('Location: ../auth/login.php');
   exit;
 }
 
@@ -52,10 +52,11 @@ if (isset($id)) {
     $res->free_result();
     $database->closeConnection();
     if (!isset($offer['deal_id'])) {
-      header('Location: shared/errors/404.php');
+      header('Location: ../shared/errors/404.php');
+      exit;
     }
   } catch (mysqli_sql_exception $e) {
-    header('Location: shared/errors/500.php');
+    header('Location: ../shared/errors/500.php');
     exit;
   }
 }
@@ -82,14 +83,14 @@ $categories = array(
 ?>
 
 <?php $title = 'Compartir promoción' ?>
-<?php include 'shared/header.php';?>
+<?php include '../shared/header.php';?>
 
 
 
 <div class="container mt-4">
   <div class="card p-4">
       <h2 class="mb-4">Comparte una oferta con millones de personas</h2>
-      <form method="POST" <?php echo $mode == 'new' ? 'action="create_offer.php"' : 'action="edit_offer.php"'; ?> enctype="multipart/form-data" class="card-body">
+      <form method="POST" <?php echo $mode == 'new' ? 'action="actions/create_offer.php"' : 'action="actions/edit_offer.php"'; ?> enctype="multipart/form-data" class="card-body">
         <?php if ($mode != 'new'): ?>
           <input type="hidden" name="id" value="<?php echo $offer['deal_id'] ?>" />
         <?php endif; ?>
@@ -202,7 +203,7 @@ $categories = array(
   </div>
 </div>
 
-<?php include 'shared/footer.php'; ?>
+<?php include '../shared/footer.php'; ?>
 
 
 <script>

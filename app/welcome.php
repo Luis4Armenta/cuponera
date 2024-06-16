@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['user'])) {
-  Header('Location: login.php');
+  Header('Location: auth/login.php');
   exit;
 }
 
@@ -19,7 +19,7 @@ include 'shared/header.php';
       <div class="card">
         <div class="card-body">
           <h1 class="card-title mb-4">Bienvenido <?php echo $usuario ?></h1>
-          <form action="logout.php" method="post">
+          <form action="auth/logout.php" method="post">
             <button type="submit" class="btn btn-primary">Cerrar sesión</button>
           </form>
         </div>

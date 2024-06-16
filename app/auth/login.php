@@ -1,14 +1,14 @@
 <?php
 session_start();
 if(isset($_SESSION['user'])){
-  Header('Location: welcome.php');
+  Header('Location: ../welcome.php');
   exit;
 }
 ?>
 
 <?php
 $title = 'Login';
-include 'shared/header.php';
+include '../shared/header.php';
 ?>
 
 <div class="container mt-5">
@@ -19,7 +19,7 @@ include 'shared/header.php';
                     <h1 class="fs-1">Login</h1>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="auth.php">
+                    <form method="POST" action="actions/auth.php">
                         <div class="form-group">
                             <label for="user">Usuario</label>
                             <input type="text" class="form-control" id="user" name="user" required minlength="4" maxlength="20" placeholder="usuario"/>
@@ -32,7 +32,7 @@ include 'shared/header.php';
                             <input type="checkbox" class="form-check-input" id="recordarme" name="recordarme" value="NO"/>
                             <label class="form-check-label" for="recordarme">Recordarme</label>
                         </div>
-                        <p class="mt-3">No tengo una cuenta, quiero <a href="signin.php">registrarme</a></p>
+                        <p class="mt-3">No tengo una cuenta, quiero <a href="./signin.php">registrarme</a></p>
                         <div class="d-grid">
                             <input type="submit" value="Ingresar" class="btn btn-primary"/>
                         </div>
@@ -43,4 +43,4 @@ include 'shared/header.php';
     </div>
 </div>
 
-<?php include 'shared/footer.php'; ?>
+<?php include '../shared/footer.php'; ?>

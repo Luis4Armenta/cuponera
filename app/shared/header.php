@@ -27,12 +27,12 @@
     <header>
       <nav class="navbar navbar-expand-lg navbar-light bg-white border">
         <div class="container-fluid">
-          <a class="navbar-brand mx-3" href="index.php">Cuponera</a>
+          <a class="navbar-brand mx-3" href="../index.php">Cuponera</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="d-flex ms-auto" action="search.php" method="GET">
+            <form class="d-flex ms-auto" action="/search.php" method="GET">
               <div class="input-group flex-nowrap">
                 <span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span>
                 <input class="form-control me-sm-2" type="search" placeholder="Buscar..." aria-label="Buscar" aria-describedby="addon-wrapping">
@@ -44,7 +44,7 @@
               <?php if (isset($_SESSION['user'])): ?>
                 <li class="nav-item dropdown mx-4">
                   <a  class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="assets/images/user.png" class="rounded-circle" height="33" alt="Avatar" loading="lazy"/>
+                    <img src="../assets/images/user.png" class="rounded-circle" height="33" alt="Avatar" loading="lazy"/>
                   </a>
                   <ul class="dropdown-menu">
                     <li class="" href="#"><h6 class="dropdown-header text-center" ><?php echo $_SESSION['user']; ?></h6></li>
@@ -62,13 +62,13 @@
                       </a>  
                     </li>
                     <li class="dropdown-item" >
-                      <a href="my_offers.php" class="text-decoration-none text-black">
+                      <a href="/offers/my_offers.php" class="text-decoration-none text-black">
                         Ofertas publicadas
                       </a>  
                     </li>
                     <li><div class="dropdown-divider"></li>
                     <li class="dropdown-item">
-                      <a  href="logout.php" class="text-decoration-none">
+                      <a  href="../auth/actions/logout.php" class="text-decoration-none">
                         Cerrar sesión
                       </a>
                     </li>
@@ -76,11 +76,11 @@
                 </li>
               <?php else: ?>
                 <li class="nav-item ms-4 me-1">
-                  <a class="btn btn-primary" href="login.php">Registrarse / Iniciar sesión</a>
+                  <a class="btn btn-primary" href="/auth/login.php">Registrarse / Iniciar sesión</a>
                 </li>
               <?php endif; ?>
               <li class="nav-item ms-2 me-4 d-flex align-items-center">
-                <a class="btn btn-success btn-lg py-1" href="<?php echo isset($_SESSION['user']) ? 'share.php' : 'login.php'; ?>"><i class="bi bi-plus p-0 m-0 fw-bold"></i>  Compartir</a>
+                <a class="btn btn-success btn-lg py-1" href="<?php echo isset($_SESSION['user']) ? '/offers/share.php' : '/auth/login.php'; ?>"><i class="bi bi-plus p-0 m-0 fw-bold"></i>  Compartir</a>
               </li>
             </ul>
           </div>

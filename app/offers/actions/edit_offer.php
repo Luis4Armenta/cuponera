@@ -1,12 +1,12 @@
 <?php
 ini_set('display_errors', E_ALL);
-include_once 'config.php';
-include_once 'Database.php';
-include_once 'utils.php';
+include_once '../../config.php';
+include_once '../../Database.php';
+include_once '../../utils.php';
 
 session_start();
 if (!isset($_SESSION['user'])) {
-  Header('Location: login.php');
+  Header('Location: ../../auth/login.php');
   exit;
 }
 
@@ -78,9 +78,9 @@ if (
         die("Solo se permiten archivos JPG, PNG y GIF.");
     }
   
-    $api_key = getenv('cloudinary_api_key');
-    $cloud_name = getenv('cloudinary_cloud_name');
-    $cloudinary_upload_preset = getenv('cloudinary_upload_preset');
+    $api_key = getenv('CLOUDINARY_API_KEY');
+    $cloud_name = getenv('CLOUDINARY_CLOUD_NAME');
+    $cloudinary_upload_preset = getenv('CLOUDINARY_UPLOAD_PRESET');
 
 
     $cloudinary_url = "https://api.cloudinary.com/v1_1/{$cloud_name}/image/upload";
@@ -151,9 +151,9 @@ if (
 
     if ($res === TRUE) {
 
-      header("Location: offer.php?id={$data['id']}");
+      header("Location: ../offer.php?id={$data['id']}");
     } else {
-      header('Location: shared/errors/500.php');
+      header('Location: ../../shared/errors/500.php');
     }
 
     // $res->free_result();
@@ -161,11 +161,11 @@ if (
     exit;
 
   } catch (mysqli_sql_exception $e) {
-    header('Location: shared/errors/500.php');
+    header('Location: ../../shared/errors/500.php');
     exit;
   }
 } else {
-  Header('Location: share.php');
+  Header('Location: ../share.php');
   exit;
 }
 ?>

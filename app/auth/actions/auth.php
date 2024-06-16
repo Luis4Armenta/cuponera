@@ -1,10 +1,9 @@
 <?php
 ini_set('display_errors', E_ALL);
-include_once 'utils.php';
-include_once 'config.php';
-include_once 'Database.php';
+include_once '../../utils.php';
+include_once '../../config.php';
+include_once '../../Database.php';
 session_start();
-
 
 if (isset($_SESSION['user'])) {
   header('Location: welcome.php');
@@ -39,18 +38,19 @@ if (all_fields_exist($data, $expected_fields)) {
         $_SESSION['user_id'] = $registro[0];
         $_SESSION['user_role'] = $registro[5];
 
-        header('Location: welcome.php');
+        header('Location: ../../welcome.php');
+        exit;
       }
     }
-    header('Location: login_error.php');
+    header('Location: ../login_error.php');
     exit;
   } catch (mysqli_sql_exception $e) {
-    header('Location: shared/errors/500.php');
+    header('Location: ../../shared/errors/500.php');
     exit;
   }
 
 } else {
-  header('Location: login.php');
+  header('Location: ../login.php');
   exit;
 }
 ?>

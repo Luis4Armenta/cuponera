@@ -93,8 +93,8 @@ try {
                 </td>
                 <td>
                   <div class="d-flex flex-row">
-                    <a href="offer.php?id=<?php echo $offer['offer_id'] ?>" class='btn btn-info btn-sm mx-1' data-toggle="tooltip" title="Ver"><i class="fas fa-eye"></i></a>
-                    <a href='share.php?id=<?php echo $offer['offer_id']; ?>' class='btn btn-warning btn-sm mx-1' data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>
+                    <a href="/offers/offer.php?id=<?php echo $offer['offer_id'] ?>" class='btn btn-info btn-sm mx-1' data-toggle="tooltip" title="Ver"><i class="fas fa-eye"></i></a>
+                    <a href='/offers/share.php?id=<?php echo $offer['offer_id']; ?>' class='btn btn-warning btn-sm mx-1' data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>
                     <a href='#' class='btn btn-danger btn-sm btn-delete mx-1' data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash3"></i></a>
                     
                   </div>
@@ -147,7 +147,7 @@ try {
                       );
                     }
                   }
-                  ajax.open('POST', 'delete_offer.php', true);
+                  ajax.open('POST', '/offers/delete_offer.php', true);
                   ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                   ajax.send('id=' + encodeURIComponent($id));
               }

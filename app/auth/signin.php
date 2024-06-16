@@ -1,14 +1,14 @@
 <?php
 session_start();
 if(isset($_SESSION['user'])){
-  Header('Location: welcome.php');
+  Header('Location: /welcome.php');
   exit;
 }
 ?>
 
 <?php
 $title = 'Registro';
-include 'shared/header.php';
+include '../shared/header.php';
 ?>
 <style>
   .lead-with-shadow {
@@ -21,7 +21,7 @@ include 'shared/header.php';
       <div class="card">
         <div class="card-body">
           <h1 class="card-title text-center mb-4  lead-with-shadow">Nuevo Usuario</h1>
-          <form method="POST" action="create_user.php">
+          <form method="POST" action="/auth/actions/create_user.php">
             <div class="form-group">
               <label for="email">Email</label>
               <input type="email" id="email" name="email" class="form-control" required>
@@ -34,7 +34,7 @@ include 'shared/header.php';
               <label for="password">Contraseña</label>
               <input type="password" id="password" name="password" class="form-control" required minlength="8" maxlength="16">
             </div>
-            <p>Si ya tienes una cuenta puede ingresar <a href="login.php">aquí</a></p>
+            <p>Si ya tienes una cuenta puede ingresar <a href="/auth/login.php">aquí</a></p>
             <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
           </form>
         </div>
