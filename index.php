@@ -5,23 +5,47 @@ include_once 'config.php';
 include_once 'Database.php';
 include_once 'utils.php';
 
-$data = sanitize_input($_GET, array('mode' => 'string'));
+$data = sanitize_input($_GET, array('mode' => 'string', 'page' => 'int'));
 $mode = $data['mode'];
-if ($mode == null || strtoupper(trim($mode)) != 'HOT' || strtoupper(trim($mode)) != 'NEWS') {
-  $mode = 'forYou';
+$page = $data['page'];
+if ($mode == null) {
+  $mode = 'foryou';
 }
+
+$registrosPorPagina = 2; // Número de registros por página
 
 $offers = array();
 try {
   $database = new Database();
   $db = $database->getConnection();
-  if (strtoupper(trim($mode)) == 'FORYOU') {
-      $res = $db->query("select * from Nuevos;");
-    } else if (strtoupper(trim($mode)) == 'HOT') {
-      $res = $db->query("select * from HOT;");
-    } else if (strtoupper(trim($mode)) == 'NEWS') {
-      $res = $db->query("select * from Nuevos;");
+
+  $sql = "SELECT COUNT(*) as totalRegistros FROM {$mode}";
+  $result = $db->query($sql);
+  $row = $result->fetch_assoc();
+  $totalRegistros = $row['totalRegistros'];
+
+  $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
+
+
+  if ($page) {
+    $paginaActual = $page;
+  } else {
+      $paginaActual = 1;
   }
+
+  if ($paginaActual < 1) {
+    $paginaActual = 1;
+  } elseif ($paginaActual > $totalPaginas) {
+      $paginaActual = $totalPaginas;
+  }
+
+  $offset = ($paginaActual - 1) * $registrosPorPagina;
+  $offset = $offset < 1 ? 1 : $offset;
+
+
+  $res = $db->query("select * from {$mode} LIMIT {$registrosPorPagina} OFFSET {$offset};");
+
+  
   while ($registro = $res->fetch_row()) {
     $start_datetime = new DateTime();
     $end_datetime = new DateTime($registro[3] . ' ' . $registro[4]);
@@ -57,7 +81,7 @@ try {
   $database->closeConnection();
 } catch (mysqli_sql_exception $e) {
   echo $e;
-  header('Location: shared/errors/500.php');
+  // header('Location: shared/errors/500.php');
   exit;
 }
 
@@ -213,14 +237,22 @@ $datetime_now = new DateTime();
     <?php endforeach; ?>
     <nav aria-label="Page navigation">
       <ul class="pagination justify-content-center">
-        <li class="page-item disabled">
-          <a class="page-link">Previous</a>
+        <li class="page-item <?php echo $page <= 1 ? 'disabled' : ''?>">
+          <?php $prevPage = $page - 1;?>
+          <a class="page-link" href='index.php?<?php echo "mode=$mode&page={$prevPage}" ?>'>Previous</a>
         </li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">Next</a>
+        <?php
+        for ($pagina = 1; $pagina <= $totalPaginas; $pagina++) {
+          if ($pagina == $paginaActual) {
+              echo '<li class="page-item active"><a class="page-link" href="index.php?mode='. $mode . '&page='. $page. '">'. $pagina .'</a></li>';
+          } else {
+              echo "<li class='page-item'><a class='page-link' href='index.php?mode=$mode&page=$pagina'>$pagina</a></li>";
+          }
+        }
+        ?>
+        <li class="page-item <?php echo $page >= $totalPaginas ? 'disabled' : ''?>">
+          <?php $nextPage = $page + 1;?>
+          <a class="page-link" href='index.php?<?php echo "mode=$mode&page={$nextPage}"; ?>'>Next</a>
         </li>
       </ul>
     </nav>
