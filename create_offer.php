@@ -4,6 +4,23 @@ include_once 'config.php';
 include_once 'Database.php';
 include_once 'utils.php';
 
+function validateDateTime($startDate, $startTime, $endDate, $endTime) {
+  if ($startDate != null && $endDate != null) {
+      $startDateTime = new DateTime($startDate . ' ' . ($startTime ?: '00:00:00'));
+      $endDateTime = new DateTime($endDate . ' ' . ($endTime ?: '23:59:59'));
+
+      if ($startDateTime >= $endDateTime) {
+          return ['valid' => false, 'message' => 'La fecha de inicio debe ser antes que la de fin.'];
+      }
+
+      $now = new DateTime();
+      if ($endDateTime <= $now) {
+          return ['valid' => false, 'message' => 'La fecha de fin debe ser futura.'];
+      }
+  }
+  return ['valid' => true];
+}
+
 session_start();
 if (!isset($_SESSION['user'])) {
   Header('Location: login.php');
@@ -42,6 +59,12 @@ $regex = array(
 
 $data = sanitize_input($_POST, $expected_fields, $regex);
 
+$dates_validation = validateDateTime($data['startDate'], $data['startTime'], $data['endDate'], $data['endTime']);
+
+if ($dates_validation['valid'] == False) {
+  die($dates_validation['message']);
+}
+
 if (
   isset($data['url']) &&
   isset($data['title']) &&
@@ -50,6 +73,7 @@ if (
   isset($data['description']) &&
   isset($data['category'])
 ) {
+
   // TODO: cargar imagen
     $image = $_FILES['image'];
 
