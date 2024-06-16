@@ -178,10 +178,10 @@ $datetime_now = new DateTime();
             </div>
             <div class="row row-cols-auto">
               <div class="col-md-12">
-                <span class="text-success fw-bolder fs-5">$<?php echo $offer['offer_price']; ?></span>
+                <span class="text-success fw-bolder fs-5">$<?php echo number_format($offer['offer_price'], 2); ?></span>
                 <?php if ($offer['regular_price'] != null && $offer['regular_price'] != 0): ?>
                   <span class="text-secondary fs-5 text-decoration-line-through">
-                    $<?php echo $offer['regular_price']; ?>
+                    $<?php echo number_format($offer['regular_price'], 2); ?>
                   </span>
                   <span class="text-secondary fs-5 text-decoration-line-through">
                     -<?php echo floor($offer['offer_price'] / $offer['regular_price'] * 100); ?>%
