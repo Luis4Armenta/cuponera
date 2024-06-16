@@ -25,6 +25,7 @@ try {
   $totalRegistros = $row['totalRegistros'];
 
   $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
+  $totalPaginas = $totalPaginas == 0 ? 1 : $totalPaginas;
 
 
   if ($page) {
