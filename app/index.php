@@ -12,7 +12,7 @@ if ($mode == null) {
   $mode = 'foryou';
 }
 
-$registrosPorPagina = 2; // Número de registros por página
+$registrosPorPagina = 11; // Número de registros por página
 
 $offers = array();
 try {
@@ -40,7 +40,6 @@ try {
   }
 
   $offset = ($paginaActual - 1) * $registrosPorPagina;
-  $offset = $offset < 1 ? 1 : $offset;
 
 
   $res = $db->query("select * from {$mode} LIMIT {$registrosPorPagina} OFFSET {$offset};");

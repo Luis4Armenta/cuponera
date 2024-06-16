@@ -1,13 +1,13 @@
 <?php
 ini_set('display_errors', E_ALL);
-include_once 'config.php';
-include_once 'Database.php';
-include_once 'utils.php';
+include_once '../config.php';
+include_once '../Database.php';
+include_once '../utils.php';
 
 session_start();
 
 if (!isset($_SESSION['user'])) {
-  header('Location: login.php');
+  header('Location: ../auth/login.php');
   exit;
 }
 
@@ -45,7 +45,7 @@ try {
 ?>
 
 <?php $title = 'Mis promociones'; ?>
-<?php include 'shared/header.php'; ?>
+<?php include '../shared/header.php'; ?>
 
 <div class="container">
   <div class="card mt-2 px-4">
@@ -93,8 +93,8 @@ try {
                 </td>
                 <td>
                   <div class="d-flex flex-row">
-                    <a href="/offers/offer.php?id=<?php echo $offer['offer_id'] ?>" class='btn btn-info btn-sm mx-1' data-toggle="tooltip" title="Ver"><i class="fas fa-eye"></i></a>
-                    <a href='/offers/share.php?id=<?php echo $offer['offer_id']; ?>' class='btn btn-warning btn-sm mx-1' data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>
+                    <a href="offer.php?id=<?php echo $offer['offer_id'] ?>" class='btn btn-info btn-sm mx-1' data-toggle="tooltip" title="Ver"><i class="fas fa-eye"></i></a>
+                    <a href='share.php?id=<?php echo $offer['offer_id']; ?>' class='btn btn-warning btn-sm mx-1' data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>
                     <a href='#' class='btn btn-danger btn-sm btn-delete mx-1' data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash3"></i></a>
                     
                   </div>
@@ -157,4 +157,4 @@ try {
   }
 </script>
 
-<?php include 'shared/footer.php'; ?>
+<?php include '../shared/footer.php'; ?>

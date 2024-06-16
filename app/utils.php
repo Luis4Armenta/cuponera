@@ -47,6 +47,10 @@ function sanitize_input(array $input, array $expected, array $regex = []): array
     // Validación con expresiones regulares
     foreach ($regex as $key => $pattern) {
         if (isset($sanitized[$key])) {
+            if ($sanitized[$key] == NULL) {
+              continue;
+            }
+
             if (!preg_match($pattern, $sanitized[$key])) {
                 // Si no pasa la validación, eliminar del arreglo sanitizado
                 unset($sanitized[$key]);

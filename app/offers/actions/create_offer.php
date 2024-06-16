@@ -4,7 +4,7 @@ include_once '../../config.php';
 include_once '../../Database.php';
 include_once '../../utils.php';
 
-function validateDateTime($startDate, $startTime, $endDate, $endTime) {
+function validateDateTime($startDate=null, $startTime=null, $endDate=null, $endTime=null) {
   if ($startDate != null && $endDate != null) {
       $startDateTime = new DateTime($startDate . ' ' . ($startTime ?: '00:00:00'));
       $endDateTime = new DateTime($endDate . ' ' . ($endTime ?: '23:59:59'));
@@ -38,10 +38,10 @@ $expected_fields = array(
   'shippingCost' => 'float',
   'shippingAddress' => 'string',
   'description' => 'string',
-  'startDate' => 'stirng',
-  'endDate' => 'stirng',
-  'startTime' => 'stirng',
-  'endTime' => 'stirng',
+  'startDate' => 'string',
+  'endDate' => 'string',
+  'startTime' => 'string',
+  'endTime' => 'string',
   'category' => 'int',
 );
 
@@ -58,11 +58,10 @@ $regex = array(
 );
 
 $data = sanitize_input($_POST, $expected_fields, $regex);
-
 $dates_validation = validateDateTime($data['startDate'], $data['startTime'], $data['endDate'], $data['endTime']);
 
 if ($dates_validation['valid'] == False) {
-  die($dates_validation['message']);
+  die(400);
 }
 
 if (
@@ -210,16 +209,14 @@ if (
 
     if ($res === TRUE) {
       $id = mysqli_insert_id($db); 
-      // $res->free_result();
-      $database->closeConnection();
       
       header("Location: ../offer.php?id={$id}");
-      exit;
-      } else {
-      $database->closeConnection();
+    } else {
       header('Location: ../../shared/errors/500.php');
-      exit;
     }
+    // $res->free_result();
+    $database->closeConnection();
+    exit;
   } catch (mysqli_sql_exception $e) {
     header('Location: ../../shared/errors/500.php');
     exit;
