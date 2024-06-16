@@ -107,7 +107,7 @@ WHERE (d.end_date = DATE(NOW()) AND d.end_time > TIME(NOW()))
 ORDER BY d.end_date ASC, d.end_time ASC;
 
 -- Crear vista NewestPromotions
-CREATE VIEW Nuevos AS
+CREATE VIEW news AS
 SELECT d.deal_id, d.title, d.image_link, d.end_date, d.end_time, 
        d.offer_price, d.regular_price, d.availability, d.shipping_cost, d.store, 
        d.coupon_code, d.description, u.username AS creator_username, u.avatar_link,
@@ -115,6 +115,16 @@ SELECT d.deal_id, d.title, d.image_link, d.end_date, d.end_time,
 FROM Deals d
 JOIN Users u ON d.user_id = u.user_id
 ORDER BY d.timestamp DESC;
+
+CREATE VIEW foryou AS
+SELECT d.deal_id, d.title, d.image_link, d.end_date, d.end_time, 
+       d.offer_price, d.regular_price, d.availability, d.shipping_cost, d.store, 
+       d.coupon_code, d.description, u.username AS creator_username, u.avatar_link,
+       (SELECT COUNT(*) FROM Comments c WHERE c.deal_id = d.deal_id) AS comment_count, d.link, d.timestamp AS creation_datetime
+FROM Deals d
+JOIN Users u ON d.user_id = u.user_id
+ORDER BY d.timestamp DESC;
+
 
 
 -- creacion de los privilegios--
