@@ -12,6 +12,9 @@ if (!isset($_GET['id'])) {
 $data = sanitize_input($_GET, array('id' => 'int'));
 $id = $data['id'];
 
+$user_is_owner = False;
+$user_is_admin = $_SESSION['user_role'] == 3 ? True : False ;
+
 try {
   $database = new Database();
   $db = $database->getConnection();
@@ -41,7 +44,7 @@ try {
       'timestamp' => $registro[18],
     );
   }
-
+  $user_is_owner = $_SESSION['user'] == $offer['creator_username'] ? True : False;
   $res->free_result();
   $database->closeConnection();
   if (!isset($offer['deal_id'])) {
@@ -101,7 +104,7 @@ include 'shared/header.php';
             <img src="<?php echo $offer['image_link']; ?>" class="img-fluid rounded-start" alt="Imagen del articulo/servicio">
           </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-<?php echo $user_is_owner ? '7' : '8';?>">
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
@@ -165,6 +168,17 @@ include 'shared/header.php';
             </div>
           </div>
         </div>
+        <?php if ($user_is_owner): ?>
+        <div class="col-md-1">
+          <div class="row m-0 p-0">
+            <div class="col-md-12 d-flex flex-column align-items-end gap-3 p-0 m-0">
+                <button id="return-btn" class="mx-0 btn btn-dark"><i class="bi bi-arrow-return-left"></i></button>
+                <a href="share.php?id=<?php echo $offer['deal_id']; ?>" class="mx-0 btn btn-primary"><i class="bi bi-pen"></i></a>
+                <button id="delete-btn" class="mx-0 btn btn-danger"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+        </div>
+        <?php endif; ?>
       </div>
     </div>
   </div>
@@ -196,6 +210,53 @@ include 'shared/header.php';
     var copyText = document.getElementById("coupon");
     navigator.clipboard.writeText(copyText.textContent);
   } 
+
+  on_load = () => {
+    $('#delete-btn').on('click', function(event) {
+          event.preventDefault();
+          var row = $(this).closest('tr');
+          Swal.fire({
+              title: '¿Estás seguro?',
+              text: "No podrás revertir esta acción!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Sí, eliminar!',
+              cancelButtonText: 'Cancelar'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  var ajax = new XMLHttpRequest();
+                  ajax.onreadystatechange = () => {
+                    if (ajax.readyState == 4 && ajax.status == 200) {
+                      Swal.fire(
+                        'Eliminado!',
+                        'El registro ha sido eliminado.',
+                        'success'
+                      );
+                      if (window.history.length > 2) {
+                        window.history.go(-1);
+                      } else {
+                        window.location.replace("index.php");
+                      }
+                    }
+                  }
+                  ajax.open('POST', 'delete_offer.php', true);
+                  ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                  ajax.send('id=' + encodeURIComponent(<?php echo $offer['deal_id']; ?>));
+              }
+          });
+      });
+
+
+      $('#return-btn').on('click', function(event) {
+        if (window.history.length > 2) {
+          window.history.go(-1);
+        } else {
+          window.location.replace("index.php");
+        }
+      });
+  }
 </script>
 
 <?php include 'shared/footer.php'; ?>
