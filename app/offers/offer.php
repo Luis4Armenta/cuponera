@@ -172,9 +172,9 @@ include '../shared/header.php';
         <div class="col-md-1">
           <div class="row m-0 p-0">
             <div class="col-md-12 d-flex flex-column align-items-end gap-3 p-0 m-0">
-                <button id="return-btn" class="mx-0 btn btn-dark"><i class="bi bi-arrow-return-left"></i></button>
-                <a href="share.php?id=<?php echo $offer['deal_id']; ?>" class="mx-0 btn btn-primary"><i class="bi bi-pen"></i></a>
-                <button id="delete-btn" class="mx-0 btn btn-danger"><i class="bi bi-trash"></i></button>
+                <button id="return-btn" class="mx-0 btn btn-dark" data-toggle="tooltip" data-placement="left" title="Regresar"><i class="bi bi-arrow-return-left"></i></button>
+                <a href="share.php?id=<?php echo $offer['deal_id']; ?>" class="mx-0 btn btn-primary" data-toggle="tooltip" data-placement="left" title="Editar"><i class="bi bi-pen"></i></a>
+                <button id="delete-btn" class="mx-0 btn btn-danger" data-toggle="tooltip" data-placement="left" title="Borrar"><i class="bi bi-trash"></i></button>
             </div>
           </div>
         </div>
@@ -210,8 +210,10 @@ include '../shared/header.php';
     var copyText = document.getElementById("coupon");
     navigator.clipboard.writeText(copyText.textContent);
   } 
-
+  </script>
+  <script>
   on_load = () => {
+
     $('#delete-btn').on('click', function(event) {
           event.preventDefault();
           var row = $(this).closest('tr');
@@ -255,6 +257,10 @@ include '../shared/header.php';
         } else {
           window.location.replace("index.php");
         }
+      });
+
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
       });
   }
 </script>

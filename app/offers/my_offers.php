@@ -41,7 +41,6 @@ try {
   header('Location: shared/errors/500.php');
   exit;
 }
-
 ?>
 
 <?php $title = 'Mis promociones'; ?>
@@ -93,12 +92,10 @@ try {
                 </td>
                 <td>
                   <div class="d-flex flex-row">
-                    <a href="offer.php?id=<?php echo $offer['offer_id'] ?>" class='btn btn-info btn-sm mx-1' data-toggle="tooltip" title="Ver"><i class="fas fa-eye"></i></a>
-                    <a href='share.php?id=<?php echo $offer['offer_id']; ?>' class='btn btn-warning btn-sm mx-1' data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>
-                    <a href='#' class='btn btn-danger btn-sm btn-delete mx-1' data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash3"></i></a>
-                    
+                    <a href="offer.php?id=<?php echo $offer['offer_id']; ?>" class='btn btn-info btn-sm mx-1' data-bs-toggle="tooltip" title="Ver"><i class="fas fa-eye"></i></a>
+                    <a href='share.php?id=<?php echo $offer['offer_id']; ?>' class='btn btn-warning btn-sm mx-1' data-bs-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>
+                    <a href='#' class='btn btn-danger btn-sm btn-delete mx-1' data-bs-toggle="tooltip" title="Eliminar"><i class="bi bi-trash3"></i></a>
                   </div>
-
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -113,48 +110,52 @@ try {
   on_load = () => {
     new DataTable('#my_offers_table', {responsive: true});
 
+    // Inicializar tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
     function respuesta(ajax) {
       // var html = ajax.responseText;
       console.log('Se borro');
     }
-    
 
     $('.btn-delete').on('click', function(event) {
-          event.preventDefault();
-          var row = $(this).closest('tr');
-          $id = row[0].getAttribute('key');
-          Swal.fire({
-              title: '¿Estás seguro?',
-              text: "No podrás revertir esta acción!",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Sí, eliminar!',
-              cancelButtonText: 'Cancelar'
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  row.remove();
-                  
-                  var ajax = new XMLHttpRequest();
-                  ajax.onreadystatechange = () => {
-                    if (ajax.readyState == 4 && ajax.status == 200) {
-                      console.log('Se borro');
-                      Swal.fire(
-                        'Eliminado!',
-                        'El registro ha sido eliminado.',
-                        'success'
-                      );
-                    }
-                  }
-                  ajax.open('POST', '/offers/delete_offer.php', true);
-                  ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                  ajax.send('id=' + encodeURIComponent($id));
+      event.preventDefault();
+      var row = $(this).closest('tr');
+      $id = row[0].getAttribute('key');
+      Swal.fire({
+          title: '¿Estás seguro?',
+          text: "No podrás revertir esta acción!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, eliminar!',
+          cancelButtonText: 'Cancelar'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              row.remove();
+              
+              var ajax = new XMLHttpRequest();
+              ajax.onreadystatechange = () => {
+                if (ajax.readyState == 4 && ajax.status == 200) {
+                  console.log('Se borro');
+                  Swal.fire(
+                    'Eliminado!',
+                    'El registro ha sido eliminado.',
+                    'success'
+                  );
+                }
               }
-          });
+              ajax.open('POST', '/offers/delete_offer.php', true);
+              ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+              ajax.send('id=' + encodeURIComponent($id));
+          }
       });
-    
-  }
+    });
+  };
 </script>
 
 <?php include '../shared/footer.php'; ?>
