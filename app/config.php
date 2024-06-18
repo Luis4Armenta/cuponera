@@ -1,6 +1,6 @@
 <?php
-define('DB_HOST', 'db');
-define('DB_NAME', 'promodescuentos');
-define('DB_USER', 'root');
-define('DB_PASS', 'password');
+define('DB_HOST', getenv('DATABASE_HOST'));
+define('DB_NAME', getenv('DATABASE_NAME'));
+define('DB_USER', getenv('DATABASE_USER'));
+define('DB_PASS', getenv('DATABASE_PASSWORD'));
 ?>
