@@ -99,7 +99,7 @@ $categories = array(
                 <div class="p-3">
                     <label for="image" class="form-label">Imagen</label>
                     <div id="imagePreviewContainer" class="bg-body-tertiary d-flex justify-content-center align-items-center my-2 border rounded" style="height: 200px;">
-                        <img id="imagePreview" src="<?php echo $mode == 'new' ? 'assets/images/no_img.jpg' : $offer['image_link']; ?>" alt="Previsualización de la imagen" class="img-fluid rounded-start" style="max-height: 100%;">
+                        <img id="imagePreview" src="<?php echo $mode == 'new' ? '/assets/images/no_img.jpg' : $offer['image_link']; ?>" alt="Previsualización de la imagen" class="img-fluid rounded-start" style="max-height: 100%;">
                     </div>
                     <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpeg" required/>
                 </div>

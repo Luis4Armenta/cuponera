@@ -161,7 +161,7 @@ include '../shared/header.php';
             <div class="row">
               <div class="col-md-12">
                 <a class="align-middle text-decoration-none text-dark" href="#">
-                  <img src="assets/images/user.png" class="rounded-circle border" height="22" alt="Avatar" loading="lazy"/>
+                  <img src="/assets/images/user.png" class="rounded-circle border" height="22" alt="Avatar" loading="lazy"/>
                   Compartido por <span class="fw-semibold"><?php echo $offer['creator_username']; ?></span>
                 </a>
               </div>
