@@ -9,6 +9,7 @@ if(isset($_SESSION['user'])){
 <?php
 $title = 'Login';
 include '../shared/header.php';
+echo isset($_COOKIE['rememberme']) ? $_COOKIE['rememberme'] :'no cookie';
 ?>
 
 <div class="container mt-5">
@@ -29,7 +30,7 @@ include '../shared/header.php';
                             <input type="password" class="form-control" id="password" name="password" required minlength="8" maxlength="16" placeholder="contraseña"/>
                         </div>
                         <div class="form-check mt-3">
-                            <input type="checkbox" class="form-check-input" id="recordarme" name="recordarme" value="NO"/>
+                            <input type="checkbox" class="form-check-input" id="recordarme" name="recordarme"/>
                             <label class="form-check-label" for="recordarme">Recordarme</label>
                         </div>
                         <p class="mt-3">No tengo una cuenta, quiero <a href="./signin.php">registrarme</a></p>

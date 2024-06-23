@@ -12,20 +12,22 @@ if (isset($_SESSION['user'])) {
 
 $expected_fields = array(
   'user' => 'string',
-  'password' => 'string'
+  'password' => 'string',
+  'recordarme' => 'string'
 );
 
 $regex = array(
   'user' => '/^[a-zA-Z0-9_-]{4,20}$/',
-  'password' => '/^.{8,16}$/'
+  'password' => '/^.{8,16}$/',
+  'recordarme' => '/^on$/'
 );
 
 $data = sanitize_input($_POST, $expected_fields, $regex);
 
-if (all_fields_exist($data, $expected_fields)) {
+if ($data['user'] != null && $data['password'] != null) {
   $user = $data['user'];
   $password = $data['password'];
-  $recordarme = isset($data['recordarme']);
+  $recordarme = $data['recordarme'];
 
   try {
     $database = new Database();
@@ -37,6 +39,7 @@ if (all_fields_exist($data, $expected_fields)) {
         $_SESSION['user'] = $registro[1];
         $_SESSION['user_id'] = $registro[0];
         $_SESSION['user_role'] = $registro[5];
+        setcookie('rememberme', 'on', time() + 3600 * 24 * 30);
 
         header('Location: ../../welcome.php');
         exit;
