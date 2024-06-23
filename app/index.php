@@ -230,7 +230,7 @@ $datetime_now = new DateTime();
                     <span class="text-secondary fs-5"><i class="bi bi-shop mx-1"></i>Local</span>
                   <?php endif; ?>
                 <span class="text-secondary fs-5">|</span>
-                <a class="fs-6 text-decoration-none" href="#"><?php echo $offer['store']; ?></a>
+                <a class="fs-6 text-decoration-none"><?php echo $offer['store']; ?></a>
               </div>
             </div>
             <div class="row">
