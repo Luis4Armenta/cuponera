@@ -13,7 +13,7 @@ $data = sanitize_input($_GET, array('id' => 'int'));
 $id = $data['id'];
 
 $user_is_owner = False;
-$user_is_admin = $_SESSION['user_role'] == 3 ? True : False ;
+$user_is_admin = $_SESSION['user_role'] == 2 ? True : False ;
 
 try {
   $database = new Database();
@@ -106,7 +106,7 @@ include '../shared/header.php';
             <img src="<?php echo $offer['image_link']; ?>" class="img-fluid rounded-start" alt="Imagen del articulo/servicio">
           </div>
         </div>
-        <div class="col-md-<?php echo $user_is_owner ? '7' : '8';?>">
+        <div class="col-md-<?php echo $user_is_owner || $user_is_admin ? '7' : '8';?>">
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
@@ -170,12 +170,14 @@ include '../shared/header.php';
             </div>
           </div>
         </div>
-        <?php if ($user_is_owner): ?>
+        <?php if ($user_is_owner || $user_is_admin): ?>
         <div class="col-md-1">
           <div class="row m-0 p-0">
             <div class="col-md-12 d-flex flex-column align-items-end gap-3 p-0 m-0">
                 <button id="return-btn" class="mx-0 btn btn-dark" data-toggle="tooltip" data-placement="left" title="Regresar"><i class="bi bi-arrow-return-left"></i></button>
-                <a href="share.php?id=<?php echo $offer['deal_id']; ?>" class="mx-0 btn btn-primary" data-toggle="tooltip" data-placement="left" title="Editar"><i class="bi bi-pen"></i></a>
+                <?php if ($user_is_owner): ?>
+                  <a href="share.php?id=<?php echo $offer['deal_id']; ?>" class="mx-0 btn btn-primary" data-toggle="tooltip" data-placement="left" title="Editar"><i class="bi bi-pen"></i></a>
+                <?php endif; ?>
                 <button id="delete-btn" class="mx-0 btn btn-danger" data-toggle="tooltip" data-placement="left" title="Borrar"><i class="bi bi-trash"></i></button>
             </div>
           </div>
@@ -241,7 +243,7 @@ include '../shared/header.php';
                       if (window.history.length > 2) {
                         window.history.go(-1);
                       } else {
-                        window.location.replace("index.php");
+                        window.location.replace("../index.php");
                       }
                     }
                   }

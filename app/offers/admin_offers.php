@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user'])) {
+if (!(isset($_SESSION['user']) && isset($_SESSION['user_role']) && $_SESSION['user_role'] == '2')) {
   header('Location: ../auth/login.php');
   exit;
 }

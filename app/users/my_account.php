@@ -30,7 +30,7 @@ try {
 }
 ?>
 
-
+<?php $title = "My cuenta | {$_SESSION['user']}"; ?>
 <?php include '../shared/header.php'; ?>
 <div class="container" height="400px">
   <div class="card mt-2" >

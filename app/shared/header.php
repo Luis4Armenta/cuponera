@@ -28,10 +28,18 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-white border">
         <div class="container-fluid">
           <a class="navbar-brand mx-3" href="../index.php">Cuponera</a>
+          
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2): ?>
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="../offers/admin_offers.php">Administrar ofertas</a>
+                </li>
+              </ul>
+            <?php endif; ?>
             <form class="d-flex ms-auto" action="/search.php" method="GET">
               <div class="input-group flex-nowrap">
                 <span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span>
@@ -63,7 +71,7 @@
                     </li> -->
                     <li class="dropdown-item" >
                       <a href="/offers/my_offers.php" class="text-decoration-none text-black">
-                        Ofertas publicadas
+                        Mis ofertas publicadas
                       </a>  
                     </li>
                     <li><div class="dropdown-divider"></li>
