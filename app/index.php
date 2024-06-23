@@ -209,7 +209,7 @@ $datetime_now = new DateTime();
             <div class="row">
               <div class="col-md-12">
                 <p class="lh-sm text-break align-bottom"><?php
-                  echo substr($offer['description'], 0, 300); 
+                  echo htmlspecialchars(substr($offer['description'], 0, 300)); 
                   if (strlen($offer['description']) > 300) {
                     echo '...';   
                   }
@@ -220,7 +220,7 @@ $datetime_now = new DateTime();
               <div class="col-md-12 d-flex justify-content-between">
                 <div >
                   <a class="fw-semibold align-middle text-decoration-none text-dark" href="#">
-                    <img src="assets/images/user.png" class="rounded-circle border" height="22" alt="Avatar" loading="lazy"/>
+                    <img src="<?php echo $offer['avatar_link'] == null || $offer['avatar_link'] == '' ? 'assets/images/user.png' : $offer['avatar_link']; ?>" class="rounded-circle border" height="22" alt="Avatar" loading="lazy"/>
                     <?php echo $offer['creator_username'];?>
                   </a>
                 </div>

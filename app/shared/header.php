@@ -44,14 +44,14 @@
               <?php if (isset($_SESSION['user'])): ?>
                 <li class="nav-item dropdown mx-4">
                   <a  class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="../assets/images/user.png" class="rounded-circle" height="33" alt="Avatar" loading="lazy"/>
+                    <img src="<?php echo $_SESSION['avatar'] == null || $_SESSION['avatar'] == '' ? '../assets/images/user.png' : $_SESSION['avatar']; ?>" class="rounded-circle" height="33" alt="Avatar" loading="lazy"/>
                   </a>
                   <ul class="dropdown-menu">
                     <li class="" href="#"><h6 class="dropdown-header text-center" ><?php echo $_SESSION['user']; ?></h6></li>
                     <li><div class="dropdown-divider"></li>
 
                     <li class="dropdown-item">
-                      <a href="account.php?user=<?php echo urlencode($_SESSION['user']); ?>" class="text-decoration-none text-black">
+                      <a href="/users/my_account.php" class="text-decoration-none text-black">
                         Mi cuenta
                       </a>
                     </li>

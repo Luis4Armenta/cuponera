@@ -37,6 +37,7 @@ if ($data['user'] != null && $data['password'] != null) {
       if ($password == $registro[3]) {
         $_SESSION['user'] = $registro[1];
         $_SESSION['user_id'] = $registro[0];
+        $_SESSION['avatar'] = $registro[4];
         $_SESSION['user_role'] = $registro[5];
         setcookie('rememberme', 'on', time() + 3600 * 24 * 30);
 
