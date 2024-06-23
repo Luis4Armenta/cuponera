@@ -5,7 +5,7 @@ include_once '../../Database.php';
 include_once '../../utils.php';
 
 if (isset($_SESSION['user'])) {
-  header('Location: /welcome.php');
+  header('Location: ../../index.php');
   exit;
 }
 
@@ -43,7 +43,7 @@ if (all_fields_exist($data, $expected_fields)) {
           $_SESSION['user_id'] = $registro[0];
           $_SESSION['user_role'] = $registro[5];
   
-          header('Location: ../../welcome.php');
+          header('Location: ../../login.php');
         }
       }
     } else {

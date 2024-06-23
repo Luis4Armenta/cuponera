@@ -1,12 +1,11 @@
 <?php
-ini_set('display_errors', E_ALL);
 include_once '../../utils.php';
 include_once '../../config.php';
 include_once '../../Database.php';
 session_start();
 
 if (isset($_SESSION['user'])) {
-  header('Location: welcome.php');
+  header('Location: ../../index.php');
   exit;
 }
 
@@ -41,7 +40,7 @@ if ($data['user'] != null && $data['password'] != null) {
         $_SESSION['user_role'] = $registro[5];
         setcookie('rememberme', 'on', time() + 3600 * 24 * 30);
 
-        header('Location: ../../welcome.php');
+        header('Location: ../../index.php');
         exit;
       }
     }

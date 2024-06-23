@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(isset($_SESSION['user'])){
-  Header('Location: /welcome.php');
+  Header('Location: ../index.php');
   exit;
 }
 ?>
