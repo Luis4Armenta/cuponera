@@ -105,7 +105,13 @@ try {
 
   
   on_load = () => {
-    
+    $('#return-btn').on('click', function(event) {
+        if (window.history.length > 2) {
+          window.history.go(-1);
+        } else {
+          window.location.replace("../index.php");
+        }
+      });
   }
 </script>
 

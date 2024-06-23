@@ -257,7 +257,7 @@ include '../shared/header.php';
         if (window.history.length > 2) {
           window.history.go(-1);
         } else {
-          window.location.replace("index.php");
+          window.location.replace("../index.php");
         }
       });
 
