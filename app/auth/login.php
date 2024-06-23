@@ -9,7 +9,6 @@ if(isset($_SESSION['user'])){
 <?php
 $title = 'Login';
 include '../shared/header.php';
-echo isset($_COOKIE['rememberme']) ? $_COOKIE['rememberme'] :'no cookie';
 ?>
 
 <div class="container mt-5">
