@@ -55,8 +55,13 @@ if (all_fields_exist($data, $expected_fields)) {
     exit;
 
   } catch (mysqli_sql_exception $e) {
-    header('Location: ../../shared/errors/500.php');
-    exit;
+    switch ($e->getCode()) {
+      case 1062:
+        die('El usuario ya existe...');
+      
+      default:
+        die('Error desconocido...');
+      }
   }
 
 } else {
