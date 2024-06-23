@@ -164,11 +164,38 @@ $datetime_now = new DateTime();
           <div class="col-md-10">
             <div class="row mt-2 row-cols-auto">
               <div class=" ms-auto"></div>
-              <span class="text-secondary fs-6"><i class="bi bi-hourglass-bottom me-1"></i> <?php echo $offer['end_datetime']->format('d/M/Y'); ?></span>
-              <?php
-              $difference = $offer['creation_datetime']->diff($datetime_now);
-              ?>
-              <span class="text-secondary fs-6"><i class="bi bi-clock me-1"></i>hace <?php echo $difference->h; ?>h, <?php echo $difference->i; ?>m</span>
+              <?php if ($offer['end_date'] != ''):?>
+                <span class="text-secondary fs-6"><i class="bi bi-hourglass-bottom me-1"></i> <?php echo $offer['end_datetime']->format('d/M/Y'); ?></span>
+              <?php endif; ?>
+              <span class="text-secondary fs-6"><i class="bi bi-clock me-1"></i>
+                <?php
+                  $diferencia = $offer['creation_datetime']->diff($datetime_now);
+                  $antiguidad = "Hace ";
+                  if ($diferencia->y == 0) {
+                    if ($diferencia->m == 0) {
+                      if ($diferencia->d == 0) {
+                        if ($diferencia->h == 0) {
+                          if ($diferencia->i == 0) {
+                            $antiguidad = $antiguidad . $diferencia->s . " segundos";
+                          } else {
+                            $antiguidad = $antiguidad . $diferencia->i . " minutos";
+                          }
+                        } else {
+                          $antiguidad = $antiguidad . $diferencia->h . " h, " . $diferencia->i . " m";
+                        } 
+                      } else {
+                        $antiguidad = $antiguidad . $diferencia->d . " días";
+                      }
+                    } else {
+                      $antiguidad = $antiguidad . $diferencia->m . " meses";
+                    }
+                  } else {
+                    $antiguidad = $antiguidad . $diferencia->y . " años";
+                  }
+                
+                  echo $antiguidad;
+                ?>
+              </span>
               <?php if ($offer['availability'] == 'OFFLINE') : ?>
                 <span class="text-secondary fs-6"><i class="bi bi-geo-alt"></i>Local</span>
               <?php endif; ?>
