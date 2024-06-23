@@ -12,6 +12,7 @@ if (!isset($_SESSION['user'])) {
 
 $expected_fields = array(
   'url' => 'url',
+  '' => 'url',
   'title' => 'string',
   'store' => 'string',
   'offerPrice' => 'float',
@@ -27,6 +28,7 @@ $expected_fields = array(
   'endTime' => 'stirng',
   'category' => 'int',
   'id' => 'int',
+  'image' => 'url',
 );
 
 $regex = array(
@@ -51,8 +53,9 @@ if (
   isset($data['description']) &&
   isset($data['category'])
 ) {
+  if (count($_FILES) == 1 && $_FILES['image']['name'] != '') {
   // cargar imagen
-    $image = $_FILES['image'];
+  $image = $_FILES['image'];
 
     $maxFileSize = 10 * 1024 * 1024; // 10 MB
 
@@ -124,6 +127,9 @@ if (
   }
 
   // insertar a la base de datos
+} else {
+  $image_url = $data['image'];
+}
   
 
   $normalPrice = isset($data['normalPrice']) && $data['normalPrice'] != '' ? "{$data['normalPrice']}" : 'NULL';

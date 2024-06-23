@@ -101,7 +101,13 @@ $categories = array(
                     <div id="imagePreviewContainer" class="bg-body-tertiary d-flex justify-content-center align-items-center my-2 border rounded" style="height: 200px;">
                         <img id="imagePreview" src="<?php echo $mode == 'new' ? '/assets/images/no_img.jpg' : $offer['image_link']; ?>" alt="Previsualización de la imagen" class="img-fluid rounded-start" style="max-height: 100%;">
                     </div>
-                    <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpeg" required/>
+                    <div class="d-grid">
+                      <?php if ($mode == 'edit'): ?>
+                        <button id="change-image-btn" class="btn btn-outline-primary" onclick="changeImage(event)" >Cambiar imagen</button>
+                        <input type="text" id="image" name="image" class="form-control" hidden value="<?php echo $offer['image_link']?>"/>
+                      <?php endif; ?>
+                      <input type="file" id="image-file-input" name="image" class="form-control" accept="image/png, image/jpeg" <?php echo $mode == 'edit' ? "hidden" : "required" ?>/>
+                    </div>
                 </div>
             </div>
             <div class="col-md-8">
@@ -207,7 +213,16 @@ $categories = array(
 
 
 <script>
-    document.getElementById('image').addEventListener('change', function(event) {
+  <?php if ($mode == 'edit'): ?>
+    function changeImage(event) {
+      event.preventDefault();
+            document.getElementById('change-image-btn').hidden = true;
+            document.getElementById('image-file-input').hidden = false;
+        }
+  <?php endif; ?>
+
+
+    document.getElementById('image-file-input').addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
