@@ -56,11 +56,11 @@
                       </a>
                     </li>
                     
-                    <li class="dropdown-item" >
+                    <!-- <li class="dropdown-item" >
                       <a href="my_saved_promotions.php" class="text-decoration-none text-black">
                         Guardados para más tarde
                       </a>  
-                    </li>
+                    </li> -->
                     <li class="dropdown-item" >
                       <a href="/offers/my_offers.php" class="text-decoration-none text-black">
                         Ofertas publicadas

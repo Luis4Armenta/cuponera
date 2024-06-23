@@ -225,8 +225,8 @@ $datetime_now = new DateTime();
                   </a>
                 </div>
                 <div>
-                  <button class="btn text-secondary border border-secondary rounded-5 btn-outline-light"><i class="bi bi-bookmark"></i></button>
-                  <button class="btn text-secondary border border-secondary rounded-5 btn-outline-light"><i class="bi bi-chat-square-text"></i> <?php echo $offer['comment_count']; ?></button>
+                  <!-- <button class="btn text-secondary border border-secondary rounded-5 btn-outline-light"><i class="bi bi-bookmark"></i></button>
+                  <button class="btn text-secondary border border-secondary rounded-5 btn-outline-light"><i class="bi bi-chat-square-text"></i> <?php echo $offer['comment_count']; ?></button> -->
                   <a class="btn btn-success rounded-5" href="<?php echo '/offers/offer.php?id=' . $offer['deal_id'] ?>">Ir a la oferta <i class="bi bi-box-arrow-up-right"></i></a>
                 </div>
               </div>
