@@ -10,11 +10,6 @@ if(isset($_SESSION['user'])){
 $title = 'Registro';
 include '../shared/header.php';
 ?>
-<style>
-  .lead-with-shadow {
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-</style> 
 <div class="container">
   <div class="row justify-content-center mt-5">
     <div class="col-md-6">
@@ -24,7 +19,7 @@ include '../shared/header.php';
           <form method="POST" action="/auth/actions/create_user.php">
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" class="form-control" required>
+              <input type="email" id="email" name="email" class="form-control">
             </div>
             <div class="form-group">
               <label for="user">Usuario</label>
@@ -35,7 +30,9 @@ include '../shared/header.php';
               <input type="password" id="password" name="password" class="form-control" required minlength="8" maxlength="16">
             </div>
             <p>Si ya tienes una cuenta puede ingresar <a href="/auth/login.php">aquí</a></p>
-            <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg">Registrarse</button>
+            </div>
           </form>
         </div>
       </div>
@@ -43,5 +40,4 @@ include '../shared/header.php';
   </div>
 </div>
 
-<!-- Enlace al archivo CSS de Bootstrap -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<?php include '../shared/footer.php'; ?>
