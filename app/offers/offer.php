@@ -42,6 +42,8 @@ try {
       'creator_username' => $registro[16],
       'image_link' => $registro[17],
       'timestamp' => $registro[18],
+      'creator_avatar_link' => $registro[19],
+      'creator_user_id' => $registro[20],
     );
   }
   $user_is_owner = $_SESSION['user'] == $offer['creator_username'] ? True : False;
@@ -161,7 +163,7 @@ include '../shared/header.php';
             <div class="row">
               <div class="col-md-12">
                 <a class="align-middle text-decoration-none text-dark" href="#">
-                  <img src="/assets/images/user.png" class="rounded-circle border" height="22" alt="Avatar" loading="lazy"/>
+                  <img src='<?php echo $offer['creator_avatar_link'] == null || $offer['creator_avatar_link'] == "" ? "/assets/images/user.png" : $offer['creator_avatar_link']; ?>' class="rounded-circle border" height="22" alt="Avatar" loading="lazy"/>
                   Compartido por <span class="fw-semibold"><?php echo $offer['creator_username']; ?></span>
                 </a>
               </div>

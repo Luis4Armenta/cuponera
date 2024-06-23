@@ -83,7 +83,7 @@ CREATE VIEW DealInformation AS
 SELECT d.deal_id, d.title, d.coupon_code, d.link, d.start_date, d.end_date, d.start_time, d.end_time, 
        d.description, d.regular_price, d.offer_price, d.availability, d.shipping_cost, d.shipping_address, d.store, 
        c.name AS category_name,
-       u.username AS creator_username, d.image_link, d.timestamp
+       u.username AS creator_username, d.image_link, d.timestamp, u.avatar_link, u.user_id
 FROM Deals d
 JOIN Categories c ON d.category_id = c.category_id
 JOIN Users u ON d.user_id = u.user_id;
