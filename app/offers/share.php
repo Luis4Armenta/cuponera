@@ -17,7 +17,6 @@ $id = $data['id'];
 
 $mode = 'new';
 if (isset($id)) {
-  $mode = 'edit';
 
   try {
     $database = new Database();
@@ -46,14 +45,21 @@ if (isset($id)) {
         'creator_username' => $registro[16],
         'image_link' => $registro[17],
         'timestamp' => $registro[18],
+        'creator_avatar_link' => $registro[19],
+        'creator_user_id' => $registro[20],
       );
     }
+
+    
 
     $res->free_result();
     $database->closeConnection();
     if (!isset($offer['deal_id'])) {
       header('Location: ../shared/errors/404.php');
       exit;
+    }
+    if ($offer['creator_user_id'] == $_SESSION['user_id']) {
+      $mode = 'edit';
     }
   } catch (mysqli_sql_exception $e) {
     header('Location: ../shared/errors/500.php');
