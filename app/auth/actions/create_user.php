@@ -43,14 +43,13 @@ if (all_fields_exist($data, $expected_fields)) {
           $_SESSION['user_id'] = $registro[0];
           $_SESSION['user_role'] = $registro[5];
   
-          header('Location: ../../login.php');
+          header('Location: ../login.php');
         }
       }
     } else {
       header('Location: ../../shared/errors/500.php');
     }
-
-    // $res->free_result();
+    $res->free_result();
     $database->closeConnection();
     exit;
 

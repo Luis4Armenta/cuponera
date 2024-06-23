@@ -31,7 +31,7 @@ include '../shared/header.php';
             </div>
             <p>Si ya tienes una cuenta puede ingresar <a href="/auth/login.php">aquí</a></p>
             <div class="d-grid">
-              <button type="submit" class="btn btn-primary btn-lg">Registrarse</button>
+              <button id="submitBtn" type="submit" class="btn btn-primary btn-lg">Registrarse</button>
             </div>
           </form>
         </div>
@@ -39,5 +39,86 @@ include '../shared/header.php';
     </div>
   </div>
 </div>
+
+<script>
+  on_load = () => {
+
+    // Expresión regular para validar el formato de email
+    function isValidEmail(email) {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    // Función para validar el email
+    function validateEmail() {
+        var email = $('#email').val();
+        if (email !== '' && isValidEmail(email)) {
+            $.ajax({
+                url: '/auth/ajax/check_email.php',
+                method: 'POST',
+                data: { email: email },
+                success: function (response) {
+                    response = JSON.parse(response);
+                    if (response.emailAvailable) {
+                        $('#email').removeClass('is-invalid').addClass('is-valid');
+                    } else {
+                        $('#email').removeClass('is-valid').addClass('is-invalid');
+                    }
+                    validateSubmitButton();
+                }
+            });
+        } else {
+            $('#email').removeClass('is-valid is-invalid').addClass('is-invalid');
+            validateSubmitButton();
+        }
+    }
+
+    function isValidUser(user) {
+        var userRegex = /^[a-zA-Z0-9_-]{4,20}$/;
+        return userRegex.test(user);
+    }
+
+    // Función para validar el usuario
+    function validateUser() {
+        var user = $('#user').val();
+        if (user !== '' && isValidUser(user)) {
+            $.ajax({
+                url: '/auth/ajax/check_user.php',
+                method: 'POST',
+                data: { user: user },
+                success: function (response) {
+                    response = JSON.parse(response);
+                    if (response.userAvailable) {
+                        $('#user').removeClass('is-invalid').addClass('is-valid');
+                    } else {
+                        $('#user').removeClass('is-valid').addClass('is-invalid');
+                    }
+                    validateSubmitButton();
+                }
+            });
+        } else {
+            $('#user').removeClass('is-valid is-invalid').addClass('is-invalid');
+            validateSubmitButton();
+        }
+    }
+
+    // Función para habilitar o deshabilitar el botón de submit
+    function validateSubmitButton() {
+        if ($('#email').hasClass('is-valid') && $('#user').hasClass('is-valid')) {
+            $('#submitBtn').prop('disabled', false);
+        } else {
+            $('#submitBtn').prop('disabled', true);
+        }
+    }
+
+    // Eventos para validar el email y el usuario en tiempo real
+    $('#email').on('keyup', function () {
+        validateEmail();
+    });
+
+    $('#user').on('keyup', function () {
+        validateUser();
+    });
+  }
+</script>
 
 <?php include '../shared/footer.php'; ?>
