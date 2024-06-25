@@ -12,7 +12,6 @@ if (!isset($_SESSION['user'])) {
 
 $expected_fields = array(
   'url' => 'url',
-  '' => 'url',
   'title' => 'string',
   'store' => 'string',
   'offerPrice' => 'float',
@@ -132,37 +131,79 @@ if (
 }
   
 
-  $normalPrice = isset($data['normalPrice']) && $data['normalPrice'] != '' ? "{$data['normalPrice']}" : 'NULL';
-  $offerPrice = isset($data['offerPrice']) && $data['offerPrice'] != '' ? "{$data['offerPrice']}" : 'NULL';
-  $coupon = isset($data['cupon']) && $data['cupon'] != '' ? "'{$data['cupon']}'" : 'NULL';
-  $shippingCost = isset($data['shippingCost']) && $data['shippingCost'] != '' ? "{$data['shippingCost']}" : 'NULL';
-  $shippingAddress = isset($data['shippingAddress']) && $data['shippingAddress'] != '' ? "'{$data['shippingAddress']}'" : 'NULL';
-  $startDate = isset($data['startDate']) && $data['startDate'] != '' ? "'{$data['startDate']}'" : 'NULL';
-  $endDate = isset($data['endDate']) && $data['endDate'] != '' ? "'{$data['endDate']}'" : 'NULL';
-  $startTime = isset($data['startTime']) && $data['startTime'] != '' ? "'{$data['startTime']}'" : 'NULL';
-  $endTime = isset($data['endTime']) && $data['endTime'] != '' ? "'{$data['endTime']}'" : 'NULL';
+  $normalPrice = isset($data['normalPrice']) && $data['normalPrice'] != '' ? $data['normalPrice'] : NULL;
+  $offerPrice = isset($data['offerPrice']) && $data['offerPrice'] != '' ? $data['offerPrice'] : NULL;
+  $coupon = isset($data['cupon']) && $data['cupon'] != '' ? $data['cupon'] : NULL;
+  $shippingCost = isset($data['shippingCost']) && $data['shippingCost'] != '' ? $data['shippingCost'] : NULL;
+  $shippingAddress = isset($data['shippingAddress']) && $data['shippingAddress'] != '' ? $data['shippingAddress'] : NULL;
+  $startDate = isset($data['startDate']) && $data['startDate'] != '' ? $data['startDate'] : NULL;
+  $endDate = isset($data['endDate']) && $data['endDate'] != '' ? $data['endDate'] : NULL;
+  $startTime = isset($data['startTime']) && $data['startTime'] != '' ? $data['startTime'] : NULL;
+  $endTime = isset($data['endTime']) && $data['endTime'] != '' ? $data['endTime'] : NULL;
 
   try {
-    $query = "
-    UPDATE DEALS SET link = '{$data['url']}', store = '{$data['store']}', title = '{$data['title']}',
-    regular_price = $normalPrice, offer_price = $offerPrice, coupon_code = $coupon, availability = '{$data['availability']}',
-    shipping_cost = $shippingCost, shipping_address = $shippingAddress, image_link = '{$image_url}',
-    description = '{$data['description']}', start_date = $startDate, end_date = $endDate, start_time = $startTime,
-    end_time = $endTime, category_id = {$data['category']} WHERE deal_id = {$data['id']};
-    ";
-
     $database = new Database();
     $db = $database->getConnection();
-    $res = $db->query($query);
 
-    if ($res === TRUE) {
+    $query = "
+      UPDATE deals
+      SET
+          link = ?,
+          store = ?,
+          title = ?,
+          regular_price = ?,
+          offer_price = ?,
+          coupon_code = ?,
+          availability = ?,
+          shipping_cost = ?,
+          shipping_address = ?,
+          image_link = ?,
+          description = ?,
+          start_date = ?,
+          end_date = ?,
+          start_time = ?,
+          end_time = ?,
+          category_id = ?
+      WHERE
+          deal_id = ?
+    ";
 
+    $stmt = $db->prepare($query);
+
+    if (!$stmt) {
+      header('Location: ../../shared/error/500.php');
+      exit;
+    }
+
+    $stmt->bind_param(
+      "sssddssdsssssssii",
+      $data['url'],
+      $data['store'],
+      $data['title'],
+      $normalPrice,
+      $offerPrice,
+      $coupon,
+      $data['availability'],
+      $shippingCost,
+      $shippingAddress,
+      $image_url,
+      $data['description'],
+      $startDate,
+      $endDate,
+      $startTime,
+      $endTime,
+      $data['category'],
+      $data['id']
+    );
+
+
+    if ($stmt->execute()) {
       header("Location: ../offer.php?id={$data['id']}");
     } else {
       header('Location: ../../shared/errors/500.php');
     }
 
-    // $res->free_result();
+    $stmt->close();
     $database->closeConnection();
     exit;
 
