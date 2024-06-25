@@ -210,7 +210,7 @@ $datetime_now = new DateTime();
                   <span class="text-secondary fs-5 text-decoration-line-through">
                     $<?php echo number_format($offer['regular_price'], 2); ?>
                   </span>
-                  <span class="text-secondary fs-5 text-decoration-line-through">
+                  <span class="fs-5">
                     -<?php echo floor($offer['offer_price'] / $offer['regular_price'] * 100); ?>%
                   </span> 
                 <?php endif; ?>
