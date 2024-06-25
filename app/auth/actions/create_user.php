@@ -3,6 +3,7 @@ ini_set('display_errors', E_ALL);
 include_once '../../config.php';
 include_once '../../Database.php';
 include_once '../../utils.php';
+session_start();
 
 if (isset($_SESSION['user'])) {
   header('Location: ../../index.php');
@@ -31,25 +32,32 @@ if (all_fields_exist($data, $expected_fields)) {
   try {
     $database = new Database();
     $db = $database->getConnection();
-    $res = $db->query("INSERT INTO Users (username, email, password, role_id) VALUES ( '{$user}', '{$email}', '{$password}', 3)");
 
-    if ($res === TRUE) {
-      $user_id = mysqli_insert_id($db);
+    $default_role = 3;
+
+    $query = "INSERT INTO Users (username, email, password, role_id) VALUES (?, ?, ?, ?)";
+    $stmt = $db->prepare($query);
+    $stmt ->bind_param("sssi", $user, $email, $password, $default_role);
+
+    if ($stmt->execute()) {
+      $user_id = $stmt->insert_id;
       $res = $db->query("SELECT * FROM Users WHERE user_id = {$user_id} limit 1;");
 
-      while ($registro = $res->fetch_row()) {
-        if ($password == $registro[3]) {
-          $_SESSION['user'] = $registro[1];
-          $_SESSION['user_id'] = $registro[0];
-          $_SESSION['user_role'] = $registro[5];
-  
-          header('Location: ../login.php');
-        }
+      if ($res->num_rows > 0) {
+        $user = $res->fetch_assoc();
+
+        $_SESSION['user'] = $user['username'];
+        $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['user_role'] = $user['role_id'];
+        $_SESSION['avatar'] = $user['avatar_link'];
+
+        header('Location: ../../index.php');
       }
+      $res->free_result();
     } else {
       header('Location: ../../shared/errors/500.php');
     }
-    $res->free_result();
+    $stmt->close();
     $database->closeConnection();
     exit;
 

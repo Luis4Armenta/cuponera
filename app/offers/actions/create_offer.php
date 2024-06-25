@@ -140,9 +140,9 @@ if (
     }
 
     curl_close($ch);
-
+    
     $res = json_decode($response, true);
-  // TODO: obtener url de la imagen cargada
+    // TODO: obtener url de la imagen cargada
 
   $image_url = "";
   if (isset($res['secure_url'])) {
@@ -151,16 +151,20 @@ if (
 
   // insertar a la base de datos
   
+  
+  // Recibe y limpia los datos
+  $normalPrice = isset($data['normalPrice']) && $data['normalPrice'] != '' ? $data['normalPrice'] : NULL;
+  $offerPrice = isset($data['offerPrice']) && $data['offerPrice'] != '' ? $data['offerPrice'] : NULL;
+  $coupon = isset($data['cupon']) && $data['cupon'] != '' ? $data['cupon'] : NULL;
+  $shippingCost = isset($data['shippingCost']) && $data['shippingCost'] != '' ? $data['shippingCost'] : NULL;
+  $shippingAddress = isset($data['shippingAddress']) && $data['shippingAddress'] != '' ? $data['shippingAddress'] : NULL;
+  $startDate = isset($data['startDate']) && $data['startDate'] != '' ? $data['startDate'] : NULL;
+  $endDate = isset($data['endDate']) && $data['endDate'] != '' ? $data['endDate'] : NULL;
+  $startTime = isset($data['startTime']) && $data['startTime'] != '' ? $data['startTime'] : NULL;
+  $endTime = isset($data['endTime']) && $data['endTime'] != '' ? $data['endTime'] : NULL;
 
-  $normalPrice = isset($data['normalPrice']) && $data['normalPrice'] != '' ? "{$data['normalPrice']}" : 'NULL';
-  $offerPrice = isset($data['offerPrice']) && $data['offerPrice'] != '' ? "{$data['offerPrice']}" : 'NULL';
-  $coupon = isset($data['cupon']) && $data['cupon'] != '' ? "'{$data['cupon']}'" : 'NULL';
-  $shippingCost = isset($data['shippingCost']) && $data['shippingCost'] != '' ? "{$data['shippingCost']}" : 'NULL';
-  $shippingAddress = isset($data['shippingAddress']) && $data['shippingAddress'] != '' ? "'{$data['shippingAddress']}'" : 'NULL';
-  $startDate = isset($data['startDate']) && $data['startDate'] != '' ? "'{$data['startDate']}'" : 'NULL';
-  $endDate = isset($data['endDate']) && $data['endDate'] != '' ? "'{$data['endDate']}'" : 'NULL';
-  $startTime = isset($data['startTime']) && $data['startTime'] != '' ? "'{$data['startTime']}'" : 'NULL';
-  $endTime = isset($data['endTime']) && $data['endTime'] != '' ? "'{$data['endTime']}'" : 'NULL';
+  $database = new Database();
+  $db = $database->getConnection();
 
   try {
     $query = "
@@ -182,43 +186,50 @@ if (
       end_time,
       category_id,
       user_id
-    ) VALUES (
-      '{$data['url']}',
-      '{$data['store']}',
-      '{$data['title']}',
-      $normalPrice,
-      $offerPrice,
-      $coupon,
-      '{$data['availability']}',
-      $shippingCost,
-      $shippingAddress,
-      '{$image_url}',
-      '{$data['description']}',
-      $startDate,
-      $endDate,
-      $startTime,
-      $endTime,
-      {$data['category']},
-      {$_SESSION['user_id']}
+      ) VALUES (
+      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+    )";
+
+    $stmt = $db->prepare($query);
+
+    // Vincular los parámetros
+    $stmt->bind_param(
+        "sssddssdsssssssii",
+        $data['url'],
+        $data['store'],
+        $data['title'],
+        $normalPrice,
+        $offerPrice,
+        $coupon,
+        $data['availability'],
+        $shippingCost,
+        $shippingAddress,
+        $image_url,
+        $data['description'],
+        $startDate,
+        $endDate,
+        $startTime,
+        $endTime,
+        $data['category'],
+        $_SESSION['user_id']
     );
-  ";
 
-    $database = new Database();
-    $db = $database->getConnection();
-    $res = $db->query($query);
-
-    if ($res === TRUE) {
-      $id = mysqli_insert_id($db); 
-      
+    // Ejecutar la declaración
+    if ($stmt->execute()) {
+      $id = $stmt->insert_id;
       header("Location: ../offer.php?id={$id}");
     } else {
       header('Location: ../../shared/errors/500.php');
     }
-    // $res->free_result();
+
+    
+    // Cerrar la conexión
+    $stmt->close();
     $database->closeConnection();
     exit;
   } catch (mysqli_sql_exception $e) {
-    header('Location: ../../shared/errors/500.php');
+    // header('Location: ../../shared/errors/500.php');
+    echo $e;
     exit;
   }
 } else {
