@@ -73,10 +73,10 @@ INSERT INTO Roles (role_name) VALUES ('Super Administrador'), ('Administrador'),
 
 -- Insertar categorías predeterminadas
 INSERT INTO Categories (name) VALUES
-('Videojuegos'), ('Abarrotes y Alimentos'), ('Ropa y Accesorios'), ('Salud y Belleza'),
-('Familia, Bebés y Niños'), ('Hogar'), ('Jardín y Hazlo Tú Mismo'), ('Autos y Motos'),
-('Entretenimientos y Tiempo Libre'), ('Deportes y Ejercicio'), ('Internet y Telefonía Celular'),
-('Viajes'), ('Finanzas y Seguros'), ('Servicios y Suscripciones'), ('Tecnología');
+('Videojuegos'), ('Abarrotes y alimentos'), ('Ropa y accesorios'), ('Salud y belleza'),
+('Familia, bebés y niños'), ('Hogar'), ('Jardín y hazlo tú mismo'), ('Autos y motos'),
+('Entretenimientos y tiempo libre'), ('Deportes y ejercicio'), ('Internet y telefonía celular'),
+('Viajes'), ('Finanzas y seguros'), ('Servicios y suscripciones'), ('Tecnología');
 
 -- Crear vista DealInformation
 CREATE VIEW DealInformation AS
