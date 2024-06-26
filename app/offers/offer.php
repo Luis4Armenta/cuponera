@@ -131,7 +131,7 @@ include '../shared/header.php';
               <div class="col-md-12">
                 <span class="fs-3 fw-bolder text-success">$<?php echo number_format($offer['offer_price'], 2); ?></span>
                 <?php if (isset($offer['regular_price'])): ?>
-                  <span class="fs-4 text-secondary text-decoration-line-through">$<?php echo number_format($offer['regular_price']) ?></span>
+                  <span class="fs-4 text-secondary text-decoration-line-through">$<?php echo number_format($offer['regular_price'], 2) ?></span>
                   <span class="fs-4">
                     -<?php echo floor($offer['offer_price'] / $offer['regular_price'] * 100); ?>%
                   </span>

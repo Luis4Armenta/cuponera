@@ -151,11 +151,11 @@ $categories = array(
                   <div class="row">
                     <div class="mb-3 col-md-6">
                         <label for="offer-price" class="form-label">Precio en oferta</label>
-                        <input type="number" id="offer-price" name="offerPrice" class="form-control" min="0" value="<?php echo $mode == 'new' ? '' : $offer['offer_price']; ?>"/>
+                        <input type="number" id="offer-price" name="offerPrice" class="form-control" min="0" step=".01" value="<?php echo $mode == 'new' ? '' : $offer['offer_price']; ?>"/>
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="normal-price" class="form-label">Precio regular</label>
-                        <input type="number" id="normal-price" name="normalPrice" class="form-control" min="0" value="<?php echo $mode == 'new' ? '' : $offer['regular_price']; ?>"/>
+                        <input type="number" id="normal-price" name="normalPrice" class="form-control" min="0" step=".01" value="<?php echo $mode == 'new' ? '' : $offer['regular_price']; ?>"/>
                     </div>
                   </div>
                   <div class="row">
