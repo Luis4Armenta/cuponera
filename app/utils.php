@@ -72,3 +72,7 @@ function all_fields_exist($input, $fields) {
 
   return $ok;
 }
+
+function echo_sanitized($str) {
+  echo htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+}
