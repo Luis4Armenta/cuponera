@@ -52,7 +52,7 @@
               <?php if (isset($_SESSION['user'])): ?>
                 <li class="nav-item dropdown mx-4">
                   <a  class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="<?php echo $_SESSION['avatar'] == null || $_SESSION['avatar'] == '' ? '../assets/images/user.png' : $_SESSION['avatar']; ?>" class="rounded-circle" height="33" alt="Avatar" loading="lazy"/>
+                    <img id="navbar-user-avatar" src="<?php echo $_SESSION['avatar'] == null || $_SESSION['avatar'] == '' ? '../assets/images/user.png' : $_SESSION['avatar']; ?>" class="rounded-circle" height="33" alt="Avatar" loading="lazy"/>
                   </a>
                   <ul class="dropdown-menu">
                     <li class="" href="#"><h6 class="dropdown-header text-center" ><?php echo $_SESSION['user']; ?></h6></li>

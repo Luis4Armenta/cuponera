@@ -123,7 +123,7 @@ include '../shared/header.php';
             </div>
             <div class="row">
               <div class="col-md-12">
-                <h3 class="fw-bolder"><?php echo $title; ?></h3>
+                <h3 class="fw-bolder"><?php echo_sanitized($title); ?></h3>
               </div>
             </div>
             <?php if (isset($offer['offer_price'])): ?>
@@ -147,7 +147,7 @@ include '../shared/header.php';
                   <span class="text-secondary fs-5"><i class="bi bi-truck me-1"></i><?php echo $offer['shipping_cost'] != 0 ? "\${$offer['shipping_cost']}" : "Gratis"; ?> </span>
                 <?php endif; ?>
               |
-                <span class="text-success fs-5"><?php echo $offer['store']; ?></span>
+                <span class="text-success fs-5"><?php echo_sanitized($offer['store']); ?></span>
               </div>
             </div>
             <div class="row">
@@ -156,7 +156,7 @@ include '../shared/header.php';
               </div>
               <?php if (isset($offer['coupon_code']) && $offer['coupon_code'] != ""): ?>
                 <div class="col-md-6">
-                  <button onclick="copy_coupon()" class="btn btn-outline-secondary btn-lg fs-4 rounded-5 w-100" style="border-style: dashed;"><span id="coupon" class="mx-3"><?php echo $offer['coupon_code']; ?></span><i class="bi bi-copy text-success"></i></button>
+                  <button onclick="copy_coupon()" class="btn btn-outline-secondary btn-lg fs-4 rounded-5 w-100" style="border-style: dashed;"><span id="coupon" class="mx-3"><?php echo_sanitized($offer['coupon_code']); ?></span><i class="bi bi-copy text-success"></i></button>
                 </div>
               <?php endif;  ?>
             </div>
@@ -196,7 +196,7 @@ include '../shared/header.php';
         </div>
         <div class="row">
           <div class="col-md-12">
-            <?php echo $offer['description']; ?> 
+            <?php echo htmlspecialchars($offer['description'], ENT_QUOTES, 'UTF-8'); ?> 
           </div>
         </div>
         <div class="row">
