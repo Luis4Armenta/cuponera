@@ -145,6 +145,18 @@ if (
     $database = new Database();
     $db = $database->getConnection();
 
+    $res = $db->query("SELECT * FROM deals WHERE deal_id = {$data['id']} LIMIT 1;");
+    if ($res->num_rows > 0 && isset($_SESSION['user_id'])) {
+      $offer = $res->fetch_assoc();
+      if ($offer['user_id'] != $_SESSION['user_id']) {
+        die('Sin privilegios.');
+      }
+    } else {
+      die('Oferta no encontrada.');
+    }
+    
+    $res->free_result();
+
     $query = "
       UPDATE deals
       SET
