@@ -61,66 +61,71 @@ include '../shared/header.php';
         const inputs = form.querySelectorAll('input');
 
         const regexValidations = {
-    user: /^[a-zA-Z0-9_-]{4,20}$/,
-    password: /^[\w-]{8,16}$/
-};
+            user: /^[a-zA-Z0-9_-]{4,20}$/,
+            password: /^[\w-]{8,16}$/
+        };
 
         // Función para validar los campos
         function validateInputs() {
             let isValid = true;
 
             inputs.forEach(input => {
-                if (input.hasAttribute('required')) {
-                    if (input.value.trim() === '') {
-                        isValid = false;
-                        input.classList.remove('is-valid');
-                        input.classList.add('is-invalid');
-                    } else {
-                        input.classList.remove('is-invalid');
-                        input.classList.add('is-valid');
-                    }
+                if (input.hasAttribute('required') && input.value.trim() === '') {
+                    isValid = false;
                 }
 
-                // Validaciones específicas por tipo de campo
-                if (input.id === 'user') {
-                    if (!regexValidations.user.test(input.value.trim())) {
-                        isValid = false;
-                        input.classList.remove('is-valid');
-                        input.classList.add('is-invalid');
-                    } else {
-                        input.classList.remove('is-invalid');
-                        input.classList.add('is-valid');
-                    }
-                } else if (input.id === 'password') {
-                    if (!regexValidations.password.test(input.value.trim())) {
-                        isValid = false;
-                        input.classList.remove('is-valid');
-                        input.classList.add('is-invalid');
-                    } else {
-                        input.classList.remove('is-invalid');
-                        input.classList.add('is-valid');
+                // Validaciones específicas por tipo de campo al tocar o modificar
+                if (input.id === 'user' || input.id === 'password') {
+                    input.addEventListener('input', function() {
+                        if (input.value.trim() === '') {
+                            input.classList.remove('is-valid');
+                            input.classList.add('is-invalid');
+                        } else {
+                            if ((input.id === 'user' && !regexValidations.user.test(input.value.trim())) ||
+                                (input.id === 'password' && !regexValidations.password.test(input.value.trim()))) {
+                                input.classList.remove('is-valid');
+                                input.classList.add('is-invalid');
+                            } else {
+                                input.classList.remove('is-invalid');
+                                input.classList.add('is-valid');
+                            }
+                        }
+
+                        // Validar todo el formulario después de tocar o modificar un campo
+                        validateForm();
+                    });
+                }
+            });
+
+            // Validar todo el formulario inicialmente
+            validateForm();
+        }
+
+        // Función para validar todo el formulario
+        function validateForm() {
+            let isValidForm = true;
+
+            inputs.forEach(input => {
+                if (input.hasAttribute('required') && input.value.trim() === '') {
+                    isValidForm = false;
+                } else {
+                    if ((input.id === 'user' && !regexValidations.user.test(input.value.trim())) ||
+                        (input.id === 'password' && !regexValidations.password.test(input.value.trim()))) {
+                        isValidForm = false;
                     }
                 }
             });
 
-            // Mostrar o esconder el botón de enviar según la validez del formulario
+            // Aplicar estado de formulario válido o inválido al botón de enviar
             const submitButton = form.querySelector('input[type="submit"]');
-            if (isValid) {
+            if (isValidForm) {
                 submitButton.removeAttribute('disabled');
             } else {
                 submitButton.setAttribute('disabled', 'disabled');
             }
         }
 
-        // Event listener para validar en cada cambio de campo
-        inputs.forEach(input => {
-            input.addEventListener('input', function() {
-                validateInputs();
-            });
-        });
-
-        // Validar en la carga inicial del formulario
+        // Validar los campos al inicio
         validateInputs();
     })();
 </script>
-

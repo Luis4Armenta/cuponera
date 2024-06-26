@@ -23,11 +23,14 @@ include '../shared/header.php';
             </div>
             <div class="form-group">
               <label for="user">Usuario</label>
-              <input type="text" id="user" name="user" class="form-control" required minlength="4" maxlength="20" >
+              <input type="text" id="user" name="user" class="form-control" required minlength="4" maxlength="20">
             </div>
             <div class="form-group">
               <label for="password">Contraseña</label>
               <input type="password" id="password" name="password" class="form-control" required minlength="8" maxlength="16">
+              <div class="invalid-feedback">
+                Ingrese una contraseña válida (debe ser de 8 a 16 caracteres).
+              </div>
             </div>
             <p>Si ya tienes una cuenta puede ingresar <a href="/auth/login.php">aquí</a></p>
             <div class="d-grid">
@@ -42,81 +45,82 @@ include '../shared/header.php';
 
 <script>
   on_load = () => {
-
     // Expresión regular para validar el formato de email
     function isValidEmail(email) {
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
+
     // Función para validar el email
     function validateEmail() {
         var email = $('#email').val();
         if (email !== '' && isValidEmail(email)) {
-            $.ajax({
-                url: '/auth/ajax/check_email.php',
-                method: 'POST',
-                data: { email: email },
-                success: function (response) {
-                    response = JSON.parse(response);
-                    if (response.emailAvailable) {
-                        $('#email').removeClass('is-invalid').addClass('is-valid');
-                    } else {
-                        $('#email').removeClass('is-valid').addClass('is-invalid');
-                    }
-                    validateSubmitButton();
-                }
-            });
+            $('#email').removeClass('is-invalid').addClass('is-valid');
+            validateSubmitButton();
         } else {
-            $('#email').removeClass('is-valid is-invalid').addClass('is-invalid');
+            $('#email').removeClass('is-valid').addClass('is-invalid');
             validateSubmitButton();
         }
     }
 
+    // Función para validar el usuario
     function isValidUser(user) {
         var userRegex = /^[a-zA-Z0-9_-]{4,20}$/;
         return userRegex.test(user);
     }
 
-    // Función para validar el usuario
     function validateUser() {
         var user = $('#user').val();
         if (user !== '' && isValidUser(user)) {
-            $.ajax({
-                url: '/auth/ajax/check_user.php',
-                method: 'POST',
-                data: { user: user },
-                success: function (response) {
-                    response = JSON.parse(response);
-                    if (response.userAvailable) {
-                        $('#user').removeClass('is-invalid').addClass('is-valid');
-                    } else {
-                        $('#user').removeClass('is-valid').addClass('is-invalid');
-                    }
-                    validateSubmitButton();
-                }
-            });
+            $('#user').removeClass('is-invalid').addClass('is-valid');
+            validateSubmitButton();
         } else {
-            $('#user').removeClass('is-valid is-invalid').addClass('is-invalid');
+            $('#user').removeClass('is-valid').addClass('is-invalid');
+            validateSubmitButton();
+        }
+    }
+
+    // Función para validar la contraseña
+    function isValidPassword(password) {
+        var passwordRegex = /^[\w-]{8,16}$/;
+        return passwordRegex.test(password);
+    }
+
+    function validatePassword() {
+        var password = $('#password').val();
+        if (password !== '' && isValidPassword(password)) {
+            $('#password').removeClass('is-invalid').addClass('is-valid');
+            validateSubmitButton();
+        } else {
+            $('#password').removeClass('is-valid').addClass('is-invalid');
             validateSubmitButton();
         }
     }
 
     // Función para habilitar o deshabilitar el botón de submit
     function validateSubmitButton() {
-        if ($('#email').hasClass('is-valid') && $('#user').hasClass('is-valid')) {
+        var isValidEmailField = $('#email').hasClass('is-valid');
+        var isValidUserField = $('#user').hasClass('is-valid');
+        var isValidPasswordField = $('#password').hasClass('is-valid');
+
+        if (isValidEmailField && isValidUserField && isValidPasswordField) {
             $('#submitBtn').prop('disabled', false);
         } else {
             $('#submitBtn').prop('disabled', true);
         }
     }
 
-    // Eventos para validar el email y el usuario en tiempo real
+    // Eventos para validar en tiempo real
     $('#email').on('keyup', function () {
         validateEmail();
     });
 
     $('#user').on('keyup', function () {
         validateUser();
+    });
+
+    $('#password').on('keyup', function () {
+        validatePassword();
     });
   }
 </script>
