@@ -40,10 +40,10 @@
                 </li>
               </ul>
             <?php endif; ?>
-            <form class="d-flex ms-auto" action="/search.php" method="GET">
+            <form class="d-flex ms-auto" action="/offers/search.php" method="GET">
               <div class="input-group flex-nowrap">
                 <span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span>
-                <input class="form-control me-sm-2" type="search" placeholder="Buscar..." aria-label="Buscar" aria-describedby="addon-wrapping">
+                <input name="q" class="form-control me-sm-2" type="search" placeholder="Buscar..." aria-label="Buscar" aria-describedby="addon-wrapping">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
 
               </div>
