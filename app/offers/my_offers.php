@@ -149,7 +149,7 @@ try {
                   );
                 }
               }
-              ajax.open('POST', '/offers/delete_offer.php', true);
+              ajax.open('POST', '/offers/actions/delete_offer.php', true);
               ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
               ajax.send('id=' + encodeURIComponent($id));
           }
