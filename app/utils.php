@@ -15,7 +15,7 @@ function sanitize_input(array $input, array $expected, array $regex = []): array
             switch ($type) {
                 case 'string':
                     // Usar FILTER_UNSAFE_RAW con opciones para simular FILTER_SANITIZE_STRING
-                    $sanitized[$key] = filter_var($input[$key], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
+                    $sanitized[$key] = filter_var($input[$key], FILTER_UNSAFE_RAW);
                     break;
                 case 'email':
                     $sanitized[$key] = filter_var($input[$key], FILTER_SANITIZE_EMAIL);
