@@ -7,7 +7,7 @@ include_once 'utils.php';
 
 $data = sanitize_input($_GET, array('mode' => 'string', 'page' => 'int'));
 $mode = $data['mode'];
-$page = $data['page'];
+$page = $data['page'] != null ? $data['page'] : 1;
 if ($mode == null) {
   $mode = 'foryou';
 }
