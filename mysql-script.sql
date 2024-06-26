@@ -1,13 +1,15 @@
-Drop database promodescuentos;
+DROP DATABASE IF EXISTS promodescuentos;
 
-CREATE DATABASE IF NOT EXISTS promodescuentos;
+CREATE DATABASE IF NOT EXISTS promodescuentos
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 USE promodescuentos;
 
 -- Crear tabla de roles
 CREATE TABLE Roles (
     role_id INT AUTO_INCREMENT PRIMARY KEY,
     role_name VARCHAR(255) NOT NULL
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Crear tabla de usuarios con un campo para el rol
 CREATE TABLE Users (
@@ -18,7 +20,7 @@ CREATE TABLE Users (
     avatar_link VARCHAR(255),
     role_id INT,
     FOREIGN KEY (role_id) REFERENCES Roles (role_id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE INDEX idx_username ON Users (username);
 CREATE INDEX idx_email ON Users (email);
 
@@ -26,10 +28,8 @@ CREATE INDEX idx_email ON Users (email);
 CREATE TABLE Categories (
     category_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE INDEX idx_category ON Categories (name);
-
-
 
 -- Crear tabla de ofertas
 CREATE TABLE Deals (
@@ -54,7 +54,7 @@ CREATE TABLE Deals (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES Categories (category_id),
     FOREIGN KEY (user_id) REFERENCES Users (user_id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE INDEX idx_title ON Deals (title);
 
 -- Crear tabla de comentarios con ON DELETE CASCADE
@@ -66,7 +66,7 @@ CREATE TABLE Comments (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (deal_id) REFERENCES Deals (deal_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES Users (user_id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Insertar roles predeterminados
 INSERT INTO Roles (role_name) VALUES ('Super Administrador'), ('Administrador'), ('Usuario Común');
@@ -94,7 +94,7 @@ SELECT user_id, username, email, role_name
 FROM Users
 JOIN Roles ON Users.role_id = Roles.role_id;
 
--- Crear vista PromotionsEndingSoon
+-- Crear vista HOT
 CREATE VIEW HOT AS
 SELECT d.deal_id, d.title, d.image_link, d.end_date, d.end_time, 
        d.offer_price, d.regular_price, d.availability, d.shipping_cost, d.store, 
@@ -106,7 +106,7 @@ WHERE (d.end_date = DATE(NOW()) AND d.end_time > TIME(NOW()))
    OR (d.end_date = DATE(NOW() + INTERVAL 1 DAY) AND d.end_time <= TIME(NOW()))
 ORDER BY d.end_date ASC, d.end_time ASC;
 
--- Crear vista NewestPromotions
+-- Crear vista news
 CREATE VIEW news AS
 SELECT d.deal_id, d.title, d.image_link, d.end_date, d.end_time, 
        d.offer_price, d.regular_price, d.availability, d.shipping_cost, d.store, 
@@ -116,6 +116,7 @@ FROM Deals d
 JOIN Users u ON d.user_id = u.user_id
 ORDER BY d.timestamp DESC;
 
+-- Crear vista foryou
 CREATE VIEW foryou AS
 SELECT d.deal_id, d.title, d.image_link, d.end_date, d.end_time, 
        d.offer_price, d.regular_price, d.availability, d.shipping_cost, d.store, 
@@ -125,9 +126,7 @@ FROM Deals d
 JOIN Users u ON d.user_id = u.user_id
 ORDER BY d.timestamp DESC;
 
-
-
--- creacion de los privilegios--
+-- Creación de los privilegios
 
 -- Crear el usuario
 CREATE USER 'app_user'@'localhost' IDENTIFIED BY '2468101214';
@@ -137,5 +136,3 @@ GRANT SELECT, INSERT, UPDATE ON promodescuentos.* TO 'app_user'@'localhost';
 
 -- Aplicar los cambios
 FLUSH PRIVILEGES;
-
-

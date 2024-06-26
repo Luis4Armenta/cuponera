@@ -1,0 +1,8 @@
+.dockerignore
+.env
+.gitignore
+.README.md
+web.config
+mysql-script.sql
+Dockerfile
+docker-compose.yml

@@ -28,6 +28,8 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      LANG: en_US.UTF-8
+      LANGUAGE: en_US:en
     volumes:
       - ./db_data:/var/lib/mysql
       - ./mysql-script.sql:/docker-entrypoint-initdb.d/mysql-script.sql
