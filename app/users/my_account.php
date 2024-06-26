@@ -48,7 +48,7 @@ try {
         <div class="col-md-8">
           <div class="row">
             <div class="col-md-12 text-center">
-              <h1><span class="fw-bold"><?php echo $user['user']; ?></span> <span class="badge text-bg-primary fs-6">Admin</span></h1>
+              <h1><span class="fw-bold"><?php echo $user['user']; ?></span><?php echo $_SESSION['user_role'] == 2 ? '<span class="badge text-bg-primary fs-6">Admin</span>' : ''; ?></h1>
             </div>
           </div>
           <div class="row">
