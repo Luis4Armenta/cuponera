@@ -10,12 +10,14 @@ if(isset($_SESSION['user'])){
 $title = 'Registro';
 include '../shared/header.php';
 ?>
-<div class="container">
-  <div class="row justify-content-center mt-5">
+<div class="container mt-5">
+  <div class="row justify-content-center">
     <div class="col-md-6">
-      <div class="card">
+      <div class="card shadow p-4">
+        <div class="card-header text-center" >
+          <h1 class="card-title">Nuevo Usuario</h1>
+        </div>
         <div class="card-body">
-          <h1 class="card-title text-center mb-4  lead-with-shadow">Nuevo Usuario</h1>
           <form method="POST" action="/auth/actions/create_user.php">
             <div class="form-group">
               <label for="email">Email</label>
