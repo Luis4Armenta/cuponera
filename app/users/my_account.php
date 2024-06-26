@@ -95,6 +95,8 @@ try {
                       document.getElementById('user-avatar-image').src = response.url;
                         document.getElementById('change-avatar-btn').hidden = false;
                         document.getElementById('image-file-input').hidden = true;
+
+                        document.getElementById('navbar-user-avatar').src =response.url;
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log(textStatus, errorThrown);
