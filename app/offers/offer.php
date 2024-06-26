@@ -13,7 +13,7 @@ $data = sanitize_input($_GET, array('id' => 'int'));
 $id = $data['id'];
 
 $user_is_owner = False;
-$user_is_admin = $_SESSION['user_role'] == 2 ? True : False ;
+$user_is_admin = isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2 ? True : False ;
 
 try {
   $database = new Database();
@@ -46,7 +46,7 @@ try {
       'creator_user_id' => $registro[20],
     );
   }
-  $user_is_owner = $_SESSION['user'] == $offer['creator_username'] ? True : False;
+  $user_is_owner = isset($_SESSION['user']) && $_SESSION['user'] == $offer['creator_username'] ? True : False;
   $res->free_result();
   $database->closeConnection();
   if (!isset($offer['deal_id'])) {
