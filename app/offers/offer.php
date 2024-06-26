@@ -164,7 +164,7 @@ include '../shared/header.php';
               <div class="col-md-12">
                 <a class="align-middle text-decoration-none text-dark" href="#">
                   <img src='<?php echo $offer['creator_avatar_link'] == null || $offer['creator_avatar_link'] == "" ? "/assets/images/user.png" : $offer['creator_avatar_link']; ?>' class="rounded-circle border" height="22" alt="Avatar" loading="lazy"/>
-                  Compartido por <span class="fw-semibold"><?php echo $offer['creator_username']; ?></span>
+                  Compartido por <span class="fw-semibold"><?php echo_sanitized($offer['creator_username']); ?></span>
                 </a>
               </div>
             </div>
@@ -196,7 +196,7 @@ include '../shared/header.php';
         </div>
         <div class="row">
           <div class="col-md-12">
-            <?php echo htmlspecialchars($offer['description'], ENT_QUOTES, 'UTF-8'); ?> 
+            <?php echo_sanitized($offer['description']); ?> 
           </div>
         </div>
         <div class="row">

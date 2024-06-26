@@ -90,11 +90,11 @@ try {
           <tbody>
             <?php foreach ($offers as &$offer): ?>
               <tr key="<?php echo $offer['offer_id']; ?>">
-                <td><?php echo $offer['title']; ?></td>
-                <td><?php echo $offer['store']; ?></td>
-                <td><?php echo $offer['availability']; ?></td>
-                <td><?php echo $offer['category']; ?></td>
-                <td><?php echo isset($offer['end_date']) ? $offer['end_date'] . ' ' . $offer['end_time'] : 'Sin fecha'; ?></td>
+                <td><?php echo_sanitized($offer['title']); ?></td>
+                <td><?php echo_sanitized($offer['store']); ?></td>
+                <td><?php echo_sanitized($offer['availability']); ?></td>
+                <td><?php echo_sanitized($offer['category']); ?></td>
+                <td><?php echo_sanitized(isset($offer['end_date']) ? $offer['end_date'] . ' ' . $offer['end_time'] : 'Sin fecha'); ?></td>
                 <td>
                 <?php
                 if (isset($offer['end_time']) && $offer['end_time'] != '') {
@@ -114,7 +114,7 @@ try {
                 <td>
                   <a class="fw-semibold align-middle text-decoration-none text-dark">
                     <img src="<?php echo $offer['avatar_publisher'] == null || $offer['avatar_publisher'] == '' ? '/assets/images/user.png' : $offer['avatar_publisher']; ?>" class="rounded-circle border" height="22" alt="Avatar" loading="lazy"/>
-                    <?php echo $offer['publisher'];?>
+                    <?php echo_sanitized($offer['publisher']);?>
                   </a>
                 </td>
                 <td>

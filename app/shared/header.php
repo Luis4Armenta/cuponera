@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <title><?php echo isset($title) ? $title : 'Titulo'; ?></title>
+    <title><?php echo isset($title) ? $title : 'Cuponera'; ?></title>
     <?php
     if (isset($extra_styles) && count($extra_styles) > 0) {
       for ($i = 0; $i < count($extra_styles); $i++) {
