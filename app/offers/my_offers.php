@@ -69,10 +69,10 @@ try {
           <tbody>
             <?php foreach ($offers as &$offer): ?>
               <tr key="<?php echo $offer['offer_id']; ?>">
-                <td><?php echo $offer['title']; ?></td>
-                <td><?php echo $offer['store']; ?></td>
-                <td><?php echo $offer['availability']; ?></td>
-                <td><?php echo $offer['category']; ?></td>
+                <td><?php echo_sanitized($offer['title']); ?></td>
+                <td><?php echo_sanitized($offer['store']); ?></td>
+                <td><?php echo_sanitized($offer['availability']); ?></td>
+                <td><?php echo_sanitized($offer['category']); ?></td>
                 <td><?php echo isset($offer['end_date']) ? $offer['end_date'] . ' ' . $offer['end_time'] : 'Sin fecha'; ?></td>
                 <td>
                 <?php
@@ -94,7 +94,7 @@ try {
                   <div class="d-flex flex-row">
                     <a href="offer.php?id=<?php echo $offer['offer_id']; ?>" class='btn btn-info btn-sm mx-1' data-bs-toggle="tooltip" title="Ver"><i class="fas fa-eye"></i></a>
                     <a href='share.php?id=<?php echo $offer['offer_id']; ?>' class='btn btn-warning btn-sm mx-1' data-bs-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>
-                    <a href='#' class='btn btn-danger btn-sm btn-delete mx-1' data-bs-toggle="tooltip" title="Eliminar"><i class="bi bi-trash3"></i></a>
+                    <a class='btn btn-danger btn-sm btn-delete mx-1' data-bs-toggle="tooltip" title="Eliminar"><i class="bi bi-trash3"></i></a>
                   </div>
                 </td>
               </tr>
