@@ -1,25 +1,75 @@
 <?php
 ini_set('display_errors', E_ALL);
 session_start();
-include_once 'config.php';
-include_once 'Database.php';
-include_once 'utils.php';
+include_once '../config.php';
+include_once '../Database.php';
+include_once '../utils.php';
 
-$data = sanitize_input($_GET, array('mode' => 'string', 'page' => 'int'));
-$mode = $data['mode'];
-$page = $data['page'];
-if ($mode == null) {
-  $mode = 'foryou';
+$data = sanitize_input($_GET, array('name' => 'string', 'page' => 'int'));
+
+if (!(isset($data['name']) && $data['name'] != null && $data['name'] != '')) {
+  header('Location: ../index.php');
+  exit;
 }
 
-$registrosPorPagina = 11; // Número de registros por página
+$category = $data['name'];
+$page = $data['page'] != null ? $data['page'] : 1;
+
+$cats = [
+    'tecnologia',
+    'videojuegos',
+    'abarrotes_y_alimentos',
+    'ropa_y_accesorios',
+    'salud_y_belleza',
+    'familia',
+    'hogar',
+    'jardin_y_hazlo_tu_mismo',
+    'autos_y_motos',
+    'entretenimiento',
+    'deportes',
+    'internet_y_telefonia',
+    'viajes',
+    'finanzas_y_seguros',
+    'servicios'
+];
+
+$cats2 = array(
+  'tecnologia' => 'Tecnología',
+  'videojuegos' => 'Videojuegos',
+  'abarrotes_y_alimentos' => 'Abarrotes y alimentos',
+  'ropa_y_accesorios' => 'Ropa y accesorios',
+  'salud_y_belleza' => 'Salud y belleza',
+  'familia' => 'Familía, bebés y niños',
+  'hogar' => 'Hogar',
+  'jardin_y_hazlo_tu_mismo' => 'Jardín y hazlo tú mismo',
+  'autos_y_motos' => 'Autos y motos',
+  'entrenamiento' => 'Entretenimiento y tiempo libre',
+  'deportes' => 'Deportes y ejercicio',
+  'internet_y_telefonia' => 'Internet y telefonía celular',
+  'viajes' => 'Viajes',
+  'finanzas_y_seguros' => 'Finanzas y seguros',
+  'servicios' => 'Servicios y suscripciones',
+);
+
+if (!in_array($category, $cats)) {
+  header('Location: ../index.php');
+  exit;
+}
+
+$registrosPorPagina = 10; // Número de registros por página
 
 $offers = array();
 try {
   $database = new Database();
   $db = $database->getConnection();
 
-  $sql = "SELECT COUNT(*) as totalRegistros FROM {$mode}";
+  $realCategory = $cats2[$category];
+
+  $sql = "SELECT
+      COUNT(*) as totalRegistros
+    FROM deals
+    NATURAL JOIN categories AS c
+    WHERE c.name = '{$realCategory}'";
   $result = $db->query($sql);
   $row = $result->fetch_assoc();
   $totalRegistros = $row['totalRegistros'];
@@ -42,8 +92,18 @@ try {
 
   $offset = ($paginaActual - 1) * $registrosPorPagina;
 
-
-  $res = $db->query("select * from {$mode} LIMIT {$registrosPorPagina} OFFSET {$offset};");
+  $query = "SELECT d.deal_id, d.title, d.image_link, d.end_date, d.end_time, 
+       d.offer_price, d.regular_price, d.availability, d.shipping_cost, d.store, 
+       d.coupon_code, d.description, u.username AS creator_username, u.avatar_link,
+       (SELECT COUNT(*) FROM Comments c WHERE c.deal_id = d.deal_id) AS comment_count, d.link, d.timestamp AS creation_datetime,
+       c.name AS category_name
+    FROM deals AS d
+    NATURAL JOIN categories AS c
+    NATURAL JOIN users AS u
+    WHERE c.name = '{$realCategory}'
+    LIMIT {$registrosPorPagina}
+    OFFSET {$offset};";
+  $res = $db->query($query);
 
   
   while ($registro = $res->fetch_row()) {
@@ -88,8 +148,7 @@ try {
 ?>
 
 <?php $title = 'Cuponera';?>
-<?php $extra_styles = ['index.css']; ?>
-<?php include 'shared/header.php' ?>
+<?php include '../shared/header.php' ?>
 
 
 <?php
@@ -115,34 +174,13 @@ $datetime_now = new DateTime();
 
 
 ?>
+<div class="container-fluid bg-body p-4">
+  <div class="container">
+    <h1 class="h1 fw-bold lh-sm text-light-emphasis"><?php echo $realCategory; ?></h1>
+  </div>
+</div>
 
 <div>
-  <div class="categorias-bar-container border bg-body">
-    <button class="scroll-button left fs-4" onclick="scrollLeft()">‹</button>
-    <div class="categorias-bar" id="categoriasBar">
-      <?php foreach ($categorias as $categoria => $value): ?>
-        <div class="p-2">
-          <a href="<?php echo "/offers/category.php?name={$value}" ?>" class="btn btn-primary btn-category"><?php echo $categoria; ?></a>
-        </div>
-      <?php endforeach; ?>
-    </div>
-    <button class="scroll-button right fs-4" onclick="scrollRight()">›</button>
-  </div>
-  <nav class="navbar navbar-expand-lg bg-white border py-0">
-    <div class="container">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a href="index.php" class="nav-link <?php echo !isset($_GET['mode']) || (isset($_GET['mode']) && $_GET['mode'] != 'hot' && $_GET['mode'] != 'news')  ? 'active' : ''; ?>">Para ti</a>
-        </li>
-        <li class="nav-item">
-        <a href="index.php?mode=hot" class="nav-link <?php echo isset($_GET['mode']) && strtolower($_GET['mode']) == 'hot' ? 'active' : ''; ?>">Hot</a>
-        </li>
-        <li class="nav-item">
-        <a href="index.php?mode=news" class="nav-link <?php echo isset($_GET['mode']) && strtolower($_GET['mode']) == 'news' ? 'active' : ''; ?>">Nuevas</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
   <div class="container">
     <?php if (count($offers) == 0): ?>
       <div class="card my-2 px-4 py-4">
@@ -266,20 +304,20 @@ $datetime_now = new DateTime();
       <ul class="pagination justify-content-center">
         <li class="page-item <?php echo $page <= 1 ? 'disabled' : ''?>">
           <?php $prevPage = $page - 1;?>
-          <a class="page-link" href='index.php?<?php echo "mode=$mode&page={$prevPage}" ?>'>Previous</a>
+          <a class="page-link" href='category.php?<?php echo "name=$category&page={$prevPage}" ?>'>Previous</a>
         </li>
         <?php
         for ($pagina = 1; $pagina <= $totalPaginas; $pagina++) {
           if ($pagina == $paginaActual) {
-              echo '<li class="page-item active"><a class="page-link" href="index.php?mode='. $mode . '&page='. $page. '">'. $pagina .'</a></li>';
+              echo '<li class="page-item active"><a class="page-link" href="category.php?name='. $category . '&page='. $page. '">'. $pagina .'</a></li>';
           } else {
-              echo "<li class='page-item'><a class='page-link' href='index.php?mode=$mode&page=$pagina'>$pagina</a></li>";
+              echo "<li class='page-item'><a class='page-link' href='category.php?name=$category&page=$pagina'>$pagina</a></li>";
           }
         }
         ?>
         <li class="page-item <?php echo $page >= $totalPaginas ? 'disabled' : ''?>">
           <?php $nextPage = $page + 1;?>
-          <a class="page-link" href='index.php?<?php echo "mode=$mode&page={$nextPage}"; ?>'>Next</a>
+          <a class="page-link" href='category.php?<?php echo "name=$category&page={$nextPage}"; ?>'>Next</a>
         </li>
       </ul>
     </nav>
@@ -301,4 +339,4 @@ $datetime_now = new DateTime();
         }
     </script>
 
-<?php include 'shared/footer.php' ?>
+<?php include '../shared/footer.php' ?>
