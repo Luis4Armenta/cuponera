@@ -168,7 +168,6 @@ $categorias = array(
   'Viajes' => 'viajes',
   'Finanzas y seguros' => 'finanzas_y_seguros',
   'Servicios y suscripciones' => 'servicios',
-  'Gratis' => 'gratis'
 );
 $datetime_now = new DateTime();
 
