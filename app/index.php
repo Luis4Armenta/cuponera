@@ -115,7 +115,7 @@ $datetime_now = new DateTime();
 
 <div>
   <div class="categorias-bar-container border bg-body">
-    <button class="scroll-button left fs-4" onclick="scrollLeft1()"><</button>
+    <button class="scroll-button left fs-4" onclick="scrollLeft1()">‹</button>
     <div class="categorias-bar" id="categoriasBar">
       <?php foreach ($categorias as $categoria => $value): ?>
         <div class="p-2">
@@ -123,7 +123,7 @@ $datetime_now = new DateTime();
         </div>
       <?php endforeach; ?>
     </div>
-    <button class="scroll-button right fs-4" onclick="scrollRight()">></button>
+    <button class="scroll-button right fs-4" onclick="scrollRight()">›</button>
   </div>
   <nav class="navbar navbar-expand-lg bg-white border py-0">
     <div class="container">
