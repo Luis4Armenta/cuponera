@@ -1,5 +1,4 @@
 <?php
-ini_set('display_errors', E_ALL);
 include_once '../../config.php';
 include_once '../../Database.php';
 include_once '../../utils.php';
@@ -228,8 +227,7 @@ if (
     $database->closeConnection();
     exit;
   } catch (mysqli_sql_exception $e) {
-    // header('Location: ../../shared/errors/500.php');
-    echo $e;
+    header('Location: /shared/errors/500.php');
     exit;
   }
 } else {

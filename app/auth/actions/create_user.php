@@ -1,5 +1,4 @@
 <?php
-ini_set('display_errors', E_ALL);
 include_once '../../config.php';
 include_once '../../Database.php';
 include_once '../../utils.php';
