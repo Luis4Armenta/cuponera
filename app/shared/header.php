@@ -28,10 +28,10 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-white border">
         <div class="container-fluid">
           <a class="navbar-brand mx-3" href="../index.php">Cuponera</a>
-          
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+          <!-- Botón de hamburguesa solo en pantallas pequeñas -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Menú">
+                <span class="navbar-toggler-icon"></span>
+            </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 2): ?>
               <ul class="navbar-nav">
@@ -44,11 +44,11 @@
               <div class="input-group flex-nowrap">
                 <span class="input-group-text" id="addon-wrapping"><i class="bi bi-search"></i></span>
                 <input name="q" class="form-control me-sm-2" type="search" placeholder="Buscar..." aria-label="Buscar" aria-describedby="addon-wrapping">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
 
               </div>
             </form>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mb-2 mb-lg-0">
               <?php if (isset($_SESSION['user'])): ?>
                 <li class="nav-item dropdown mx-4">
                   <a  class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -59,7 +59,7 @@
                     <li><div class="dropdown-divider"></li>
 
                     <li class="dropdown-item">
-                      <a href="/users/my_account.php" class="text-decoration-none text-black">
+                      <a href="/users/my_account.php" class="btn btn-outline-success btn-sm w-100">
                         Mi cuenta
                       </a>
                     </li>
@@ -70,13 +70,11 @@
                       </a>  
                     </li> -->
                     <li class="dropdown-item" >
-                      <a href="/offers/my_offers.php" class="text-decoration-none text-black">
-                        Mis ofertas publicadas
-                      </a>  
+                      <a href="/offers/my_offers.php" class=" btn btn-outline-success btn-sm w-100"> Mis ofertas publicadas</a>  
                     </li>
                     <li><div class="dropdown-divider"></li>
                     <li class="dropdown-item">
-                      <a  href="../auth/actions/logout.php" class="text-decoration-none">
+                      <a  href="../auth/actions/logout.php" class=" btn btn-outline-danger btn-sm w-100">
                         Cerrar sesión
                       </a>
                     </li>
@@ -95,3 +93,4 @@
         </div>
       </nav>
     </header>
+    
