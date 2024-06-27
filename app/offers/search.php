@@ -20,77 +20,107 @@ $offers = array();
 try {
   $database = new Database();
   $db = $database->getConnection();
-
-  $sql = "SELECT
-      COUNT(*) as totalRegistros
-    FROM deals  WHERE title like '%$q%'";
-  $result = $db->query($sql);
+  
+  // Preparar la consulta para contar los registros
+  $sql = "SELECT COUNT(*) as totalRegistros FROM deals WHERE title LIKE ?";
+  $stmt = $db->prepare($sql);
+  
+  // Validar si la preparación fue exitosa
+  if ($stmt === false) {
+      die('Error en la preparación de la consulta: ' . htmlspecialchars($db->error));
+  }
+  
+  // Asignar los parámetros con bind_param
+  $q_param = '%' . $q . '%';
+  $stmt->bind_param('s', $q_param);
+  
+  // Ejecutar la consulta
+  $stmt->execute();
+  
+  // Obtener el resultado
+  $result = $stmt->get_result();
   $row = $result->fetch_assoc();
   $totalRegistros = $row['totalRegistros'];
-
+  
   $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
   $totalPaginas = $totalPaginas == 0 ? 1 : $totalPaginas;
-
-
+  
   if ($page) {
-    $paginaActual = $page;
+      $paginaActual = $page;
   } else {
       $paginaActual = 1;
   }
-
+  
   if ($paginaActual < 1) {
-    $paginaActual = 1;
+      $paginaActual = 1;
   } elseif ($paginaActual > $totalPaginas) {
       $paginaActual = $totalPaginas;
   }
-
-  $offset = ($paginaActual - 1) * $registrosPorPagina;
-
-  $query = "SELECT d.deal_id, d.title, d.image_link, d.end_date, d.end_time, 
-       d.offer_price, d.regular_price, d.availability, d.shipping_cost, d.store, 
-       d.coupon_code, d.description, u.username AS creator_username, u.avatar_link,
-       (SELECT COUNT(*) FROM Comments c WHERE c.deal_id = d.deal_id) AS comment_count, d.link, d.timestamp AS creation_datetime,
-       c.name AS category_name
-    FROM deals AS d
-    NATURAL JOIN categories AS c
-    NATURAL JOIN users AS u
-    WHERE d.title like '%$q%'
-    LIMIT {$registrosPorPagina}
-    OFFSET {$offset};";
-  $res = $db->query($query);
-
   
-  while ($registro = $res->fetch_row()) {
-    $start_datetime = new DateTime();
-    $end_datetime = new DateTime($registro[3] . ' ' . $registro[4]);
-    $creation_datetime = new DateTime($registro[16]);
-    
-    array_push($offers, array(
-      'deal_id' => $registro[0],
-      'title' => $registro[1],
-      'image_link' => $registro[2],
-      'end_date' => $registro[3],
-      'end_time' => $registro[4],  
-      'offer_price' => $registro[5],  
-      'regular_price' => $registro[6],  
-      'availability' => $registro[7],  
-      'shipping_cost' => $registro[8],  
-      'store' => $registro[9],
-      'coupon_code' => $registro[10],
-      'description' => $registro[11],  
-      'creator_username' => $registro[12],
-      'avatar_link' => $registro[13],
-      'comment_count' => $registro[14],
-      'link' => $registro[15],
-      'start_datetime' => $start_datetime,
-      'end_datetime' => $end_datetime,
-      'creation_datetime' =>$creation_datetime,
-      // 'shipping_address' => $registro[13],  
-      // 'category_name' => $registro[15],
-      
-    ));
+  $offset = ($paginaActual - 1) * $registrosPorPagina;
+  
+  // Cerrar la declaración
+  $stmt->close();
+  
+  // Preparar la consulta para obtener los registros
+  $query = "SELECT d.deal_id, d.title, d.image_link, d.end_date, d.end_time, 
+        d.offer_price, d.regular_price, d.availability, d.shipping_cost, d.store, 
+        d.coupon_code, d.description, u.username AS creator_username, u.avatar_link,
+        (SELECT COUNT(*) FROM Comments c WHERE c.deal_id = d.deal_id) AS comment_count, d.link, d.timestamp AS creation_datetime,
+        c.name AS category_name
+      FROM deals AS d
+      NATURAL JOIN categories AS c
+      NATURAL JOIN users AS u
+      WHERE d.title LIKE ?
+      LIMIT ? OFFSET ?";
+  
+  $stmt = $db->prepare($query);
+  
+  // Validar si la preparación fue exitosa
+  if ($stmt === false) {
+      die('Error en la preparación de la consulta: ' . htmlspecialchars($db->error));
   }
-
+  
+  // Asignar los parámetros con bind_param
+  $stmt->bind_param('sii', $q_param, $registrosPorPagina, $offset);
+  
+  // Ejecutar la consulta
+  $stmt->execute();
+  
+  // Obtener el resultado
+  $res = $stmt->get_result();
+  
+  $offers = [];
+  while ($registro = $res->fetch_row()) {
+      $start_datetime = new DateTime();
+      $end_datetime = new DateTime($registro[3] . ' ' . $registro[4]);
+      $creation_datetime = new DateTime($registro[16]);
+      
+      $offers[] = array(
+        'deal_id' => $registro[0],
+        'title' => $registro[1],
+        'image_link' => $registro[2],
+        'end_date' => $registro[3],
+        'end_time' => $registro[4],  
+        'offer_price' => $registro[5],  
+        'regular_price' => $registro[6],  
+        'availability' => $registro[7],  
+        'shipping_cost' => $registro[8],  
+        'store' => $registro[9],
+        'coupon_code' => $registro[10],
+        'description' => $registro[11],  
+        'creator_username' => $registro[12],
+        'avatar_link' => $registro[13],
+        'comment_count' => $registro[14],
+        'link' => $registro[15],
+        'start_datetime' => $start_datetime,
+        'end_datetime' => $end_datetime,
+        'creation_datetime' => $creation_datetime,
+      );
+  }
+  
+  // Cerrar la declaración
+  $stmt->close();
   $res->free_result();
   $database->closeConnection();
 } catch (mysqli_sql_exception $e) {
