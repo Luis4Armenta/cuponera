@@ -1,5 +1,4 @@
 <?php
-ini_set('display_errors', E_ALL);
 session_start();
 include_once '../config.php';
 include_once '../Database.php';
@@ -95,8 +94,7 @@ try {
   $res->free_result();
   $database->closeConnection();
 } catch (mysqli_sql_exception $e) {
-  echo $e;
-  // header('Location: shared/errors/500.php');
+  header('Location: /shared/errors/500.php');
   exit;
 }
 
