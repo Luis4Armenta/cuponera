@@ -36,7 +36,7 @@ include '../shared/header.php';
                 ¡Ese usuario está perfecto!
               </div>
               <div class="invalid-feedback" id="user-invalid">
-                Los usuarios solo pueden contener letras, números, guiones y guiones bajos.
+                Los usuarios solo pueden contener letras, números, guiones y guiones bajos, sin caracteres especiales como acentos.
               </div>
             </div>
             <div class="form-group">
