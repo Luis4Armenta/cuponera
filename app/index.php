@@ -115,7 +115,7 @@ $datetime_now = new DateTime();
 
 <div>
   <div class="categorias-bar-container border bg-body">
-    <button class="scroll-button left fs-4" onclick="scrollLeft()">‹</button>
+    <button class="scroll-button left fs-4" onclick="scrollLeft1()"><</button>
     <div class="categorias-bar" id="categoriasBar">
       <?php foreach ($categorias as $categoria => $value): ?>
         <div class="p-2">
@@ -123,7 +123,7 @@ $datetime_now = new DateTime();
         </div>
       <?php endforeach; ?>
     </div>
-    <button class="scroll-button right fs-4" onclick="scrollRight()">›</button>
+    <button class="scroll-button right fs-4" onclick="scrollRight()">></button>
   </div>
   <nav class="navbar navbar-expand-lg bg-white border py-0">
     <div class="container">
@@ -284,18 +284,19 @@ $datetime_now = new DateTime();
 </div>
 
 <script>
-        function scrollLeft() {
-            document.getElementById('categoriasBar').scrollBy({
-                left: -200, // Adjust the value to scroll more or less
-                behavior: 'smooth'
-            });
-        }
-        function scrollRight() {
-            document.getElementById('categoriasBar').scrollBy({
-                left: 200, // Adjust the value to scroll more or less
-                behavior: 'smooth'
-            });
-        }
-    </script>
+  
+  function scrollRight() {
+      document.getElementById('categoriasBar').scrollBy({
+          left: 200, // Adjust the value to scroll more or less
+          behavior: 'smooth'
+      });
+  }
+  function scrollLeft1() {
+      document.getElementById('categoriasBar').scrollBy({
+          left: -200, // Adjust the value to scroll more or less
+          behavior: 'smooth'
+      });
+  }
+</script>
 
 <?php include 'shared/footer.php' ?>
