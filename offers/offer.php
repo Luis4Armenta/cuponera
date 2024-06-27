@@ -131,7 +131,7 @@ include '../shared/header.php';
               <div class="col-md-12">
                 <span class="fs-3 fw-bolder text-success">$<?php echo number_format($offer['offer_price'], 2); ?></span>
                 <?php if (isset($offer['regular_price'])): ?>
-                  <span class="fs-4 text-secondary text-decoration-line-through">$<?php echo number_format($offer['regular_price']) ?></span>
+                  <span class="fs-4 text-secondary text-decoration-line-through">$<?php echo number_format($offer['regular_price'], 2) ?></span>
                   <span class="fs-4">
                     -<?php echo floor($offer['offer_price'] / $offer['regular_price'] * 100); ?>%
                   </span>
@@ -164,7 +164,7 @@ include '../shared/header.php';
               <div class="col-md-12">
                 <a class="align-middle text-decoration-none text-dark" href="#">
                   <img src='<?php echo $offer['creator_avatar_link'] == null || $offer['creator_avatar_link'] == "" ? "/assets/images/user.png" : $offer['creator_avatar_link']; ?>' class="rounded-circle border" height="22" alt="Avatar" loading="lazy"/>
-                  Compartido por <span class="fw-semibold"><?php echo $offer['creator_username']; ?></span>
+                  Compartido por <span class="fw-semibold"><?php echo_sanitized($offer['creator_username']); ?></span>
                 </a>
               </div>
             </div>
@@ -196,7 +196,7 @@ include '../shared/header.php';
         </div>
         <div class="row">
           <div class="col-md-12">
-            <?php echo htmlspecialchars($offer['description'], ENT_QUOTES, 'UTF-8'); ?> 
+            <?php echo_sanitized($offer['description']); ?> 
           </div>
         </div>
         <div class="row">

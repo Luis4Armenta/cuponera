@@ -48,13 +48,13 @@ try {
         <div class="col-md-8">
           <div class="row">
             <div class="col-md-12 text-center">
-              <h1><span class="fw-bold"><?php echo $user['user']; ?></span><?php echo $_SESSION['user_role'] == 2 ? '<span class="badge text-bg-primary fs-6">Admin</span>' : ''; ?></h1>
+              <h1><span class="fw-bold"><?php echo_sanitized($user['user']); ?></span><?php echo $_SESSION['user_role'] == 2 ? '<span class="badge text-bg-primary fs-6">Admin</span>' : ''; ?></h1>
             </div>
           </div>
           <div class="row">
             <hr class="mt-2"/>
             <div class="col-md-12">
-              <p class="fs-5"><span class="fw-semibold">Email:</span> <span><?php echo $user['email'];?></span></p>
+              <p class="fs-5"><span class="fw-semibold">Email:</span> <span><?php echo_sanitized($user['email']);?></span></p>
             </div>
           </div>
         </div>

@@ -47,7 +47,7 @@ $expected_fields = array(
 
 $regex = array(
   'title' => '/^.{4,140}$/',
-  'store' => '/^[a-zA-Z0-9\s]+$/',
+  'store' => '/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ\s]{1,50}+$/',
   'description' => '/^.{1,1000}$/',
   'availability' => '/^(online)|(offline)$/',
   'shippingAddress' => '/^.{2,50}$/',

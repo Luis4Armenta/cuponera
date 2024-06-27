@@ -113,6 +113,12 @@ $categories = array(
                         <input type="text" id="image" name="image" class="form-control" hidden value="<?php echo $offer['image_link']?>"/>
                       <?php endif; ?>
                       <input type="file" id="image-file-input" name="image" class="form-control" accept="image/png, image/jpeg" <?php echo $mode == 'edit' ? "hidden" : "required" ?>/>
+                      <div class="valid-feedback">
+                        ¡Es una foto perfecta!
+                      </div>
+                      <div class="invalid-feedback" id="user-invalid">
+                        Esa imagen tiene algo raro...
+                      </div>
                     </div>
                 </div>
             </div>
@@ -121,12 +127,24 @@ $categories = array(
                     <div class="col-md-12">
                       <label for="title" class="form-label">Título</label>
                       <input type="text" id="title" name="title" class="form-control" required minlength="4" maxlength="140" placeholder="Incluye tienda y artículo o promoción" value="<?php echo $mode == 'new' ? '' : $offer['title']; ?>" />
+                      <div class="valid-feedback">
+                        ¡Ese titulo es perfecto!
+                      </div>
+                      <div class="invalid-feedback" id="user-invalid">
+                        Lo sentimos, los titulos tienen que tener entre 4 y 140 caracteres.
+                      </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-8">
                         <label for="url" class="form-label">Enlace de la oferta</label>
                         <input type="url" id="url" name="url" class="form-control" required value="<?php echo $mode == 'new' ? '' : $offer['link']; ?>"/>
+                        <div class="valid-feedback">
+                          ¡Excelente, ya casi lo podrán ver todos!
+                        </div>
+                        <div class="invalid-feedback" id="user-invalid">
+                          Neceistamos un enlace a la oferta.
+                        </div>
                     </div>
                     <div class="col-md-4">
                             <label for="category" class="form-label">Categoría</label>
@@ -142,20 +160,44 @@ $categories = array(
                     <div class="col-md-6">
                         <label for="store" class="form-label">Tienda</label>
                         <input type="text" id="store" name="store" class="form-control" required minlength="1" maxlength="50" value="<?php echo $mode == 'new' ? '' : $offer['store']; ?>"/>
+                        <div class="valid-feedback">
+                          ¡Esa es muy buena tienda!
+                        </div>
+                        <div class="invalid-feedback" id="user-invalid">
+                          Los valores solos pueden ser alfanumericos.
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label for="cupon" class="form-label">Cupón</label>
                         <input type="text" id="cupon" name="cupon" class="form-control" maxlength="50" placeholder="Código a utilizar para obtener el descuento" value="<?php echo $mode == 'new' ? '' : $offer['coupon_code']; ?>"/>
+                        <div class="valid-feedback">
+                          ¡Ese es un buen cupón!
+                        </div>
+                        <div class="invalid-feedback" id="user-invalid">
+                          Tal vez ese cupon sea muy largo, mejor que sea de 50 caracteres.
+                        </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="mb-3 col-md-6">
                         <label for="offer-price" class="form-label">Precio en oferta</label>
-                        <input type="number" id="offer-price" name="offerPrice" class="form-control" min="0" value="<?php echo $mode == 'new' ? '' : $offer['offer_price']; ?>"/>
+                        <input type="number" id="offer-price" name="offerPrice" class="form-control" min="0" step=".01" value="<?php echo $mode == 'new' ? '' : $offer['offer_price']; ?>"/>
+                        <div class="valid-feedback">
+                          ¡Oferton!
+                        </div>
+                        <div class="invalid-feedback" id="user-invalid">
+                          Un puede ser negativo.
+                        </div>
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="normal-price" class="form-label">Precio regular</label>
-                        <input type="number" id="normal-price" name="normalPrice" class="form-control" min="0" value="<?php echo $mode == 'new' ? '' : $offer['regular_price']; ?>"/>
+                        <input type="number" id="normal-price" name="normalPrice" class="form-control" min="0" step=".01" value="<?php echo $mode == 'new' ? '' : $offer['regular_price']; ?>"/>
+                        <div class="valid-feedback">
+                              Sí que estaba cariñoso...
+                          </div>
+                        <div class="invalid-feedback" id="user-invalid">
+                          Un puede ser negativo.
+                      </div>
                     </div>
                   </div>
                   <div class="row">
@@ -170,22 +212,38 @@ $categories = array(
                         </div>
                     </div>
                   </div>
-                  <div class="row">
                     <div id="shippingDetails" class="row">
                         <div class="col-md-6">
                             <label for="shipping-cost" class="form-label">Costo de envío</label>
                             <input type="number" id="shipping-cost" name="shippingCost" class="form-control" min="0" value="<?php echo $mode == 'new' ? '' : $offer['shipping_cost']; ?>"/>
+                            <div class="valid-feedback">
+                              Espero que sea el mismo para todos
+                            </div>
+                            <div class="invalid-feedback" id="user-invalid">
+                              Un puede ser negativo.
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label for="shipping-address" class="form-label">Se envía desde</label>
                             <input type="text" id="shipping-address" name="shippingAddress" class="form-control" minlength="2" maxlength="50" value="<?php echo $mode == 'new' ? '' : $offer['shipping_address']; ?>"/>
+                            <div class="valid-feedback">
+                              ¡Ese lugar es maravilloso!
+                            </div>
+                            <div class="invalid-feedback" id="user-invalid">
+                              Solo puede tener entre 2 y 50 caracteres.
+                            </div>
                         </div>
                     </div>
-                  </div>
                   <div class="row">
                     <div class="col-md-12">
                         <label for="description" class="form-label">¿Por qué vale la pena compartir esta oferta?</label>
                         <textarea id="description" name="description" class="form-control" placeholder="Describe la oferta con tus propias palabras y comparte con la comunidad por qué vale la pena esta promoción." required minlength="1" maxlength="1000"><?php echo $mode == 'new' ? '' : $offer['description']; ?></textarea>
+                        <div class="valid-feedback">
+                          Es un buen motivo.
+                        </div>
+                        <div class="invalid-feedback" id="user-invalid">
+                          La descripción debe tener entre 2 y 1000 caracteres.
+                        </div>
                     </div>
                   </div>
                   <div class="row">
@@ -207,7 +265,7 @@ $categories = array(
                     </div>
                   </div>
                   <div class="row mt-3">
-                    <button type="submit" class="btn btn-primary" id="submitButton">Enviar</button>
+                    <button type="submit" class="btn btn-primary" id="submitButton" <?php echo $mode == 'new' ? 'disabled' : '';?>>Enviar</button>
                   </div>
             </div>
         </div>
@@ -256,5 +314,363 @@ $categories = array(
             document.getElementById('shippingDetails').style.display = 'none';
         }
     });
+
+    on_load = () => {
+      var success_form = false;
+      var invalid_email = document.getElementById('email-invalid');
+      var invalid_user = document.getElementById('user-invalid');
+
+      // Expresión regular para validar el formato de email
+      
+      function isValidImage(image) {
+        return image != '' ? true : false;
+      }
+
+
+      function isValidUrl(url) {
+          var urlRegex = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
+          return urlRegex.test(url);
+      }
+      function isValidCategory(category) {
+          
+          return typeof category === 'string' && category != '';
+      }
+      function isValidCupon(category) {
+          var categoryRegex = /^.{1,255}$/;
+          return categoryRegex.test(category);
+      }
+      function isValidOfferPrice(category) {
+          var categoryRegex = /^(?:0|[1-9]\d*)(?:\.\d{1,2})?$|^$/;
+          return categoryRegex.test(category);
+      }
+      function isValidNormalPrice(category) {
+          var categoryRegex = /^(?:0|[1-9]\d*)(?:\.\d{1,2})?$|^$/;
+          return categoryRegex.test(category);
+      }
+      function isValidShippingCost(category) {
+          var categoryRegex = /^(?:0|[1-9]\d*)(?:\.\d{1,2})?$|^$/;
+          return categoryRegex.test(category);
+      }
+      function isValidTitle(title) {
+          var titleRegex = /^.{4,140}$/;
+          return titleRegex.test(title);
+      }
+      function isValidStore(store) {
+          var storeRegex = /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ\s]{1,50}$/;
+          return storeRegex.test(store);
+      }
+      function isValidDescription(description) {
+          var descriptionRegex = /^.{1,1000}$/;
+          return descriptionRegex.test(description);
+      }
+      function isValidShippingAddress(address) {
+          var shippingRegex = /^.{2,50}$/;
+          return shippingRegex.test(address);
+      }
+      function isValidStartDate(date) {
+          var startDateRegex = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+          return startDateRegex.test(date);
+      }
+      function isValidEndDate(date) {
+          var endDateRegex = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+          return endDateRegex.test(date);
+      }
+      function isValidStartTime(time) {
+          var startTimeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
+          return startTimeRegex.test(time);
+      }
+      function isValidEndTime(time) {
+          var endTimeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
+          return endTimeRegex.test(time);
+      }
+
+      function validateImage() {
+          var image = $('#image-file-input').val();
+          if (image !== '' && isValidImage(image)) {
+              $('#image-file-input').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#image-file-input').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateTitle() {
+          var title = $('#title').val();
+          if (title !== '' && isValidTitle(title)) {
+              $('#title').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#title').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateCupon() {
+          var cupon = $('#cupon').val();
+          if (cupon == '' || isValidCupon(cupon)) {
+              if (cupon == '') {
+                $('#cupon').removeClass('is-valid').removeClass('is-invalid');
+                return;
+              }
+              $('#cupon').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#cupon').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateOfferPrice() {
+          var offerPrice = $('#offer-price').val();
+          if (offerPrice == '' || isValidCupon(offerPrice) && !offerPrice.startsWith('-')) {
+              if (offerPrice == '') {
+                $('#offer-price').removeClass('is-valid').removeClass('is-invalid');
+                return;
+              }
+              $('#offer-price').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#offer-price').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateNormalPrice() {
+          var normalPrice = $('#normal-price').val();
+          if (normalPrice == '' || isValidCupon(normalPrice) && !normalPrice.startsWith('-')) {
+              if (normalPrice == '') {
+                $('#normal-price').removeClass('is-valid').removeClass('is-invalid');
+                return;
+              }
+              $('#normal-price').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#normal-price').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateShippingCost() {
+          var shippingCost = $('#shipping-cost').val();
+          if (shippingCost == '' || isValidCupon(shippingCost) && !shippingCost.startsWith('-')) {
+              if (shippingCost == '') {
+                $('#shipping-cost').removeClass('is-valid').removeClass('is-invalid');
+                return;
+              }
+              $('#shipping-cost').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#shipping-cost').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateShippingAddress() {
+          var shippingAddress = $('#shipping-address').val();
+          if (shippingAddress == '' || isValidShippingAddress(shippingAddress)) {
+              if (shippingAddress == '') {
+                $('#shipping-address').removeClass('is-valid').removeClass('is-invalid');
+                return;
+              }
+              $('#shipping-address').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#shipping-address').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateDescription() {
+          var description = $('#description').val();
+          if (description !== '' && isValidCupon(description)) {
+              $('#description').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#description').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateStartDate() {
+          var date = $('#start-date').val();
+          if (date == '' || isValidCupon(date)) {
+              if (date == '') {
+                $('#start-date').removeClass('is-valid').removeClass('is-invalid');
+                return;
+              }
+              $('#start-date').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#start-date').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateEndDate() {
+          var date = $('#end-date').val();
+          if (date == '' || isValidCupon(date)) {
+              if (date == '') {
+                $('#end-date').removeClass('is-valid').removeClass('is-invalid');
+                return;
+              }
+              $('#end-date').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#end-date').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateStartTime() {
+          var time = $('#start-time').val();
+          if (time == '' || isValidCupon(time)) {
+              if (time == '') {
+                $('#start-time').removeClass('is-valid').removeClass('is-invalid');
+                return;
+              }
+              $('#start-time').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#start-time').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateEndTime() {
+          var time = $('#end-time').val();
+          if (time == '' || isValidEndTime(time)) {
+              if (time == '') {
+                $('#end-time').removeClass('is-valid').removeClass('is-invalid');
+                return;
+              }
+              $('#end-time').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#end-time').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateUrl() {
+          var time = $('#url').val();
+          if (time !== '' && isValidUrl(time)) {
+              $('#url').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#url').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateCategory() {
+          var time = $('#category').val();
+          console.log(time)
+          if (time !== '' && isValidCategory(time)) {
+              $('#category').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#category').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+      function validateStore() {
+          var time = $('#store').val();
+          if (time !== '' && isValidStore(time)) {
+              $('#store').removeClass('is-invalid').addClass('is-valid');
+              validateSubmitButton();
+          } else {
+              $('#store').removeClass('is-valid').addClass('is-invalid');
+              validateSubmitButton();
+          }
+      }
+
+      // Función para habilitar o deshabilitar el botón de submit
+      function validateSubmitButton() {
+          var isValidUrl = $('#url').hasClass('is-valid');
+          var isValidCategory = $('#category').hasClass('is-valid');
+          var isValidCupon = $('#cupon').hasClass('is-valid');
+          var isValidDescription = $('#description').hasClass('is-valid');
+          var isValidImage = $('#description').hasClass('is-valid');
+
+          var isValidOfferPrice = $('#offer-price').hasClass('is-invalid') ? false : true;
+          var isValidNormalPrice = $('#normal-price').hasClass('is-invalid') ? false : true;;
+          var isValidShippingCost = $('#shipping-cost').hasClass('is-invalid') ? false : true;;
+          var isValidShippingAddress = $('#shipping-address').hasClass('is-invalid') ? false : true;;
+          var isValidStartDate = $('#start-date').hasClass('is-invalid') ? false : true;
+          var isValidEndDate = $('#end-date').hasClass('is-invalid') ? false : true;
+          var isValidStartTime = $('#start-time').hasClass('is-invalid') ? false : true;
+          var isValidEndTime = $('#end-time').hasClass('is-invalid') ? false : true;
+          var isValidStore = $('#store').hasClass('is-invalid') ? false : true;
+
+          if (
+            isValidUrl &&
+            isValidCategory &&
+            isValidDescription &&
+            isValidStore &&
+            isValidImage &&
+
+            isValidShippingCost &&
+            isValidShippingAddress &&
+            isValidStartDate &&
+            isValidEndDate &&
+            isValidStartTime &&
+            isValidEndTime &&
+            isValidOfferPrice &&
+            isValidNormalPrice
+          ) {
+              $('#submitButton').prop('disabled', false);
+          } else {
+              $('#submitButton').prop('disabled', true);
+          }
+      }
+
+      $('#title').on('keyup focusout', function () {
+          validateTitle();
+        });
+      $('#store').on('keyup focusout', function () {
+          validateStore();
+        });
+      $('#url').on('keyup focusout', function () {
+          validateUrl();
+        });
+      $('#category').on('change focusout', function () {
+          validateCategory();
+        });
+      $('#image-file-input').on('change focusout', function () {
+          validateImage();
+        });
+        $('#description').on('keyup focusout', function () {
+          validateDescription();
+        });
+
+      $('#cupon').on('keyup', function () {
+          validateCupon();
+        });
+      $('#offer-price').on('keyup', function () {
+          validateOfferPrice();
+        });
+      $('#normal-price').on('keyup', function () {
+          validateNormalPrice();
+        });
+      $('#shipping-cost').on('keyup', function () {
+          validateShippingCost();
+        });
+      $('#shipping-address').on('keyup', function () {
+          validateShippingAddress();
+        });
+      $('#start-date').on('keyup change', function () {
+          validateStartDate();
+        });
+      $('#end-date').on('keyup change', function () {
+          validateEndDate();
+        });
+      $('#start-time').on('keyup change', function () {
+          validateStartTime();
+        });
+      $('#end-time').on('keyup change', function () {
+          validateEndTime();
+        });
+      
+        <?php if ($mode != 'new'): ?>
+          const inputs = document.querySelectorAll('input');
+          const desc = document.getElementById('description');
+          const cat = document.getElementById('category');
+          desc.classList.add('is-valid');
+          cat.classList.add('is-valid');
+          inputs.forEach(input => {
+              if (input.value.trim() !== "") {
+                  input.classList.add('is-valid');
+              }
+          });
+        <?php endif; ?>
+    }
 </script>
 

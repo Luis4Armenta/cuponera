@@ -123,7 +123,6 @@ $categorias = array(
   'Viajes' => 'viajes',
   'Finanzas y seguros' => 'finanzas_y_seguros',
   'Servicios y suscripciones' => 'servicios',
-  'Gratis' => 'gratis'
 );
 $datetime_now = new DateTime();
 
@@ -194,7 +193,7 @@ $datetime_now = new DateTime();
               <?php endif; ?>
             </div>
             <div class="row">
-              <h5 class="text-start"><?php echo $offer['title'] ?></h5>
+              <h5 class="text-start"><?php echo_sanitized($offer['title']); ?></h5>
             </div>
             <div class="row row-cols-auto">
               <div class="col-md-12">
@@ -223,13 +222,13 @@ $datetime_now = new DateTime();
                     <span class="text-secondary fs-5"><i class="bi bi-shop mx-1"></i>Local</span>
                   <?php endif; ?>
                 <span class="text-secondary fs-5">|</span>
-                <a class="fs-6 text-decoration-none"><?php echo $offer['store']; ?></a>
+                <a class="fs-6 text-decoration-none"><?php echo_sanitized($offer['store']); ?></a>
               </div>
             </div>
             <div class="row">
               <div class="col-md-12">
                 <p class="lh-sm text-break align-bottom"><?php
-                  echo htmlspecialchars(substr($offer['description'], 0, 300)); 
+                  echo_sanitized($offer['description']); 
                   if (strlen($offer['description']) > 300) {
                     echo '...';   
                   }
@@ -241,7 +240,7 @@ $datetime_now = new DateTime();
                 <div >
                   <a class="fw-semibold align-middle text-decoration-none text-dark" href="#">
                     <img src="<?php echo $offer['avatar_link'] == null || $offer['avatar_link'] == '' ? '/assets/images/user.png' : $offer['avatar_link']; ?>" class="rounded-circle border" height="22" alt="Avatar" loading="lazy"/>
-                    <?php echo $offer['creator_username'];?>
+                    <?php echo_sanitized($offer['creator_username']);?>
                   </a>
                 </div>
                 <div>
