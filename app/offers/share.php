@@ -139,6 +139,12 @@ $categories = array(
                     <div class="col-md-8">
                         <label for="url" class="form-label">Enlace de la oferta</label>
                         <input type="url" id="url" name="url" class="form-control" required value="<?php echo $mode == 'new' ? '' : $offer['link']; ?>"/>
+                        <div class="valid-feedback">
+                          ¡Excelente, ya casi lo podrán ver todos!
+                        </div>
+                        <div class="invalid-feedback" id="user-invalid">
+                          Neceistamos un enlace a la oferta.
+                        </div>
                     </div>
                     <div class="col-md-4">
                             <label for="category" class="form-label">Categoría</label>
@@ -621,6 +627,9 @@ $categories = array(
       $('#image-file-input').on('change focusout', function () {
           validateImage();
         });
+        $('#description').on('keyup focusout', function () {
+          validateDescription();
+        });
 
       $('#cupon').on('keyup', function () {
           validateCupon();
@@ -636,9 +645,6 @@ $categories = array(
         });
       $('#shipping-address').on('keyup', function () {
           validateShippingAddress();
-        });
-      $('#description').on('keyup', function () {
-          validateDescription();
         });
       $('#start-date').on('keyup change', function () {
           validateStartDate();
