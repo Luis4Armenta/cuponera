@@ -236,7 +236,7 @@ $categories = array(
                   <div class="row">
                     <div class="col-md-12">
                         <label for="description" class="form-label">¿Por qué vale la pena compartir esta oferta?</label>
-                        <textarea id="description" name="description" class="form-control" placeholder="Describe la oferta con tus propias palabras y comparte con la comunidad por qué vale la pena esta promoción." required minlength="1" maxlength="1000"><?php echo $mode == 'new' ? '' : $offer['description']; ?></textarea>
+                        <textarea id="description" name="description" class="form-control" placeholder="Describe la oferta con tus propias palabras y comparte con la comunidad por qué vale la pena esta promoción." required minlength="1"><?php echo $mode == 'new' ? '' : $offer['description']; ?></textarea>
                         <div class="valid-feedback">
                           Es un buen motivo.
                         </div>
@@ -249,18 +249,39 @@ $categories = array(
                     <div class="col-md-3">
                         <label for="start-date" class="form-label">¿Cuándo comienza?</label>
                         <input type="date" id="start-date" name="startDate" class="form-control" value="<?php echo $mode == 'new' ? '' : $offer['start_date']; ?>" />
+                        <div class="valid-feedback">
+                          Vaya... No me habia enterado.
+                        </div>
+                        <div class="invalid-feedback" id="user-invalid">
+                          Por favor escoge una fecha valida en los proximos o anteriores 2 años y mayor a la de terminación de la oferta
+                        </div>
                     </div>
                     <div class="col-md-3">
                         <label for="start-time" class="form-label">Hora inicio</label>
                         <input type="time" id="start-time" name="startTime" class="form-control" value="<?php echo $mode == 'new' ? '' : $offer['start_time']; ?>" />
+                        <div class="invalid-feedback" id="user-invalid">
+                          Esa fecha tiene algo mal...
+                        </div>
                     </div>
                     <div class="col-md-3">
                         <label for="end-date" class="form-label">¿Cuándo termina?</label>
                         <input type="date" id="end-date" name="endDate" class="form-control" value="<?php echo $mode == 'new' ? '' : $offer['end_date']; ?>" />
+                        <div class="valid-feedback">
+                          Esperemos que no se desaproveche...
+                        </div>
+                        <div class="invalid-feedback" id="user-invalid">
+                          Por favor, escoge una fecha valida entre hoy y 2 años y después de la de incio.
+                        </div>
                     </div>
                     <div class="col-md-3">
                         <label for="end-time" class="form-label">Hora fin</label>
                         <input type="time" id="end-time" name="endTime" class="form-control" value="<?php echo $mode == 'new' ? '' : $offer['end_time']; ?>" />
+                        <div class="valid-feedback">
+                          ¡Debemos ser rápidos!
+                        </div>
+                        <div class="invalid-feedback" id="user-invalid">
+                          Por favor, escoge una hora futura.
+                        </div>
                     </div>
                   </div>
                   <div class="row mt-3">
@@ -359,30 +380,173 @@ $categories = array(
           return storeRegex.test(store);
       }
       function isValidDescription(description) {
-          var descriptionRegex = /^.{1,1000}$/;
-          return descriptionRegex.test(description);
+          if (description.length > 0) {
+            if (description.length <= 1000) {
+              return true;
+              
+            } else {
+              return false;
+
+            }
+          }
       }
       function isValidShippingAddress(address) {
           var shippingRegex = /^.{2,50}$/;
           return shippingRegex.test(address);
       }
-      function isValidStartDate(date) {
-          var startDateRegex = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
-          return startDateRegex.test(date);
-      }
-      function isValidEndDate(date) {
-          var endDateRegex = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
-          return endDateRegex.test(date);
-      }
-      function isValidStartTime(time) {
-          var startTimeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
-          return startTimeRegex.test(time);
-      }
-      function isValidEndTime(time) {
-          var endTimeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
-          return endTimeRegex.test(time);
-      }
+      function isValidStartDate(date, endDate) {
+        var startDateRegex = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+        
+        if (!startDateRegex.test(date)) {
+            return false;
+        }
 
+        var inputDate = new Date(date);
+        var endDateObj = new Date(endDate);
+        var currentDate = new Date();
+        var hundredYearsAgo = new Date();
+        hundredYearsAgo.setFullYear(currentDate.getFullYear() - 2);
+        var oneYearInFuture = new Date();
+        oneYearInFuture.setFullYear(currentDate.getFullYear() + 2);
+
+        if (inputDate < hundredYearsAgo || inputDate > oneYearInFuture) {
+            return false;
+        }
+
+        if (inputDate > endDateObj) {
+            return false;
+        }
+
+        return true;
+    }
+    function isValidEndDate(date, startDate) {
+    var dateRegex = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+
+    if (!dateRegex.test(date)) {
+        return false;
+    }
+
+    // Desglosar la fecha manualmente
+    var dateParts = date.split('-');
+    var inputDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+
+    var startDateObj = null;
+    if (startDate) {
+        var startDateParts = startDate.split('-');
+        startDateObj = new Date(startDateParts[0], startDateParts[1] - 1, startDateParts[2]);
+    }
+
+    var currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Establecer a la medianoche para comparar solo las fechas
+
+    var twoYearsInFuture = new Date();
+    twoYearsInFuture.setFullYear(currentDate.getFullYear() + 2);
+    twoYearsInFuture.setHours(0, 0, 0, 0);
+
+    // Asegurarse de que la fecha de entrada no sea menor que la fecha de inicio
+    if (startDate && inputDate < startDateObj) {
+        return false;
+    }
+
+    // Asegurarse de que la fecha de entrada esté entre hoy y dos años en el futuro
+    if (inputDate < currentDate || inputDate > twoYearsInFuture) {
+        console.log(inputDate);
+        console.log(currentDate);
+        return false;
+    }
+
+    return true;
+}
+
+
+    function isValidStartTime(startTime, startDate, endTime, endDate) {
+    var timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
+
+    if (!timeRegex.test(startTime)) {
+        return false;
+    }
+
+    var inputStartDate = new Date(startDate);
+    var inputEndDate = new Date(endDate);
+
+    if (endTime == '') {
+      return true;
+    }
+
+    if (inputStartDate > inputEndDate) {
+        return false;
+    }
+
+    // Si startDate y endDate son iguales, verificar las horas
+    if (inputStartDate.toDateString() === inputEndDate.toDateString()) {
+        var startTimeParts = startTime.split(':').map(Number);
+        var endTimeParts = endTime.split(':').map(Number);
+
+        var startDateTime = new Date(inputStartDate);
+        startDateTime.setHours(startTimeParts[0], startTimeParts[1], startTimeParts[2] || 0);
+
+        var endDateTime = new Date(inputEndDate);
+        endDateTime.setHours(endTimeParts[0], endTimeParts[1], endTimeParts[2] || 0);
+
+        if (startDateTime >= endDateTime) {
+            return false;
+        }
+    }
+
+    var currentDate = new Date();
+    if (inputStartDate.toDateString() === currentDate.toDateString()) {
+        var currentTime = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
+        var currentTimeParts = currentTime.split(':').map(Number);
+
+        var currentDateTime = new Date(currentDate);
+        currentDateTime.setHours(currentTimeParts[0], currentTimeParts[1], currentTimeParts[2]);
+
+        var startDateTime = new Date(inputStartDate);
+        startDateTime.setHours(startTimeParts[0], startTimeParts[1], startTimeParts[2] || 0);
+
+        if (startDateTime <= currentDateTime) {
+            return false;
+        }
+    }
+
+    return true;
+}
+      function isValidEndTime(endTime, endDate) {
+        var endTimeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
+        
+        if (!endTimeRegex.test(endTime)) {
+            return false;
+        }
+
+        // Desglosar la fecha manualmente
+        var dateParts = endDate.split('-');
+        var year = parseInt(dateParts[0], 10);
+        var month = parseInt(dateParts[1], 10) - 1; // Los meses en JavaScript son 0-indexados
+        var day = parseInt(dateParts[2], 10);
+
+        var inputDate = new Date(year, month, day);
+        var currentDate = new Date();
+
+        console.log(inputDate.toDateString());
+        console.log(currentDate.toDateString());
+
+        // Si endDate es el día de hoy
+        if (inputDate.toDateString() === currentDate.toDateString()) {
+            var currentTime = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
+            
+            // Comparar las horas
+            var inputTimeParts = endTime.split(':').map(Number);
+            var currentTimeParts = currentTime.split(':').map(Number);
+
+            if (inputTimeParts[0] < currentTimeParts[0] || 
+                (inputTimeParts[0] === currentTimeParts[0] && inputTimeParts[1] < currentTimeParts[1]) ||
+                (inputTimeParts[0] === currentTimeParts[0] && inputTimeParts[1] === currentTimeParts[1] && inputTimeParts[2] <= currentTimeParts[2])) {
+                return false;
+            }
+        }
+
+          return true;
+      }
       function validateImage() {
           var image = $('#image-file-input').val();
           if (image !== '' && isValidImage(image)) {
@@ -475,7 +639,7 @@ $categories = array(
       }
       function validateDescription() {
           var description = $('#description').val();
-          if (description !== '' && isValidCupon(description)) {
+          if (description !== '' && isValidDescription(description)) {
               $('#description').removeClass('is-invalid').addClass('is-valid');
               validateSubmitButton();
           } else {
@@ -485,7 +649,8 @@ $categories = array(
       }
       function validateStartDate() {
           var date = $('#start-date').val();
-          if (date == '' || isValidCupon(date)) {
+          var endDate = $('#end-date').val();
+          if (date == '' || isValidStartDate(date, endDate)) {
               if (date == '') {
                 $('#start-date').removeClass('is-valid').removeClass('is-invalid');
                 return;
@@ -499,7 +664,9 @@ $categories = array(
       }
       function validateEndDate() {
           var date = $('#end-date').val();
-          if (date == '' || isValidCupon(date)) {
+          var startDate = $('#start-date').val();
+          if (date == '' || isValidEndDate(date, startDate)) {
+              validateEndTime();
               if (date == '') {
                 $('#end-date').removeClass('is-valid').removeClass('is-invalid');
                 return;
@@ -513,7 +680,11 @@ $categories = array(
       }
       function validateStartTime() {
           var time = $('#start-time').val();
-          if (time == '' || isValidCupon(time)) {
+          var endTime = $('#end-time').val();
+          var startDate = $('#start-date').val();
+          var endDate = $('#end-date').val();
+          
+          if (time == '' || isValidStartTime(time, startDate, endTime, endDate)) {
               if (time == '') {
                 $('#start-time').removeClass('is-valid').removeClass('is-invalid');
                 return;
@@ -527,7 +698,8 @@ $categories = array(
       }
       function validateEndTime() {
           var time = $('#end-time').val();
-          if (time == '' || isValidEndTime(time)) {
+          var date = $('#end-date').val();
+          if (time == '' || isValidEndTime(time, date)) {
               if (time == '') {
                 $('#end-time').removeClass('is-valid').removeClass('is-invalid');
                 return;

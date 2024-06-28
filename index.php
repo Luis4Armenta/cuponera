@@ -129,10 +129,7 @@ $datetime_now = new DateTime();
     <div class="container">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a href="index.php" class="nav-link <?php echo !isset($_GET['mode']) || (isset($_GET['mode']) && $_GET['mode'] != 'hot' && $_GET['mode'] != 'news')  ? 'active' : ''; ?>">Para ti</a>
-        </li>
-        <li class="nav-item">
-        <a href="index.php?mode=hot" class="nav-link <?php echo isset($_GET['mode']) && strtolower($_GET['mode']) == 'hot' ? 'active' : ''; ?>">Hot</a>
+          <a href="index.php" class="nav-link <?php echo !isset($_GET['mode']) || (isset($_GET['mode']) && $_GET['mode'] != 'news')  ? 'active' : ''; ?>">Para ti</a>
         </li>
         <li class="nav-item">
         <a href="index.php?mode=news" class="nav-link <?php echo isset($_GET['mode']) && strtolower($_GET['mode']) == 'news' ? 'active' : ''; ?>">Nuevas</a>
@@ -202,7 +199,9 @@ $datetime_now = new DateTime();
             </div>
             <div class="row row-cols-auto">
               <div class="col-md-12">
-                <span class="text-success fw-bolder fs-5">$<?php echo number_format($offer['offer_price'], 2); ?></span>
+                <?php if ($offer['offer_price']): ?>
+                  <span class="text-success fw-bolder fs-5">$<?php echo number_format($offer['offer_price'], 2); ?></span>
+                <?php endif; ?>
                 <?php if ($offer['regular_price'] != null && $offer['regular_price'] != 0): ?>
                   <span class="text-secondary fs-5 text-decoration-line-through">
                     $<?php echo number_format($offer['regular_price'], 2); ?>
