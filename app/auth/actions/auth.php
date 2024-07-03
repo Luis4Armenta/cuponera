@@ -61,11 +61,15 @@ if ($data['user'] != null && $data['password'] != null) {
             header('Location: ../../index.php');
             exit;
         }
-    }
-
-    // Cerrar la declaración y la conexión
-    $stmt->close();
-    $db->close();
+        header('Location: /auth/login_error.php');
+        exit;
+      }
+      
+      // Cerrar la declaración y la conexión
+      $stmt->close();
+      $db->close();
+      header('Location: /auth/login_error.php');
+      exit;
   } catch (mysqli_sql_exception $e) {
     header('Location: ../../shared/errors/500.php');
     exit;
