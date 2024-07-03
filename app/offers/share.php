@@ -185,7 +185,7 @@ $categories = array(
                           ¡Oferton!
                         </div>
                         <div class="invalid-feedback" id="user-invalid">
-                          Un puede ser negativo.
+                          El precio no puede ser negativo ni ser mayor al precio normal.
                         </div>
                     </div>
                     <div class="mb-3 col-md-6">
@@ -195,7 +195,7 @@ $categories = array(
                               Sí que estaba cariñoso...
                           </div>
                         <div class="invalid-feedback" id="user-invalid">
-                          Un puede ser negativo.
+                          El precio normal no puede ser negativo ni ser menor al precio de oferta.
                       </div>
                     </div>
                   </div>
@@ -583,7 +583,9 @@ $categories = array(
       }
       function validateOfferPrice() {
           var offerPrice = $('#offer-price').val();
-          if (offerPrice == '' || isValidCupon(offerPrice) && !offerPrice.startsWith('-')) {
+          var regularPrice = $('#normal-price').val();
+          if (offerPrice == '' || isValidCupon(offerPrice) && !offerPrice.startsWith('-') && ((offerPrice <= regularPrice) || (offerPrice && !regularPrice))) {
+            validateNormalPrice();
               if (offerPrice == '') {
                 $('#offer-price').removeClass('is-valid').removeClass('is-invalid');
                 return;
@@ -597,7 +599,8 @@ $categories = array(
       }
       function validateNormalPrice() {
           var normalPrice = $('#normal-price').val();
-          if (normalPrice == '' || isValidCupon(normalPrice) && !normalPrice.startsWith('-')) {
+          var offerPrice = $('#offer-price').val();
+          if (normalPrice == '' || isValidCupon(normalPrice) && !normalPrice.startsWith('-') && normalPrice >= offerPrice) {
               if (normalPrice == '') {
                 $('#normal-price').removeClass('is-valid').removeClass('is-invalid');
                 return;
